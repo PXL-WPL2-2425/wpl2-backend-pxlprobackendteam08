@@ -20,5 +20,34 @@ namespace WPFTeam08
         {
             InitializeComponent();
         }
+
+        public void mnu_Menu_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem menuItem = sender as MenuItem;
+            if (menuItem != null)
+            {
+                switch (menuItem.Name)
+                {
+                    case "mnu_Menu_Dashboard":
+                        DashboardWindow dashboardWindow = new DashboardWindow();
+                        dashboardWindow.Show();
+                        break;
+                    case "mnu_Menu_Clients":
+                        ClientsWindow clientsWindow = new ClientsWindow();
+                        clientsWindow.Show();
+                        break;
+                    case "mnu_Menu_Subscriptions":
+                        SubscriptionsWindow subscriptionsWindow = new SubscriptionsWindow();
+                        subscriptionsWindow.Show();
+                        break;
+                    case "mnu_Menu_Tasks":
+                        TasksWindow tasksWindow = new TasksWindow();
+                        tasksWindow.Show();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
     }
 }
