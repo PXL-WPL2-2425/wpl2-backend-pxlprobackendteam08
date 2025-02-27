@@ -6,7 +6,21 @@
         xmlns:local="clr-namespace:WPFTeam08"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Name="mnu_Menu" Header="Menu">
+                <MenuItem Name="mnu_Menu_Dashboard" Header="Dashboard"/>
+                <MenuItem Name="mnu_Menu_Clients" Header="Clients"/>
+                <MenuItem Name="mnu_Menu_Subscriptions" Header="Subscriptions"/>
+                <MenuItem Name="mnu_Menu_Tasks" Header="Tasks"/>
+            </MenuItem>
+            <MenuItem Name="mnu_Other" Header="Other">
+                <MenuItem Name="mnu_Other_Settings" Header="Settings"/>
+            </MenuItem>
+            <MenuItem Name="mnu_User" Header="User">
+                <MenuItem Name="mnu_User_Customize" Header="Customize Account"/>
+                <MenuItem Name="mnu_User_Settings" Header="User Settings"/>
+            </MenuItem>
+        </Menu>
+    </DockPanel>
 </Window>
