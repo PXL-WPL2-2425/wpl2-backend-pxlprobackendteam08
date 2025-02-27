@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <DockPanel>
-        <Menu DockPanel.Dock="Top">
+        <Menu Name="mnu_Main" DockPanel.Dock="Top" IsEnabled="False">
             <MenuItem Name="mnu_Menu" Header="Menu">
                 <MenuItem Name="mnu_Menu_Dashboard" Header="Dashboard" Click="mnu_Menu_Click"/>
                 <MenuItem Name="mnu_Menu_Clients" Header="Clients" Click="mnu_Menu_Click"/>
@@ -22,5 +22,24 @@
                 <MenuItem Name="mnu_User_Settings" Header="User Settings"/>
             </MenuItem>
         </Menu>
+        <StackPanel Name="loginStackPanel" DockPanel.Dock="Bottom" VerticalAlignment="Center" Width="350px">
+            <Grid Margin="10px">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="Email"/>
+                <TextBox Name="emailTextBox" Grid.Column="1" KeyDown="TextBox_KeyDown"/>
+            </Grid>
+            <Grid Margin="10px">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="Wachtwoord"/>
+                <PasswordBox Name="passwordPasswordBox" MaxLength="25" PasswordChar="*" Grid.Column="1" KeyDown="TextBox_KeyDown"/>
+            </Grid>
+            <Button Name="loginButton" Content="Login" Margin="10px" Click="loginButton_Click"/>
+        </StackPanel>
     </DockPanel>
 </Window>

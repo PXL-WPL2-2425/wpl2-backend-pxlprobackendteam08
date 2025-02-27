@@ -16,6 +16,10 @@ namespace WPFTeam08
     /// </summary>
     public partial class MainWindow : Window
     {
+        // tijdelijke input
+        string email = "thibault.lesecque@student.pxl.be";
+        string password = "password123";
+
         public MainWindow()
         {
             InitializeComponent();
@@ -47,6 +51,43 @@ namespace WPFTeam08
                     default:
                         break;
                 }
+            }
+        }
+
+        public void loginButton_Click(object sender, RoutedEventArgs e)
+        {
+            Login();
+        }
+
+        public void TextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                Login();
+            }
+        }
+
+        private void Login()
+        {
+            if (LoginCheck())
+            {
+                mnu_Main.IsEnabled = true;
+                loginStackPanel.IsEnabled = false;
+            }
+        }
+
+        public bool LoginCheck()
+        {
+            if ((emailTextBox.Text == email) && (passwordPasswordBox.Password == password))
+            {
+                return true;
+            }
+            else
+            {
+                MessageBox.Show("Foute inloggegevens!", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                emailTextBox.Clear();
+                passwordPasswordBox.Clear();
+                return false;
             }
         }
     }
