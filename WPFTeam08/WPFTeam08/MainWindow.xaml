@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFTeam08"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MonoHome" Height="450" Width="800">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Name="mnu_Menu" Header="Menu">
