@@ -65,9 +65,9 @@ namespace ClassLibTeam08.Data
             {
                 //SQL Command
                 StringBuilder insertQuery = new StringBuilder();
-                insertQuery.Append($"UPDATE Users");
-                insertQuery.Append($"SET wachtWord = 'nieuw'");
-                insertQuery.Append($"WHERE UserID = 1");
+                insertQuery.Append(@"UPDATE Users ");
+                insertQuery.Append(@"SET wachtWord = 'defefv' ");
+                insertQuery.Append(@"WHERE UserID = 1");
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
                     InsertRecord(insertCommand);
