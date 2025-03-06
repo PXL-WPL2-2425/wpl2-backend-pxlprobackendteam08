@@ -5,9 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFTeam08"
         mc:Ignorable="d"
-        Title="MonoHome" Height="450" Width="800">
-    <DockPanel>
-        <Menu DockPanel.Dock="Top">
+        Title="MonoHome" Height="500" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20*"/>
+        </Grid.RowDefinitions>
+
+        <Menu Grid.Row="0" Grid.ColumnSpan="5">
             <MenuItem Name="mnu_Menu" Header="Menu">
                 <MenuItem Name="mnu_Menu_Dashboard" Header="Dashboard" Click="mnu_Menu_Click"/>
                 <MenuItem Name="mnu_Menu_Clients" Header="Clients" Click="mnu_Menu_Click"/>
@@ -23,8 +34,10 @@
             </MenuItem>
         </Menu>
 
-        
-        <StackPanel HorizontalAlignment="Center" Width="140" VerticalAlignment="Center">
+
+        <StackPanel HorizontalAlignment="Center" Width="140" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0">
+            <Label Content="Add usser" Height="25"/>
+            <Separator />
             <Label Content="firstname" Height="25"/>
             <TextBox x:Name="TxtFirst" TextWrapping="Wrap" Text="Sassy" Width="120"/>
             <Label Content="lastname" Height="25"/>
@@ -41,7 +54,17 @@
             <TextBox x:Name="TxtBirthday" TextWrapping="Wrap" Text="2000-08-11" Width="120"/>
             <Label Content="phone" Height="25"/>
             <TextBox x:Name="TxtPhone" TextWrapping="Wrap" Text="156156556" Width="120"/>
-            <Button Content="Button" Click="Button_Click_1"/>
+            <Button Content="Button" Click="Button_Click_1" Margin="0,20,0,0"/>
+
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" Width="140" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1" Margin="0,10,0,0">
+            <Label Content="Change user password" Height="25"/>
+            <Separator />
+            <Label Content="ID" Height="25"/>
+            <TextBox x:Name="TxtID" TextWrapping="Wrap" Text="1" Width="120"/>
+            <Label Content="NewPassword" Height="25"/>
+            <TextBox x:Name="TxtnewPassword" TextWrapping="Wrap" Text="anders" Width="120"/>
+            <Button Content="Button" Click="ChangePassword_button_click" Margin="0,20,0,0"/>
 
         </StackPanel>
     </Grid>

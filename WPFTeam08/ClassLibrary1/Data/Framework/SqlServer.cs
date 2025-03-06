@@ -96,6 +96,11 @@ namespace ClassLibTeam08.Data.Framework
             }
             return result;
         }
-
+        public void Change()
+        {
+            
+        }
     }
+
+    //public 
 }
