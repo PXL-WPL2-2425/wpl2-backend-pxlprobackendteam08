@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WPFTeam08"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <DockPanel>
+    <Grid>
         <Menu DockPanel.Dock="Top">
             <MenuItem Name="mnu_Menu" Header="Menu">
                 <MenuItem Name="mnu_Menu_Dashboard" Header="Dashboard" Click="mnu_Menu_Click"/>
@@ -22,5 +22,27 @@
                 <MenuItem Name="mnu_User_Settings" Header="User Settings"/>
             </MenuItem>
         </Menu>
-    </DockPanel>
+
+        
+        <StackPanel HorizontalAlignment="Center" Width="140" VerticalAlignment="Center">
+            <Label Content="firstname" Height="25"/>
+            <TextBox x:Name="TxtFirst" TextWrapping="Wrap" Text="Sassy" Width="120"/>
+            <Label Content="lastname" Height="25"/>
+            <TextBox x:Name="TxtLast" TextWrapping="Wrap" Text="Hob" Width="120"/>
+            <Label Content="username" Height="25"/>
+            <TextBox x:Name="TxtUserName" TextWrapping="Wrap" Text="Sas123" Width="120"/>
+            <Label Content="email" Height="25"/>
+            <TextBox x:Name="TxtEmail" TextWrapping="Wrap" Text="saschahob@hotmail.com" Width="120"/>
+            <Label Content="address" Height="25"/>
+            <TextBox x:Name="TxtAdress" TextWrapping="Wrap" Text="aarde" Width="120"/>
+            <Label Content="password" Height="25"/>
+            <TextBox x:Name="TxtPassword" TextWrapping="Wrap" Text="paswoord" Width="120"/>
+            <Label Content="birthday" Height="25"/>
+            <TextBox x:Name="TxtBirthday" TextWrapping="Wrap" Text="2000-08-11" Width="120"/>
+            <Label Content="phone" Height="25"/>
+            <TextBox x:Name="TxtPhone" TextWrapping="Wrap" Text="156156556" Width="120"/>
+            <Button Content="Button" Click="Button_Click_1"/>
+
+        </StackPanel>
+    </Grid>
 </Window>

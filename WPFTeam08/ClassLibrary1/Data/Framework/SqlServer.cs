@@ -1,7 +1,7 @@
 ﻿using ClassLibTeam08.Business.Entities;
 using System;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Text;
 
 namespace ClassLibTeam08.Data.Framework
@@ -69,7 +69,7 @@ namespace ClassLibTeam08.Data.Framework
             return result;
         }
 
-        public InsertResult Insert(Student student)
+        public InsertResult Insert(User user)
         {
             var result = new InsertResult();
             try
@@ -83,9 +83,9 @@ namespace ClassLibTeam08.Data.Framework
                 {
 
                     insertCommand.Parameters.Add("@firstname", SqlDbType.VarChar).Value =
-                    student.FirstName;
+                    user.FirstName;
                     insertCommand.Parameters.Add("@lastname", SqlDbType.VarChar).Value =
-                    student.LastName;
+                    user.LastName;
                     result = InsertRecord(insertCommand);
 
                 }

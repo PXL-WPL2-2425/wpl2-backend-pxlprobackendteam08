@@ -8,6 +8,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ClassLibTeam08.Data.Framework;
+using ClassLibTeam08.Business.Entities;
 
 namespace WPFTeam08
 {
@@ -48,6 +50,16 @@ namespace WPFTeam08
                         break;
                 }
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            InsertResult result = Users.Add(TxtFirst.Text, TxtLast.Text, TxtUserName.Text, TxtEmail.Text, TxtAdress.Text, TxtPassword.Text, TxtBirthday.Text, TxtPhone.Text);
         }
     }
 }
