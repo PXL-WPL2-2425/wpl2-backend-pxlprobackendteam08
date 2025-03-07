@@ -19,6 +19,7 @@ namespace ClassLibTeam08.Data.Framework
             var result = new SelectResult();
             try
             {
+                connection=new SqlConnection(Settings.GetConnectionString());
                 using (connection)
                 {
                     selectCommand.Connection = connection;
@@ -52,8 +53,7 @@ namespace ClassLibTeam08.Data.Framework
                 using (connection)
                 {
                     insertCommand.CommandText += "SET @new_id = SCOPE_IDENTITY();";
-                    insertCommand.Parameters.Add("@new_id", SqlDbType.Int).Direction =
-                    ParameterDirection.Output;
+                    insertCommand.Parameters.Add("@new_id", SqlDbType.Int).Direction = ParameterDirection.Output;
                     insertCommand.Connection = connection;
                     connection.Open();
                     insertCommand.ExecuteNonQuery();
@@ -69,55 +69,6 @@ namespace ClassLibTeam08.Data.Framework
             return result;
         }
 
-        protected void ChangePassword(SqlCommand insertCommand)
-        {
-            InsertResult result = new InsertResult();
-            try
-            {
-                using (connection)
-                {
-                    insertCommand.CommandText += "SET @new_id = SCOPE_IDENTITY();";
-                    insertCommand.Parameters.Add("@new_id", SqlDbType.Int).Direction =
-                    ParameterDirection.Output;
-                    insertCommand.Connection = connection;
-                    connection.Open();
-                    insertCommand.ExecuteNonQuery();
-                    connection.Close();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-        public InsertResult Insert(User user)
-        {
-            var result = new InsertResult();
-            try
-            {
-                //SQL Command
-                StringBuilder insertQuery = new StringBuilder();
-                insertQuery.Append($"Insert INTO {"TableName"} ");
-                insertQuery.Append($"(firstname, lastname) VALUES ");
-                insertQuery.Append($"(@firstname, @lastname); ");
-                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
-                {
-
-                    insertCommand.Parameters.Add("@firstname", SqlDbType.VarChar).Value =
-                    user.FirstName;
-                    insertCommand.Parameters.Add("@lastname", SqlDbType.VarChar).Value =
-                    user.LastName;
-                    result = InsertRecord(insertCommand);
-
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            return result;
-        }
         public void Change()
         {
             

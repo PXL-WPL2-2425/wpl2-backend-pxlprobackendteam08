@@ -17,6 +17,5 @@ namespace ClassLibTeam08.Business.Entities
         public string Password;
         public string BirthDay;
         public string Phone;
-
     }
 }
