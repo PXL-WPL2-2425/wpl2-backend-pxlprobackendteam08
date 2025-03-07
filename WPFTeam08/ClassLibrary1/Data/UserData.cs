@@ -1,4 +1,5 @@
-﻿using ClassLibTeam08.Business.Entities;
+﻿using ClassLibrary08.Data.Framework;
+using ClassLibTeam08.Business.Entities;
 using ClassLibTeam08.Data.Framework;
 using Microsoft.Data.SqlClient;
 using System.Data;
@@ -109,6 +110,26 @@ namespace ClassLibTeam08.Data
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {               
                     result = Select(insertCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+
+        public DeleteResult DeleteByID(int id)
+        {
+            var result = new DeleteResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"DELETE FROM Users WHERE userID = {id};");
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    result = Delete(insertCommand);
                 }
             }
             catch (Exception ex)

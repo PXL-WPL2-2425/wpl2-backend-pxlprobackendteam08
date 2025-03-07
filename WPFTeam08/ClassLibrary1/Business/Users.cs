@@ -1,10 +1,6 @@
-﻿using ClassLibTeam08.Data.Framework;
+﻿using ClassLibrary08.Data.Framework;
 using ClassLibTeam08.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ClassLibTeam08.Data.Framework;
 
 namespace ClassLibTeam08.Business.Entities
 {
@@ -16,6 +12,14 @@ namespace ClassLibTeam08.Business.Entities
             SelectResult result = data.SelectByID(id);
             return result;
         }
+
+        public static DeleteResult DeleteUser(int id)
+        {
+            UserData data = new UserData();
+            DeleteResult result = data.DeleteByID(id);
+            return result;
+        }
+
 
         public static InsertResult Add(string firstName, string lastName, string username, string email, string address, string password, string birthday, string phone)
         {
