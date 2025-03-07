@@ -75,5 +75,10 @@ namespace WPFTeam08
         {
             DeleteResult deleteResult = Users.DeleteUser(int.Parse(DeleteIeIdBox.Text));
         }
+
+        private void BtChange_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateResult updateResult = Users.UpdateUserData(int.Parse(TxtIDChange.Text) ,TxtFirstChange.Text, TxtLastChange.Text, TxtUserNameChange.Text, TxtEmail.Text, TxtAdress.Text, TxtPasswordChange.Text, TxtBirthdayChange.Text, TxtPhoneChange.Text);
+        }
     }
 }
