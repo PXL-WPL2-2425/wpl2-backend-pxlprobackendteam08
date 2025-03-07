@@ -8,10 +8,11 @@
         Title="MonoHome" Height="500" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="200*"/>
+            <ColumnDefinition Width="200*"/>
+            <ColumnDefinition Width="147*"/>
+            <ColumnDefinition Width="53*"/>
+            <ColumnDefinition Width="200*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -35,7 +36,7 @@
         </Menu>
 
 
-        <StackPanel HorizontalAlignment="Center" Width="140" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0">
+        <StackPanel HorizontalAlignment="Center" Width="140" VerticalAlignment="Center" Grid.Row="1">
             <Label Content="Add usser" Height="25"/>
             <Separator />
             <Label Content="firstname" Height="25"/>
