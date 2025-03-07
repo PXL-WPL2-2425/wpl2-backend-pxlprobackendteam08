@@ -67,5 +67,13 @@
             <Button Content="Button" Click="ChangePassword_button_click" Margin="0,20,0,0"/>
 
         </StackPanel>
+        <StackPanel HorizontalAlignment="Center" Width="140" VerticalAlignment="Top" Grid.Row="1" Grid.Column="2" Margin="0,10,0,0">
+            <Label Content="find user" Height="25"/>
+            <Separator />
+            <Label Content="ID" Height="25"/>
+            <TextBox x:Name="TXSearchID" TextWrapping="Wrap" Text="1" Width="120"/>
+            <Button x:Name="SearchByID" Content="Button" Margin="0,20,0,0" Click="SearchByID_Click"/>
+
+        </StackPanel>
     </Grid>
 </Window>

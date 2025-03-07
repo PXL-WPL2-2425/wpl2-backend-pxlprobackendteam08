@@ -8,6 +8,7 @@ namespace ClassLibTeam08.Business.Entities
 {
     internal class User
     {
+
         public int UserID { get; set; }
         public string FirstName { get; set; }
         public string LastName {get; set; }
@@ -26,6 +27,7 @@ namespace ClassLibTeam08.Business.Entities
             
             return confirmationLink;
         }
+
     }
 
 

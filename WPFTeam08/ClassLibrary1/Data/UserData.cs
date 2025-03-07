@@ -6,17 +6,32 @@ using System.Text;
 
 namespace ClassLibTeam08.Data
 {
-
     internal class UserData : SqlServer
-    {
+    {      
         public UserData()
         {
             TableName = "Users";
         }
         public string TableName { get; set; }
-        public SelectResult Select()
+        public SelectResult SelectByID(int ID)
         {
-            return base.Select(TableName);
+            var result = new SelectResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"select * from Users\r\nWHERE UserID = {ID}");
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    result = Select(insertCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+
         }
 
         public InsertResult Insert(User user)
@@ -58,9 +73,9 @@ namespace ClassLibTeam08.Data
             return result;
         }
 
-        public void ChangePassword(int ID, string newPassword)
+        public UpdateResult ChangePassword(int ID, string newPassword)
         {
-            var result = new InsertResult();
+            var result = new UpdateResult();
             try
             {
                 //SQL Command
@@ -77,6 +92,30 @@ namespace ClassLibTeam08.Data
             {
                 throw new Exception(ex.Message, ex);
             }
+
+            return result;
+        }
+
+        public SelectResult SelectByID()
+        {
+            var result = new SelectResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"Insert INTO {TableName}");
+                insertQuery.Append($"(firstname, lastname, username, email, adres, wachtWord, birthday, phone) VALUES");
+                insertQuery.Append($"(@firstname, @lastname, @username, @email, @adres, @wachtWord, @birthday, @phone);");
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {               
+                    result = Select(insertCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
         }
     }
 }

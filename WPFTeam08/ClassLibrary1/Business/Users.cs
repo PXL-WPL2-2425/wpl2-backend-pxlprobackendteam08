@@ -10,10 +10,10 @@ namespace ClassLibTeam08.Business.Entities
 {
     public static class Users
     {
-        public static SelectResult GetStudents()
+        public static SelectResult GetUser(int id)
         {
-            UserData studentData = new UserData();
-            SelectResult result = studentData.Select();
+            UserData data = new UserData();
+            SelectResult result = data.SelectByID(id);
             return result;
         }
 
@@ -33,10 +33,10 @@ namespace ClassLibTeam08.Business.Entities
             return result;
         }
 
-        public static void ChangePassWord(int userID, string newPassword)
+        public static UpdateResult ChangePassWord(int userID, string newPassword)
         {
             UserData userData = new UserData();
-            userData.ChangePassword(userID, newPassword);
+            return userData.ChangePassword(userID, newPassword);
         }
 
     }
