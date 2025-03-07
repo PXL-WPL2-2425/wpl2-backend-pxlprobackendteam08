@@ -81,13 +81,15 @@ namespace ClassLibTeam08.Data
             {
                 //SQL Command
                 StringBuilder insertQuery = new StringBuilder();
-                insertQuery.Append(@"UPDATE Users ");
-                insertQuery.Append(@"SET wachtWord = 'defefv' ");
-                insertQuery.Append(@"WHERE UserID = 1");
+                insertQuery.Append($"UPDATE Users ");
+                insertQuery.Append($"SET wachtWord = {newPassword}");
+                insertQuery.Append($"WHERE UserID = {ID}");
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
                     InsertRecord(insertCommand);
                 }
+
+                SendNewPasswordEmail(ID, newPassword);
             }
             catch (Exception ex)
             {
@@ -137,6 +139,20 @@ namespace ClassLibTeam08.Data
                 throw new Exception(ex.Message, ex);
             }
             return result;
+        }
+
+        private void SendNewPasswordEmail(int ID, string newPassword)
+        {
+
+        }
+
+        private string GeneratePasswordResetToken(string email)
+        {
+            var token = Guid.NewGuid().ToString();
+            var encodedToken = Convert.ToBase64String(Encoding.UTF8.GetBytes(token));
+            string confirmationLink = $"https://monohome.be/confirm-password-change?token={encodedToken}&email={email}";
+
+            return confirmationLink;
         }
     }
 }
