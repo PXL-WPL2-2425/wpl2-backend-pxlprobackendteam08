@@ -43,5 +43,11 @@ namespace ClassLibTeam08.Business.Entities
             return userData.ChangePassword(userID, newPassword);
         }
 
+        public static UpdateResult UpdateUserData(int id, string firstName, string lastName, string userName, string email, string adres, string wachtwoord, string Birhday, string phone)
+        {
+            UserData userData = new UserData();
+           return userData.UpdateAllUserData(id, firstName,lastName, userName, email, adres, wachtwoord, Birhday, phone);
+        }
+
     }
 }

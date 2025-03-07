@@ -63,7 +63,7 @@ namespace ClassLibTeam08.Data
                     user.BirthDay;
                     insertCommand.Parameters.Add("@phone", SqlDbType.VarChar).Value =
                     user.Phone;
-                    result = InsertRecord(insertCommand);
+                    result = Insert(insertCommand);
 
                 }
             }
@@ -86,7 +86,7 @@ namespace ClassLibTeam08.Data
                 insertQuery.Append($"WHERE UserID = {ID}");
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
-                    InsertRecord(insertCommand);
+                    Insert(insertCommand);
                 }
 
                 SendNewPasswordEmail(ID, newPassword);
@@ -141,6 +141,28 @@ namespace ClassLibTeam08.Data
             return result;
         }
 
+        public UpdateResult UpdateAllUserData(int id, string firstName, string lastName, string userName, string email, string adres, string wachtwoord, string Birhday, string phone)
+        {
+            var result = new UpdateResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"UPDATE {TableName} ");
+                insertQuery.Append($"SET firstname = '{firstName}', lastname = '{lastName}', username = '{userName}', email = '{email}', adres = '{adres}', wachtWord = '{wachtwoord}', birthday = '{Birhday}', phone = '{phone}' ");
+                insertQuery.Append($"where userID = '{id}'");
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    result = Update(insertCommand);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+
         private void SendNewPasswordEmail(int ID, string newPassword)
         {
 
@@ -153,6 +175,7 @@ namespace ClassLibTeam08.Data
             string confirmationLink = $"https://monohome.be/confirm-password-change?token={encodedToken}&email={email}";
 
             return confirmationLink;
+
         }
     }
 }

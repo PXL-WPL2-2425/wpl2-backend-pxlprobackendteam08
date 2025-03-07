@@ -46,7 +46,7 @@ namespace ClassLibTeam08.Data.Framework
             return Select(command);
         }
 
-        protected InsertResult InsertRecord(SqlCommand insertCommand)
+        protected InsertResult Insert(SqlCommand insertCommand)
         {
             InsertResult result = new InsertResult();
             try
@@ -70,9 +70,27 @@ namespace ClassLibTeam08.Data.Framework
             return result;
         }
 
-        public void Change()
+        public UpdateResult Update(SqlCommand insertCommand)
         {
-            
+            UpdateResult result = new UpdateResult();
+            try
+            {
+                using (connection)
+                {
+                    insertCommand.CommandText += "SET @new_id = SCOPE_IDENTITY();";
+                    insertCommand.Parameters.Add("@new_id", SqlDbType.Int).Direction = ParameterDirection.Output;
+                    insertCommand.Connection = connection;
+                    connection.Open();
+                    insertCommand.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return result;
         }
 
         public DeleteResult Delete(SqlCommand command)
