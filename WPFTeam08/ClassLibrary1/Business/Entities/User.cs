@@ -19,6 +19,7 @@ namespace ClassLibTeam08.Business.Entities
         public string BirthDay {get; set; }
         public string Phone {get; set; }
         
+
         public string GeneratePasswordResetToken()
         {
             var token = Guid.NewGuid().ToString();
@@ -27,6 +28,7 @@ namespace ClassLibTeam08.Business.Entities
             
             return confirmationLink;
         }
+
 
     }
 
