@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ClassLibTeam08.Business.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApiTeam08.Controllers
@@ -10,7 +11,7 @@ namespace WebApiTeam08.Controllers
         [HttpGet]
         public ActionResult Students()
         {
-            var students = Students.GetStudents();
+            var students = Users.GetStudents();
             return Ok(students);
         }
     }

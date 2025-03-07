@@ -67,5 +67,5 @@
             <Button Content="Button" Click="ChangePassword_button_click" Margin="0,20,0,0"/>
 
         </StackPanel>
-    </DockPanel>
+    </Grid>
 </Window>

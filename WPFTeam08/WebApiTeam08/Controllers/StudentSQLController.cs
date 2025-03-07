@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ClassLibTeam08.Business.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -13,7 +14,7 @@ namespace WebApiTeam08.Controllers
         [HttpGet]
         public ActionResult GetAllStudents()
         {
-            var result = Students.GetStudents();
+            var result = Users.GetStudents();
             if (result.Succeeded)
             {
                 var students = result.DataTable;
