@@ -3,6 +3,7 @@ using System;
 using System.Data;
 using Microsoft.Data.SqlClient;
 using System.Text;
+using ClassLibrary08.Data.Framework;
 
 namespace ClassLibTeam08.Data.Framework
 {
@@ -72,6 +73,30 @@ namespace ClassLibTeam08.Data.Framework
         public void Change()
         {
             
+        }
+
+        public DeleteResult Delete(SqlCommand command)
+        {
+            var result = new DeleteResult();
+            try
+            {
+                connection = new SqlConnection(Settings.GetConnectionString());
+                using (connection)
+                {
+                    command.Connection = connection;
+                    connection.Open();
+                    adapter = new SqlDataAdapter(command);
+                    result.DataTable = new System.Data.DataTable();
+                    adapter.Fill(result.DataTable);
+                    connection.Close();
+                }
+                result.Succeeded = true;
+            }
+            catch (Exception ex)
+            {
+                result.AddError(ex.Message);
+            }
+            return result;
         }
     }
 

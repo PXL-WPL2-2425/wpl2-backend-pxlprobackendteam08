@@ -2,7 +2,7 @@
 
 namespace ClassLibTeam08.Data.Framework
 {
-    public class UpdateResult
+    public class UpdateResult : BaseResult
     {
        public DataTable DataTable { get; set; }
     }

@@ -10,7 +10,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ClassLibTeam08.Data.Framework;
 using ClassLibTeam08.Business.Entities;
+using ClassLibTeam08.Business;
 using ClassLibTeam08.Data;
+using ClassLibrary08.Data.Framework;
 
 namespace WPFTeam08
 {
@@ -67,6 +69,11 @@ namespace WPFTeam08
         {
             SelectResult selectResult = Users.GetUser(int.Parse(TXSearchID.Text));
             MessageBox.Show(selectResult.DataTable.Rows[0][1].ToString());
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            DeleteResult deleteResult = Users.DeleteUser(int.Parse(DeleteIeIdBox.Text));
         }
     }
 }
