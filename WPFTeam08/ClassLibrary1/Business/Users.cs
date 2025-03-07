@@ -32,5 +32,6 @@ namespace ClassLibTeam08.Business.Entities
             InsertResult result = userData.Insert(user);
             return result;
         }
+
     }
 }

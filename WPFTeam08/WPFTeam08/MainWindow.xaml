@@ -23,7 +23,7 @@
             </MenuItem>
         </Menu>
 
-        
+
         <StackPanel HorizontalAlignment="Center" Width="140" VerticalAlignment="Center">
             <Label Content="firstname" Height="25"/>
             <TextBox x:Name="TxtFirst" TextWrapping="Wrap" Text="Sassy" Width="120"/>
@@ -44,5 +44,5 @@
             <Button Content="Button" Click="Button_Click_1"/>
 
         </StackPanel>
-    </Grid>
+    </DockPanel>
 </Window>
