@@ -8,6 +8,7 @@ namespace ClassLibTeam08.Business.Entities
 {
     internal class User
     {
+
         public int UserID { get; set; }
         public string FirstName { get; set; }
         public string LastName {get; set; }
@@ -18,7 +19,17 @@ namespace ClassLibTeam08.Business.Entities
         public string BirthDay {get; set; }
         public string Phone {get; set; }
         
-       
+
+        public string GeneratePasswordResetToken()
+        {
+            var token = Guid.NewGuid().ToString();
+            var encodedToken = Convert.ToBase64String(Encoding.UTF8.GetBytes(token));
+            string confirmationLink = $"https://monohome.be/confirm-password-change?token={encodedToken}&email={Email}";
+            
+            return confirmationLink;
+        }
+
+
     }
 
 

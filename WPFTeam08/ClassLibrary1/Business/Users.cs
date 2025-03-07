@@ -1,21 +1,25 @@
-﻿using ClassLibTeam08.Data.Framework;
+﻿using ClassLibrary08.Data.Framework;
 using ClassLibTeam08.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ClassLibTeam08.Data.Framework;
 
 namespace ClassLibTeam08.Business.Entities
 {
     public static class Users
     {
-        public static SelectResult GetStudents()
+        public static SelectResult GetUser(int id)
         {
-            UserData studentData = new UserData();
-            SelectResult result = studentData.Select();
+            UserData data = new UserData();
+            SelectResult result = data.SelectByID(id);
             return result;
         }
+
+        public static DeleteResult DeleteUser(int id)
+        {
+            UserData data = new UserData();
+            DeleteResult result = data.DeleteByID(id);
+            return result;
+        }
+
 
         public static InsertResult Add(string firstName, string lastName, string username, string email, string address, string password, string birthday, string phone)
         {
@@ -33,10 +37,10 @@ namespace ClassLibTeam08.Business.Entities
             return result;
         }
 
-        public static void ChangePassWord(int userID, string newPassword)
+        public static UpdateResult ChangePassWord(int userID, string newPassword)
         {
             UserData userData = new UserData();
-            userData.ChangePassword(userID, newPassword);
+            return userData.ChangePassword(userID, newPassword);
         }
 
     }
