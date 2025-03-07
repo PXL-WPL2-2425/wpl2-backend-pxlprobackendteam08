@@ -69,6 +69,28 @@ namespace ClassLibTeam08.Data.Framework
             return result;
         }
 
+        protected void ChangePassword(SqlCommand insertCommand)
+        {
+            InsertResult result = new InsertResult();
+            try
+            {
+                using (connection)
+                {
+                    insertCommand.CommandText += "SET @new_id = SCOPE_IDENTITY();";
+                    insertCommand.Parameters.Add("@new_id", SqlDbType.Int).Direction =
+                    ParameterDirection.Output;
+                    insertCommand.Connection = connection;
+                    connection.Open();
+                    insertCommand.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public InsertResult Insert(User user)
         {
             var result = new InsertResult();
@@ -96,6 +118,11 @@ namespace ClassLibTeam08.Data.Framework
             }
             return result;
         }
-
+        public void Change()
+        {
+            
+        }
     }
+
+    //public 
 }

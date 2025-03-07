@@ -57,6 +57,27 @@ namespace ClassLibTeam08.Data
             }
             return result;
         }
+
+        public void ChangePassword(int ID, string newPassword)
+        {
+            var result = new InsertResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append(@"UPDATE Users ");
+                insertQuery.Append(@"SET wachtWord = 'defefv' ");
+                insertQuery.Append(@"WHERE UserID = 1");
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    InsertRecord(insertCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
     }
 }
 

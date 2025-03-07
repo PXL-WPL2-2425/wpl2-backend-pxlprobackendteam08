@@ -33,5 +33,11 @@ namespace ClassLibTeam08.Business.Entities
             return result;
         }
 
+        public static void ChangePassWord(int userID, string newPassword)
+        {
+            UserData userData = new UserData();
+            userData.ChangePassword(userID, newPassword);
+        }
+
     }
 }
