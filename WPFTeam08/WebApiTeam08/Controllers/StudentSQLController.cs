@@ -26,7 +26,11 @@ namespace WebApiTeam08.Controllers
         [HttpGet("ChangeEmail")]
         public ActionResult GetByID(int id, string password)
         {
-            var result = Users.ChangePassWord(id, password);
+
+            var result = Users.GetUser(2);
+
+
+
             if (result.Succeeded)
             {
                 var students = result.DataTable;
