@@ -9,7 +9,7 @@ namespace WebApiTeam08.Controllers
     public class UserController : ControllerBase
     {
         [HttpGet]
-        public ActionResult Students(int ID)
+        public ActionResult SelectUserByID_DEBUG(int ID)
         {
             var students = Users.GetUser(ID);
             return Ok(students);
