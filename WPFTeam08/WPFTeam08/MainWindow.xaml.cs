@@ -62,7 +62,7 @@ namespace WPFTeam08
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            InsertResult result = Users.Add(TxtFirst.Text, TxtLast.Text, TxtUserName.Text, TxtEmail.Text, TxtAdress.Text, TxtPassword.Text, TxtBirthday.Text, TxtPhone.Text);
+            //InsertResult result = Users.Add(TxtFirst.Text, TxtLast.Text, TxtUserName.Text, TxtEmail.Text, TxtAdress.Text, TxtPassword.Text, TxtBirthday.Text, TxtPhone.Text);
         }
 
         private void SearchByID_Click(object sender, RoutedEventArgs e)

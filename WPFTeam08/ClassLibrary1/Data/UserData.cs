@@ -4,6 +4,10 @@ using ClassLibTeam08.Data.Framework;
 using Microsoft.Data.SqlClient;
 using System.Data;
 using System.Text;
+using System.Net;
+using System.Net.Mail;
+using ClassLibrary1.Data;
+using Microsoft.Extensions.Configuration;
 
 namespace ClassLibTeam08.Data
 {
@@ -166,7 +170,44 @@ namespace ClassLibTeam08.Data
 
         private void SendNewPasswordEmail(int ID, string newPassword)
         {
+            //string connectionString = Settings.GetConnectionString();
+           
+            var userResult = SelectByID(ID);
+            if (!userResult.Succeeded || userResult.DataTable.Rows.Count == 0)
+            {
+                throw new Exception("User not found.");
+            }
 
+            var userEmail = userResult.DataTable.Rows[0]["email"].ToString();
+
+            // Genereer de bevestigingslink
+            string confirmationLink = GeneratePasswordResetToken(userEmail);
+
+            // Stel de e-mail op
+            var fromAddress = new MailAddress("your-email@example.com", "Your Name");
+            var toAddress = new MailAddress(userEmail);
+            const string fromPassword = "your-email-password";
+            const string subject = "Bevestig uw wachtwoordwijziging";
+            string body = $"Beste gebruiker, \n\nBevestig je wachtwoordwijziging door op de volgende link te klikken: {confirmationLink}";
+
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.example.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+            };
+
+            using (var message = new MailMessage(fromAddress, toAddress)
+            {
+                Subject = subject,
+                Body = body
+            })
+            {
+                smtp.Send(message);
+            }
         }
 
         private string GeneratePasswordResetToken(string email)
