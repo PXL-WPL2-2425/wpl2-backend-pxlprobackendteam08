@@ -34,16 +34,14 @@ namespace ClassLibrary1 {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
         [global::System.Configuration.DefaultSettingValueAttribute("TrustServerCertificate=True;Server=IMKE\\SQLEXPRESS;Database=DataEssantials;User I" +
             "d=sa;Password=digital@PXL")]
         public string ImkeServerConn {
             get {
                 return ((string)(this["ImkeServerConn"]));
-            }
-            set {
-                this["ImkeServerConn"] = value;
             }
         }
     }
