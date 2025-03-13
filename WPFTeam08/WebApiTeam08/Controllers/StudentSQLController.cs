@@ -14,7 +14,11 @@ namespace WebApiTeam08.Controllers
         [HttpGet]
         public ActionResult GetAllStudents()
         {
-            var result = Users.GetUser(551);
+
+            var result = Users.GetUser(2);
+
+
+
             if (result.Succeeded)
             {
                 var students = result.DataTable;
