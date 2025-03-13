@@ -11,7 +11,7 @@ namespace WebApiTeam08.Controllers
         [HttpGet]
         public ActionResult Students()
         {
-            var students = Users.Get();
+            var students = Users.GetUser(2);
             return Ok(students);
         }
     }
