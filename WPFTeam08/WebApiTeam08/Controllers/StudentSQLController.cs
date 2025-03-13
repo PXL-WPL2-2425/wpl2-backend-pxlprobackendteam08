@@ -14,13 +14,14 @@ namespace WebApiTeam08.Controllers
         [HttpGet]
         public ActionResult GetAllStudents()
         {
-            var result = Users.GetStudents();
+            var result = Users.GetUser(551);
             if (result.Succeeded)
             {
                 var students = result.DataTable;
                 string JSONresult = JsonConvert.SerializeObject(students);
                 return Ok(JSONresult);
             }
+
             return NotFound();
         }
     }

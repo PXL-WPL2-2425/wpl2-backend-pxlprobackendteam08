@@ -6,12 +6,12 @@ namespace WebApiTeam08.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StudentController : ControllerBase
+    public class UserController : ControllerBase
     {
         [HttpGet]
-        public ActionResult Students()
+        public ActionResult Students(int ID)
         {
-            var students = Users.GetUser(2);
+            var students = Users.GetUser(ID);
             return Ok(students);
         }
     }
