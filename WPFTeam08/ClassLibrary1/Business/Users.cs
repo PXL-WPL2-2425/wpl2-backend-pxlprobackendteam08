@@ -39,7 +39,7 @@ namespace ClassLibTeam08.Business.Entities
 
         public static UpdateResult ChangePassWord(int userID, string newPassword)
         {
-            UserData userData = new UserData();
+            UserData userData = new UserData(); 
             return userData.ChangePassword(userID, newPassword);
         }
 

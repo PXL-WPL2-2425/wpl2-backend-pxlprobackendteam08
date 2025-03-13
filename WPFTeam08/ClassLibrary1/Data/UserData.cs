@@ -82,11 +82,11 @@ namespace ClassLibTeam08.Data
                 //SQL Command
                 StringBuilder insertQuery = new StringBuilder();
                 insertQuery.Append($"UPDATE Users ");
-                insertQuery.Append($"SET wachtWord = {newPassword}");
+                insertQuery.Append($"SET wachtWord = '{newPassword}' ");
                 insertQuery.Append($"WHERE UserID = {ID}");
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
-                    Insert(insertCommand);
+                    result = Update(insertCommand);
                 }
 
                 SendNewPasswordEmail(ID, newPassword);

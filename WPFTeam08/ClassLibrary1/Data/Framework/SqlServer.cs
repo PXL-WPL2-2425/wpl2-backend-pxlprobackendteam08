@@ -77,12 +77,11 @@ namespace ClassLibTeam08.Data.Framework
             {
                 using (connection)
                 {
-                    insertCommand.CommandText += "SET @new_id = SCOPE_IDENTITY();";
-                    insertCommand.Parameters.Add("@new_id", SqlDbType.Int).Direction = ParameterDirection.Output;
                     insertCommand.Connection = connection;
                     connection.Open();
                     insertCommand.ExecuteNonQuery();
                     connection.Close();
+                    result.Succeeded = true;
                 }
             }
             catch (Exception ex)
