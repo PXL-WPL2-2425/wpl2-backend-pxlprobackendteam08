@@ -8,7 +8,7 @@ using System.Text;
 namespace ClassLibTeam08.Data
 {
     internal class UserData : SqlServer
-    {      
+    {
         public UserData()
         {
             TableName = "Users";
@@ -110,7 +110,7 @@ namespace ClassLibTeam08.Data
                 insertQuery.Append($"(firstname, lastname, username, email, adres, wachtWord, birthday, phone) VALUES");
                 insertQuery.Append($"(@firstname, @lastname, @username, @email, @adres, @wachtWord, @birthday, @phone);");
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
-                {               
+                {
                     result = Select(insertCommand);
                 }
             }
@@ -162,6 +162,7 @@ namespace ClassLibTeam08.Data
                 throw new Exception(ex.Message, ex);
             }
             return result;
+        }
 
         private void SendNewPasswordEmail(int ID, string newPassword)
         {

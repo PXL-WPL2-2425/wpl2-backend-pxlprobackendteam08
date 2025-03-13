@@ -11,8 +11,8 @@
             <ColumnDefinition Width="200*"/>
             <ColumnDefinition Width="200*"/>
             <ColumnDefinition Width="147*"/>
-            <ColumnDefinition Width="53*"/>
-            <ColumnDefinition Width="200*"/>
+            <ColumnDefinition Width="190*"/>
+            <ColumnDefinition Width="63*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="23*"/>
@@ -84,7 +84,7 @@
             <TextBox x:Name="DeleteIeIdBox" TextWrapping="Wrap" Text="1" Width="120"/>
             <Button x:Name="DeleteButton" Content="Delete" Margin="0,20,0,0" Click="DeleteButton_Click"/>
         </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2">
+        <StackPanel Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,179,0,0" Grid.RowSpan="2">
             <Label Content="UpdateUser" Height="25" Grid.Column="2" Width="80"/>
             <Separator Width="550" />
         </StackPanel>
