@@ -49,15 +49,15 @@ namespace ClassLibrary1.Business
             }
 
             else if (password.Length <= 8)
+
                 {
                     return new InsertResult() { Success = false, Message = "Password must be at least 8 characters" };
                 }
 
-                if(CheckIfEmailExists(email) == false)
-                {
-                    return new InsertResult() { Success = false, Message = "Dit emailadres bestaat al" };
-                }
-
+                //if(user.Email == true)
+                //{
+                //    return new InsertResult() { Success = false, Message = "Dit emailadres bestaat al" };
+                //}
                 else
                 {
                     User user = new User();
@@ -82,6 +82,8 @@ namespace ClassLibrary1.Business
  
 
 
+
+    }
 
     }
 
