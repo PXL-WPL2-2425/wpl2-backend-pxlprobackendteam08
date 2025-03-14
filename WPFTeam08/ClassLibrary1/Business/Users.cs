@@ -1,6 +1,8 @@
 ﻿using ClassLibrary08.Data.Framework;
 using ClassLibTeam08.Data;
 using ClassLibTeam08.Data.Framework;
+using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace ClassLibTeam08.Business.Entities
 {
@@ -13,6 +15,24 @@ namespace ClassLibTeam08.Business.Entities
             return result;
         }
 
+        public static SelectResult CheckIfUserExists(string email)
+        {
+            UserData data = new UserData();
+            SelectResult result = data.SelectAllEmail();
+
+            foreach (DataRow row in result.DataTable.Rows)
+            {
+                if ((string)row[0] == email)
+                {
+                    result.Succeeded = false;
+                    return result;
+                }
+            }
+
+            result.Succeeded = true;
+            return result;
+        }
+
         public static DeleteResult DeleteUser(int id)
         {
             UserData data = new UserData();
@@ -20,10 +40,17 @@ namespace ClassLibTeam08.Business.Entities
             return result;
         }
 
-        public static SelectResult SelectAllEmail()
+        public static SelectResult SelectAllEmailAndPasswords()
         {
             UserData data = new UserData();
             SelectResult result = data.SelectAllEmail();
+            return result;
+        }
+
+        public static SelectResult SelectByEmailAndPasswords(string email, string password)
+        {
+            UserData data = new UserData();
+            SelectResult result = data.SelectByEmailAndPasswords(email, password);
             return result;
         }
 

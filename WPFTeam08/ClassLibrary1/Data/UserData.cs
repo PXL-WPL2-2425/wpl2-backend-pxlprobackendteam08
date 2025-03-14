@@ -60,6 +60,54 @@ namespace ClassLibTeam08.Data
 
         }
 
+        public SelectResult SelectAllEmailAndPasswords()
+        {
+            var result = new SelectResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"select email, wachtword from Users");
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    result = Select(insertCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+
+        }
+
+        public SelectResult SelectByEmailAndPasswords(string email, string password)
+        {
+            var result = new SelectResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"select * from Users where email = @email and wachtword = @password");
+
+               
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    insertCommand.Parameters.Add("@email", SqlDbType.VarChar);
+                    insertCommand.Parameters.Add("@password", SqlDbType.VarChar);
+                    insertCommand.Parameters["@email"].Value = email;
+                    insertCommand.Parameters["@password"].Value = password;
+                    result = Select(insertCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+
+        }
+
         public InsertResult Insert(User user)
         {
             var result = new InsertResult();

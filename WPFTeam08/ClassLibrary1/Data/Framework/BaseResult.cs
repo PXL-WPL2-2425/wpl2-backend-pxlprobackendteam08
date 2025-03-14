@@ -11,6 +11,7 @@ namespace ClassLibTeam08.Data.Framework
         private List<string> errors = new List<string>();
         public bool Succeeded { get; set; }
         public IEnumerable<string> Errors => errors;
+        public string message;
         public void AddError(string error)
         {
             errors.Add(error);

@@ -21,16 +21,22 @@ namespace ClassLibTeam08.Data.Framework
             try
             {
                 connection=new SqlConnection(Settings.GetConnectionString());
+
                 using (connection)
                 {
                     selectCommand.Connection = connection;
                     connection.Open();
                     adapter = new SqlDataAdapter(selectCommand);
-                    result.DataTable = new System.Data.DataTable();
+
+                    //selectCommand.ExecuteReader();
+
+                    result.DataTable = new DataTable();
                     adapter.Fill(result.DataTable);
+
                     connection.Close();
+                    result.Succeeded = true;
                 }
-                result.Succeeded = true;
+
             }
             catch (Exception ex)
             {

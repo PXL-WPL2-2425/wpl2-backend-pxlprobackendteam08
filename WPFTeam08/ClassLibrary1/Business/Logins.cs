@@ -22,22 +22,17 @@ namespace ClassLibrary1.Business
             return result; 
         }
 
-        public static bool CheckIfEmailExists(string Email)
+        public static SelectResult CheckLogin(string Email, string password)
         {
-            SelectResult selectResult = Users.SelectAllEmail();
-            DataTable dataTable = selectResult.DataTable;
-
-            for (int i = 0; i < dataTable.Rows.Count; i++)
-            {
-
-                if (dataTable.Rows[i][0].ToString() == Email)
-                {
-                    return false;
-                }
-            }
+            SelectResult selectResult = Users.SelectByEmailAndPasswords(Email, password);
             
+            if(selectResult.DataTable == null)
+            {
+                return new SelectResult() { Succeeded = true, message = "" };
+            }
 
-            return true;
+            return selectResult;
+            
         }
 
 
