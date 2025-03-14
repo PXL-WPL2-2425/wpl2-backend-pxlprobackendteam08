@@ -19,7 +19,7 @@ namespace ClassLibrary1.Business
         {
             UserData data = new UserData();
             SelectResult result = data.SelectByID(id);
-            return result;
+            return result; 
         }
 
         public static bool CheckIfEmailExists(string Email)
@@ -71,6 +71,8 @@ namespace ClassLibrary1.Business
                     user.Phone = phone;
                     UserData userData = new UserData();
                     InsertResult result = userData.Insert(user);
+
+                    result.Success = true;
 
                     return result;
                 }
