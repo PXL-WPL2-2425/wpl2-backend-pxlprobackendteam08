@@ -39,6 +39,27 @@ namespace ClassLibTeam08.Data
 
         }
 
+        public SelectResult SelectAllEmail()
+        {
+            var result = new SelectResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"select email from Users");
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    result = Select(insertCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+
+        }
+
         public InsertResult Insert(User user)
         {
             var result = new InsertResult();

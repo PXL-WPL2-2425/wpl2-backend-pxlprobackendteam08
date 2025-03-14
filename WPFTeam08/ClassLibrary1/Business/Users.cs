@@ -20,6 +20,12 @@ namespace ClassLibTeam08.Business.Entities
             return result;
         }
 
+        public static SelectResult SelectAllEmail()
+        {
+            UserData data = new UserData();
+            SelectResult result = data.SelectAllEmail();
+            return result;
+        }
 
         public static UpdateResult ChangePassWord(int userID, string newPassword)
         {
