@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,10 +20,11 @@ namespace ClassLibTeam08.Data.Framework
             //return connectionString;
 
             //Inlog voor SQL server
-            string connectionString = "user id = PxlUser_08;";
-            connectionString += "Password = 41FFVf7!\r\n;";
-            connectionString += $@"Server=10.128.4.7;";
-            connectionString += $"Database=Db2025Team_08;";
+            //string connectionString = "user id = PxlUser_08;";
+            //connectionString += "Password = 41FFVf7!\r\n;";
+            //connectionString += $@"Server=10.128.4.7;";
+            //connectionString += $"Database=Db2025Team_08;";
+            string connectionString = ConfigurationManager.ConnectionStrings["PxlServerConn"].ConnectionString;
             return connectionString;
         }
     }
