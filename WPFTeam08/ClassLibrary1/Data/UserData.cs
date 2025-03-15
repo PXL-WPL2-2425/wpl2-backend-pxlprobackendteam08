@@ -7,15 +7,18 @@ using System.Text;
 using System.Net;
 using System.Net.Mail;
 using ClassLibrary1.Data;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 
 namespace ClassLibTeam08.Data
 {
     internal class UserData : SqlServer
     {
-        public UserData()
+        private readonly IConfiguration _configuration;
+        public UserData(IConfiguration configuration)
         {
             TableName = "Users";
+            _configuration = configuration;
         }
         public string TableName { get; set; }
         public SelectResult SelectByID(int ID)
@@ -159,6 +162,8 @@ namespace ClassLibTeam08.Data
                 insertQuery.Append($"WHERE UserID = {ID}");
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
+                    insertCommand.Parameters.Add("@newPassword", SqlDbType.VarChar).Value = newPassword;
+                    insertCommand.Parameters.Add("@ID", SqlDbType.Int).Value = ID;
                     result = Update(insertCommand);
                 }
 
@@ -229,6 +234,7 @@ namespace ClassLibTeam08.Data
                     result = Update(insertCommand);
 
                 }
+                SendNewPasswordEmail(id, wachtwoord);
             }
             catch (Exception ex)
             {
@@ -237,10 +243,9 @@ namespace ClassLibTeam08.Data
             return result;
         }
 
+
         private void SendNewPasswordEmail(int ID, string newPassword)
         {
-            //string connectionString = Settings.GetConnectionString();
-           
             var userResult = SelectByID(ID);
             if (!userResult.Succeeded || userResult.DataTable.Rows.Count == 0)
             {
@@ -253,16 +258,17 @@ namespace ClassLibTeam08.Data
             string confirmationLink = GeneratePasswordResetToken(userEmail);
 
             // Stel de e-mail op
-            var fromAddress = new MailAddress("your-email@example.com", "Your Name");
+            var emailSettings = new EmailSettings(_configuration);
+            var fromAddress = new MailAddress(emailSettings.Address, "MonoHome");
             var toAddress = new MailAddress(userEmail);
-            const string fromPassword = "your-email-password";
+            var fromPassword = emailSettings.Password; 
             const string subject = "Bevestig uw wachtwoordwijziging";
             string body = $"Beste gebruiker, \n\nBevestig je wachtwoordwijziging door op de volgende link te klikken: {confirmationLink}";
 
             var smtp = new SmtpClient
             {
-                Host = "smtp.example.com",
-                Port = 587,
+                Host = emailSettings.SmtpServer,
+                Port = emailSettings.SmtpPort,
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
