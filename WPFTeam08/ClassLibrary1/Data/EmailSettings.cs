@@ -9,43 +9,17 @@ namespace ClassLibrary1.Data
 {
     public class EmailSettings
     {
-        //private string smtpServer = "smtp.gmail.com";
-        //private int smtpPort = 587;
-        //private string address = "monohomepass@gmail.com";
-        //private string password = "dndz vqer tfcm ierc";
-
-        //public string SmtpServer
-        //{
-        //    get { return smtpServer; }
-        //    set { smtpServer = value; }
-        //}
-        //public int SmtpPort
-        //{
-        //    get { return smtpPort; }
-        //    set { smtpPort = value; }
-        //}
-        //public string Address
-        //{
-        //    get { return address; }
-        //    set { address = value; }
-        //}
-        //public string Password
-        //{
-        //    get { return password; }
-        //    set { password = value; }
-        //}
+        public EmailSettings(IConfiguration configuration)
+        {
+            SmtpServer = configuration["EmailSettings:SmtpServer"] ?? throw new ArgumentNullException(nameof(configuration), "SmtpServer is not configured.");
+            SmtpPort = int.TryParse(configuration["EmailSettings:SmtpPort"], out var port) ? port : throw new ArgumentNullException(nameof(configuration), "SmtpPort is not configured or invalid.");
+            Address = configuration["EmailSettings:Address"] ?? throw new ArgumentNullException(nameof(configuration), "Address is not configured.");
+            Password = configuration["EmailSettings:Password"] ?? throw new ArgumentNullException(nameof(configuration), "Password is not configured.");
+        }
 
         public string SmtpServer { get; }
         public int SmtpPort { get; }
         public string Address { get; }
         public string Password { get; }
-
-        public EmailSettings(IConfiguration configuration)
-        {
-            SmtpServer = configuration["EmailSettings:SmtpServer"];
-            SmtpPort = int.Parse(configuration["EmailSettings:SmtpPort"]);
-            Address = configuration["EmailSettings:Address"];
-            Password = configuration["EmailSettings:Password"];
-        }
     }
 }

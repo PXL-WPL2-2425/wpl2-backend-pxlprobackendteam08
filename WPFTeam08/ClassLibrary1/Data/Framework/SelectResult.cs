@@ -10,6 +10,6 @@ namespace ClassLibTeam08.Data.Framework
 {
     public class SelectResult : BaseResult
     {
-        public DataTable DataTable { get; set; }
+        public DataTable DataTable { get; set; } = new DataTable();
     }
 }
