@@ -29,5 +29,11 @@ namespace WPFTeam08
             AddUserWindow addUserWindow = new AddUserWindow();
             addUserWindow.ShowDialog();
         }
+
+        private void updateUserButton_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateUserWindow updateUserWindow = new UpdateUserWindow();
+            updateUserWindow.ShowDialog();
+        }
     }
 }

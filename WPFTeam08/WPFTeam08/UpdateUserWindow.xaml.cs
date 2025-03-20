@@ -15,16 +15,16 @@ using System.Windows.Shapes;
 namespace WPFTeam08
 {
     /// <summary>
-    /// Interaction logic for AddUserWindow.xaml
+    /// Interaction logic for UpdateUserWindow.xaml
     /// </summary>
-    public partial class AddUserWindow : Window
+    public partial class UpdateUserWindow : Window
     {
-        public AddUserWindow()
+        public UpdateUserWindow()
         {
             InitializeComponent();
         }
 
-        private void addUserButton_Click(object sender, RoutedEventArgs e)
+        private void updateUserButton_Click(object sender, RoutedEventArgs e)
         {
             if (checkEmpty())
             {
@@ -36,24 +36,23 @@ namespace WPFTeam08
             }
         }
 
-        private void resetContentButton_Click(object sender, RoutedEventArgs e)
+        private void checkUserButton_Click(object sender, RoutedEventArgs e)
         {
-            resetContent();
+            if (!string.IsNullOrEmpty(userIDTextBox.Text))
+            {
+
+            }
+            else
+            {
+                MessageBox.Show("Er moet een geldige user ID ingevuld worden!", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
-        private void addUserWindow_KeyDown(object sender, KeyEventArgs e)
+        private void updateUserWindow_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
             {
                 this.Close();
-            }
-        }
-
-        private void resetContent()
-        {
-            foreach (var textBox in rootGrid.Children.OfType<StackPanel>().SelectMany(sp => sp.Children.OfType<TextBox>()))
-            {
-                textBox.Text = string.Empty;
             }
         }
 
