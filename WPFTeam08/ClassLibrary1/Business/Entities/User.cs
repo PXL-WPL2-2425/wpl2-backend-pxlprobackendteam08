@@ -26,6 +26,8 @@ namespace ClassLibTeam08.Business.Entities
             
             return confirmationLink;
         }
+
+
     }
 
 

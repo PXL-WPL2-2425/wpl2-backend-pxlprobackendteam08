@@ -1,22 +1,115 @@
-﻿using ClassLibTeam08.Business.Entities;
+﻿using ClassLibrary08.Data.Framework;
+using ClassLibTeam08.Business.Entities;
 using ClassLibTeam08.Data.Framework;
 using Microsoft.Data.SqlClient;
 using System.Data;
 using System.Text;
+using System.Net;
+using System.Net.Mail;
+using ClassLibrary1.Data;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
+using System.Diagnostics;
 
 namespace ClassLibTeam08.Data
 {
-
     internal class UserData : SqlServer
     {
-        public UserData()
+        private readonly IConfiguration _configuration;
+        public UserData(IConfiguration configuration)
         {
             TableName = "Users";
+            _configuration = configuration;
         }
         public string TableName { get; set; }
-        public SelectResult Select()
+        public SelectResult SelectByID(int ID)
         {
-            return base.Select(TableName);
+            var result = new SelectResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"select * from Users WHERE UserID = {ID}");
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    result = Select(insertCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+
+        }
+
+        public SelectResult SelectAllEmail()
+        {
+            var result = new SelectResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"select email from Users");
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    result = Select(insertCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+
+        }
+
+        public SelectResult SelectAllEmailAndPasswords()
+        {
+            var result = new SelectResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"select email, wachtword from Users");
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    result = Select(insertCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+
+        }
+
+        public SelectResult SelectByEmailAndPasswords(string email, string password)
+        {
+            var result = new SelectResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"select * from Users where email = @email and wachtword = @password");
+
+               
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    insertCommand.Parameters.Add("@email", SqlDbType.VarChar);
+                    insertCommand.Parameters.Add("@password", SqlDbType.VarChar);
+                    insertCommand.Parameters["@email"].Value = email;
+                    insertCommand.Parameters["@password"].Value = password;
+                    result = Select(insertCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+
         }
 
         public InsertResult Insert(User user)
@@ -47,7 +140,7 @@ namespace ClassLibTeam08.Data
                     user.BirthDay;
                     insertCommand.Parameters.Add("@phone", SqlDbType.VarChar).Value =
                     user.Phone;
-                    result = InsertRecord(insertCommand);
+                    result = Insert(insertCommand);
 
                 }
             }
@@ -58,25 +151,161 @@ namespace ClassLibTeam08.Data
             return result;
         }
 
-        public void ChangePassword(int ID, string newPassword)
+        public UpdateResult ChangePassword(int ID, string newPassword)
         {
-            var result = new InsertResult();
+            var result = new UpdateResult();
             try
             {
                 //SQL Command
                 StringBuilder insertQuery = new StringBuilder();
-                insertQuery.Append(@"UPDATE Users ");
-                insertQuery.Append(@"SET wachtWord = 'defefv' ");
-                insertQuery.Append(@"WHERE UserID = 1");
+                insertQuery.Append($"UPDATE Users ");
+                insertQuery.Append($"SET wachtWord = '{newPassword}' ");
+                insertQuery.Append($"WHERE UserID = {ID}");
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
-                    InsertRecord(insertCommand);
+                    insertCommand.Parameters.Add("@newPassword", SqlDbType.VarChar).Value = newPassword;
+                    insertCommand.Parameters.Add("@ID", SqlDbType.Int).Value = ID;
+                    result = Update(insertCommand);
+                }
+
+                SendNewPasswordEmail(ID, newPassword);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+
+            return result;
+        }
+
+        //public SelectResult SelectByID()
+        //{
+        //    var result = new SelectResult();
+        //    try
+        //    {
+        //        //SQL Command
+        //        StringBuilder insertQuery = new StringBuilder();
+        //        insertQuery.Append($"Insert INTO {TableName}");
+        //        insertQuery.Append($"(firstname, lastname, username, email, adres, wachtWord, birthday, phone) VALUES");
+        //        insertQuery.Append($"(@firstname, @lastname, @username, @email, @adres, @wachtWord, @birthday, @phone);");
+        //        using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+        //        {
+        //            result = Select(insertCommand);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception(ex.Message, ex);
+        //    }
+        //    return result;
+        //}
+
+        public DeleteResult DeleteByID(int id)
+        {
+            var result = new DeleteResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"DELETE FROM Users WHERE userID = {id};");
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    result = Delete(insertCommand);
                 }
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
             }
+            return result;
+        }
+
+        public UpdateResult UpdateAllUserData(int id, string firstName, string lastName, string userName, string email, string adres, string wachtwoord, string Birhday, string phone)
+        {
+            var result = new UpdateResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"UPDATE {TableName} ");
+                insertQuery.Append($"SET firstname = '{firstName}', lastname = '{lastName}', username = '{userName}', email = '{email}', adres = '{adres}', wachtWord = '{wachtwoord}', birthday = '{Birhday}', phone = '{phone}' ");
+                insertQuery.Append($"where userID = '{id}'");
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    result = Update(insertCommand);
+
+                }
+                //SendNewPasswordEmail(id, wachtwoord);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+
+
+        private void SendNewPasswordEmail(int ID, string newPassword)
+        {
+            var userResult = SelectByID(ID);
+            if (!userResult.Succeeded || userResult.DataTable.Rows.Count == 0)
+            {
+                throw new Exception("User not found.");
+            }
+
+            var userEmail = userResult.DataTable.Rows[0]["email"]?.ToString();
+            if (string.IsNullOrEmpty(userEmail))
+            {
+                throw new Exception("User email not found.");
+            }
+
+            string smtpServer = "smtp.gmail.com"; // SMTP-server 
+            int port = 587;
+            string fromEmail = "monohomepass@gmail.com";
+            string fromPassword = "dndz vqer tfcm ierc"; // monohome app-wachtwoord!
+            string toEmail = userEmail.ToString();
+
+            // Genereer de bevestigingslink
+            string confirmationLink = GeneratePasswordResetToken(email: userEmail);
+
+            try
+            {
+                using (SmtpClient smtp = new SmtpClient(smtpServer, port))
+                {
+                    smtp.Credentials = new NetworkCredential(fromEmail, fromPassword);
+                    smtp.EnableSsl = true;
+                    smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    smtp.UseDefaultCredentials = false;
+
+                    MailMessage mail = new MailMessage(fromEmail, toEmail)
+                    {
+                        Subject = "Bevestig uw wachtwoordwijziging",
+                        Body = $"Beste gebruiker, \n\nBevestig je wachtwoordwijziging door op de volgende link te klikken: {confirmationLink}",
+                        IsBodyHtml = false
+                    };
+
+                    smtp.Send(mail);
+                    //"E-mail verzonden!"
+                }
+            }
+            catch (SmtpException smtpEx)
+            {
+                Debug.WriteLine($"SMTP Fout bij verzenden van e-mail: {smtpEx.Message}");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Fout bij verzenden van e-mail: {ex.Message}");
+            }
+
+        }
+
+        private string GeneratePasswordResetToken(string email)
+        {
+            var token = Guid.NewGuid().ToString();//unike token maken
+            var encodedToken = Convert.ToBase64String(Encoding.UTF8.GetBytes(token));
+            string confirmationLink = $"http://localhost:5173/login/account-maken?token={encodedToken}&email={email}";
+
+            return confirmationLink;
         }
     }
 }

@@ -8,17 +8,19 @@
         Title="MonoHome" Height="500" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="200*"/>
+            <ColumnDefinition Width="200*"/>
+            <ColumnDefinition Width="147*"/>
+            <ColumnDefinition Width="190*"/>
+            <ColumnDefinition Width="63*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="20*"/>
+            <RowDefinition Height="23*"/>
+            <RowDefinition Height="179*"/>
+            <RowDefinition Height="282*"/>
         </Grid.RowDefinitions>
 
-        <Menu Grid.Row="0" Grid.ColumnSpan="5">
+        <Menu Grid.Row="0" Grid.ColumnSpan="4">
             <MenuItem Name="mnu_Menu" Header="Menu">
                 <MenuItem Name="mnu_Menu_Dashboard" Header="Dashboard" Click="mnu_Menu_Click"/>
                 <MenuItem Name="mnu_Menu_Clients" Header="Clients" Click="mnu_Menu_Click"/>
@@ -35,7 +37,8 @@
         </Menu>
 
 
-        <StackPanel HorizontalAlignment="Center" Width="140" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0">
+        <StackPanel HorizontalAlignment="Center" Width="140" VerticalAlignment="Top" Grid.Row="1" Margin="0,16,0,0" Grid.RowSpan="2" Height="430">
+
             <Label Content="Add usser" Height="25"/>
             <Separator />
             <Label Content="firstname" Height="25"/>
@@ -54,18 +57,59 @@
             <TextBox x:Name="TxtBirthday" TextWrapping="Wrap" Text="2000-08-11" Width="120"/>
             <Label Content="phone" Height="25"/>
             <TextBox x:Name="TxtPhone" TextWrapping="Wrap" Text="156156556" Width="120"/>
-            <Button Content="Button" Click="Button_Click_1" Margin="0,20,0,0"/>
+            <Button Content="Add" Click="Button_Click_1" Margin="0,20,0,0"/>
 
         </StackPanel>
-        <StackPanel HorizontalAlignment="Center" Width="140" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1" Margin="0,10,0,0">
+        <StackPanel HorizontalAlignment="Center" Width="140" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1" Margin="0,10,0,0" Height="156">
             <Label Content="Change user password" Height="25"/>
             <Separator />
             <Label Content="ID" Height="25"/>
             <TextBox x:Name="TxtID" TextWrapping="Wrap" Text="1" Width="120"/>
             <Label Content="NewPassword" Height="25"/>
             <TextBox x:Name="TxtnewPassword" TextWrapping="Wrap" Text="anders" Width="120"/>
-            <Button Content="Button" Click="ChangePassword_button_click" Margin="0,20,0,0"/>
+            <Button Content="Change" Click="ChangePassword_button_click" Margin="0,20,0,0"/>
 
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" Width="140" VerticalAlignment="Top" Grid.Row="1" Grid.Column="2" Margin="0,10,0,0" Height="113">
+            <Label Content="find user" Height="25"/>
+            <Separator />
+            <Label Content="ID" Height="25"/>
+            <TextBox x:Name="TXSearchID" TextWrapping="Wrap" Text="1" Width="120"/>
+            <Button x:Name="SearchByID" Content="Find" Margin="0,20,0,0" Click="SearchByID_Click"/>
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" Width="140" VerticalAlignment="Top" Grid.Row="1" Grid.Column="3" Margin="0,10,0,0" Height="113">
+            <Label Content="Delete User" Height="25"/>
+            <Separator />
+            <Label Content="ID" Height="25"/>
+            <TextBox x:Name="DeleteIeIdBox" TextWrapping="Wrap" Text="1" Width="120"/>
+            <Button x:Name="DeleteButton" Content="Delete" Margin="0,20,0,0" Click="DeleteButton_Click"/>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,179,0,0" Grid.RowSpan="2">
+            <Label Content="UpdateUser" Height="25" Grid.Column="2" Width="80"/>
+            <Separator Width="550" />
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" Width="140" VerticalAlignment="Top" Grid.Row="2" Grid.Column="1" Margin="0,28,0,0" Height="239">
+            <Label Content="firstname" Height="25"/>
+            <TextBox x:Name="TxtFirstChange" TextWrapping="Wrap" Text="Sassy" Width="120"/>
+            <Label Content="lastname" Height="25"/>
+            <TextBox x:Name="TxtLastChange" TextWrapping="Wrap" Text="Hob" Width="120"/>
+            <Label Content="username" Height="25"/>
+            <TextBox x:Name="TxtUserNameChange" TextWrapping="Wrap" Text="Sas123" Width="120"/>
+            <Label Content="email" Height="25"/>
+            <TextBox x:Name="TxtEmailChange" TextWrapping="Wrap" Text="saschahob@hotmail.com" Width="120"/>
+            <Label Content="address" Height="25"/>
+            <TextBox x:Name="TxtAdressChange" TextWrapping="Wrap" Text="aarde" Width="120"/>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Grid.Column="2" Margin="0,41,0,24">
+            <Label Content="password" Height="25"/>
+            <TextBox x:Name="TxtPasswordChange" TextWrapping="Wrap" Text="paswoord" Width="120"/>
+            <Label Content="birthday" Height="25"/>
+            <TextBox x:Name="TxtBirthdayChange" TextWrapping="Wrap" Text="2000-08-11" Width="120"/>
+            <Label Content="phone" Height="25"/>
+            <TextBox x:Name="TxtPhoneChange" TextWrapping="Wrap" Text="156156556" Width="120"/>
+            <Label Content="ID" Height="25"/>
+            <TextBox x:Name="TxtIDChange" TextWrapping="Wrap" Text="1" Width="120"/>
+            <Button x:Name="BtChange" Content="Update" Margin="0,20,0,0" Click="BtChange_Click"/>
         </StackPanel>
     </Grid>
 </Window>

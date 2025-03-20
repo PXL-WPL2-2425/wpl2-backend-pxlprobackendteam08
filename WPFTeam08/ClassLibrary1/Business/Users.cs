@@ -1,43 +1,81 @@
-﻿using ClassLibTeam08.Data.Framework;
+﻿using ClassLibrary08.Data.Framework;
 using ClassLibTeam08.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ClassLibTeam08.Data.Framework;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+using System.Data;
+using System.Net.Mail;
+using System.Net;
 
 namespace ClassLibTeam08.Business.Entities
 {
     public static class Users
     {
-        public static SelectResult GetStudents()
+        private static IConfiguration _configuration; // Add this field
+
+        // Add this method to set the configuration
+        public static void SetConfiguration(IConfiguration configuration)
         {
-            UserData studentData = new UserData();
-            SelectResult result = studentData.Select();
+            _configuration = configuration;
+        }
+
+        public static SelectResult GetUser(int id)
+        {
+            var data = new UserData(_configuration); // Pass the configuration
+            SelectResult result = data.SelectByID(id);
             return result;
         }
 
-        public static InsertResult Add(string firstName, string lastName, string username, string email, string address, string password, string birthday, string phone)
+        public static SelectResult CheckIfUserExists(string email)
         {
-            User user = new User();
-            user.FirstName = firstName;
-            user.LastName = lastName;
-            user.UserName = username;
-            user.Email = email;
-            user.Address = address;
-            user.Password = password;
-            user.BirthDay = birthday;
-            user.Phone = phone;
-            UserData userData = new UserData();
-            InsertResult result = userData.Insert(user);
+            var data = new UserData(_configuration); // Pass the configuration
+            SelectResult result = data.SelectAllEmail();
+
+            foreach (DataRow row in result.DataTable.Rows)
+            {
+                if ((string)row[0] == email)
+                {
+                    result.Succeeded = false;
+                    return result;
+                }
+            }
+
+            result.Succeeded = true;
             return result;
         }
 
-        public static void ChangePassWord(int userID, string newPassword)
+        public static DeleteResult DeleteUser(int id)
         {
-            UserData userData = new UserData();
-            userData.ChangePassword(userID, newPassword);
+            var data = new UserData(_configuration); // Pass the configuration
+            DeleteResult result = data.DeleteByID(id);
+            return result;
         }
 
+        public static SelectResult SelectAllEmailAndPasswords()
+        {
+            var data = new UserData(_configuration); // Pass the configuration
+            SelectResult result = data.SelectAllEmail();
+            return result;
+        }
+
+        public static SelectResult SelectByEmailAndPasswords(string email, string password)
+        {
+            var data = new UserData(_configuration); // Pass the configuration
+            SelectResult result = data.SelectByEmailAndPasswords(email, password);
+            return result;
+        }
+
+        public static UpdateResult ChangePassWord(int userID, string newPassword)
+        {
+            var userData = new UserData(_configuration); // Pass the configuration
+            return userData.ChangePassword(userID, newPassword);
+        }
+
+        public static UpdateResult UpdateUserData(int id, string firstName, string lastName, string userName, string email, string adres, string wachtwoord, string Birhday, string phone)
+        {
+            var userData = new UserData(_configuration); // Pass the configuration
+            return userData.UpdateAllUserData(id, firstName, lastName, userName, email, adres, wachtwoord, Birhday, phone);
+        }
+        
     }
 }
