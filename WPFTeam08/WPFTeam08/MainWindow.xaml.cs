@@ -13,6 +13,8 @@ using ClassLibTeam08.Business.Entities;
 using ClassLibTeam08.Business;
 using ClassLibTeam08.Data;
 using ClassLibrary08.Data.Framework;
+using System.Net.Mail;
+using System.Net;
 
 namespace WPFTeam08
 {
@@ -79,6 +81,46 @@ namespace WPFTeam08
         private void BtChange_Click(object sender, RoutedEventArgs e)
         {
             UpdateResult updateResult = Users.UpdateUserData(int.Parse(TxtIDChange.Text) ,TxtFirstChange.Text, TxtLastChange.Text, TxtUserNameChange.Text, TxtEmail.Text, TxtAdress.Text, TxtPasswordChange.Text, TxtBirthdayChange.Text, TxtPhoneChange.Text);
+        }
+        private void SendNewPasswordEmail()
+        {
+            //var userResult = SelectByID(ID);
+
+
+            string smtpServer = "smtp.gmail.com"; // SMTP-server 
+            int port = 587;
+            string fromEmail = "monohomepass@gmail.com";
+            string fromPassword = "dndz vqer tfcm ierc"; // monohome app-wachtwoord!
+            string toEmail = "Sergey.Skatchkov@gmail.com";
+
+            try
+            {
+                using (SmtpClient smtp = new SmtpClient(smtpServer, port))
+                {
+                    smtp.Credentials = new NetworkCredential(fromEmail, fromPassword);
+                    smtp.EnableSsl = true;
+                    smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    smtp.UseDefaultCredentials = false;
+
+                    MailMessage mail = new MailMessage(fromEmail, toEmail)
+                    {
+                        Subject = "Test e-mail",
+                        Body = "Dit is een testmail van monohoma pass verzonden via SMTP naar de klant.",
+                        IsBodyHtml = false
+                    };
+
+                    smtp.Send(mail);
+                    Console.WriteLine("E-mail verzonden!");
+                }
+            }
+            catch (SmtpException smtpEx)
+            {
+                Console.WriteLine($"SMTP Fout bij verzenden van e-mail: {smtpEx.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Fout bij verzenden van e-mail: {ex.Message}");
+            }
         }
     }
 }

@@ -9,6 +9,7 @@ using System.Net.Mail;
 using ClassLibrary1.Data;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using System.Diagnostics;
 
 namespace ClassLibTeam08.Data
 {
@@ -234,7 +235,7 @@ namespace ClassLibTeam08.Data
                     result = Update(insertCommand);
 
                 }
-                SendNewPasswordEmail(id, wachtwoord);
+                //SendNewPasswordEmail(id, wachtwoord);
             }
             catch (Exception ex)
             {
@@ -258,35 +259,44 @@ namespace ClassLibTeam08.Data
                 throw new Exception("User email not found.");
             }
 
+            string smtpServer = "smtp.gmail.com"; // SMTP-server 
+            int port = 587;
+            string fromEmail = "monohomepass@gmail.com";
+            string fromPassword = "dndz vqer tfcm ierc"; // monohome app-wachtwoord!
+            string toEmail = userEmail.ToString();
+
             // Genereer de bevestigingslink
             string confirmationLink = GeneratePasswordResetToken(email: userEmail);
 
-            // Stel de e-mail op
-            var emailSettings = new EmailSettings(_configuration);
-            var fromAddress = new MailAddress(emailSettings.Address, "MonoHome");
-            var toAddress = new MailAddress(userEmail);
-            var fromPassword = emailSettings.Password;
-            const string subject = "Bevestig uw wachtwoordwijziging";
-            string body = $"Beste gebruiker, \n\nBevestig je wachtwoordwijziging door op de volgende link te klikken: {confirmationLink}";
+            try
+            {
+                using (SmtpClient smtp = new SmtpClient(smtpServer, port))
+                {
+                    smtp.Credentials = new NetworkCredential(fromEmail, fromPassword);
+                    smtp.EnableSsl = true;
+                    smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    smtp.UseDefaultCredentials = false;
 
-            var smtp = new SmtpClient
-            {
-                Host = emailSettings.SmtpServer,
-                Port = emailSettings.SmtpPort,
-                EnableSsl = true,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
-            };
+                    MailMessage mail = new MailMessage(fromEmail, toEmail)
+                    {
+                        Subject = "Bevestig uw wachtwoordwijziging",
+                        Body = $"Beste gebruiker, \n\nBevestig je wachtwoordwijziging door op de volgende link te klikken: {confirmationLink}",
+                        IsBodyHtml = false
+                    };
 
-            using (var message = new MailMessage(fromAddress, toAddress)
-            {
-                Subject = subject,
-                Body = body
-            })
-            {
-                smtp.Send(message);    
+                    smtp.Send(mail);
+                    //"E-mail verzonden!"
+                }
             }
+            catch (SmtpException smtpEx)
+            {
+                Debug.WriteLine($"SMTP Fout bij verzenden van e-mail: {smtpEx.Message}");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Fout bij verzenden van e-mail: {ex.Message}");
+            }
+
         }
 
         private string GeneratePasswordResetToken(string email)
