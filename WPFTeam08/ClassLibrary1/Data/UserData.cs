@@ -179,27 +179,6 @@ namespace ClassLibTeam08.Data
             return result;
         }
 
-        //public SelectResult SelectByID()
-        //{
-        //    var result = new SelectResult();
-        //    try
-        //    {
-        //        //SQL Command
-        //        StringBuilder insertQuery = new StringBuilder();
-        //        insertQuery.Append($"Insert INTO {TableName}");
-        //        insertQuery.Append($"(firstname, lastname, username, email, adres, wachtWord, birthday, phone) VALUES");
-        //        insertQuery.Append($"(@firstname, @lastname, @username, @email, @adres, @wachtWord, @birthday, @phone);");
-        //        using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
-        //        {
-        //            result = Select(insertCommand);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception(ex.Message, ex);
-        //    }
-        //    return result;
-        //}
 
         public DeleteResult DeleteByID(int id)
         {
@@ -261,7 +240,12 @@ namespace ClassLibTeam08.Data
             return result;
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <param name="newPassword"></param>
+        /// <exception cref="Exception"></exception>
         private void SendNewPasswordEmail(int ID, string newPassword)
         {
             var userResult = SelectByID(ID);
@@ -276,6 +260,7 @@ namespace ClassLibTeam08.Data
                 throw new Exception("User email not found.");
             }
 
+            //incapsuleren!!!
             string smtpServer = "smtp.gmail.com"; // SMTP-server 
             int port = 587;
             string fromEmail = "monohomepass@gmail.com";
@@ -313,14 +298,13 @@ namespace ClassLibTeam08.Data
             {
                 Debug.WriteLine($"Fout bij verzenden van e-mail: {ex.Message}");
             }
-
         }
 
         private string GeneratePasswordResetToken(string email)
         {
             var token = Guid.NewGuid().ToString();//unike token maken
             var encodedToken = Convert.ToBase64String(Encoding.UTF8.GetBytes(token));
-            string confirmationLink = $"http://localhost:5173/login/account-maken?token={encodedToken}&email={email}";
+            string confirmationLink = $"http://localhost:5173/login/?token={encodedToken}&email={email}";
 
             return confirmationLink;
         }

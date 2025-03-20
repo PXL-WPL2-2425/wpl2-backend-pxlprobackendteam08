@@ -41,5 +41,11 @@ namespace WPFTeam08
             ChangePasswordUserWindow changePasswordWindow = new ChangePasswordUserWindow();
             changePasswordWindow.ShowDialog();
         }
+
+        private void deleteUserButtonButton_Click(object sender, RoutedEventArgs e)
+        {
+            DeleteUserWindow deleteUserWindow = new DeleteUserWindow();
+            deleteUserWindow.ShowDialog();
+        }
     }
 }
