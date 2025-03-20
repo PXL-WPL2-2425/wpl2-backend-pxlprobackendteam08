@@ -26,6 +26,15 @@ namespace WebApiTeam08.Controllers
             string JSONresult = JsonConvert.SerializeObject(users);
             return Ok(JSONresult);
         }
-        
+
+       [HttpGet("AddLogin")]
+        public ActionResult AddLogin(int UserID, DateTime loginTime)
+        {
+            string ipAdress = HttpContext.Connection.RemoteIpAddress.ToString();
+
+            InsertResult users = Logins.AddLogin(UserID, loginTime, ipAdress);
+            string JSONresult = JsonConvert.SerializeObject(users);
+            return Ok(JSONresult);
+        }
     }
 }
