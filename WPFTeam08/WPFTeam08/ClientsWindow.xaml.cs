@@ -35,5 +35,11 @@ namespace WPFTeam08
             UpdateUserWindow updateUserWindow = new UpdateUserWindow();
             updateUserWindow.ShowDialog();
         }
+
+        private void changeUserPasswordButton_Click(object sender, RoutedEventArgs e)
+        {
+            ChangePasswordUserWindow changePasswordWindow = new ChangePasswordUserWindow();
+            changePasswordWindow.ShowDialog();
+        }
     }
 }
