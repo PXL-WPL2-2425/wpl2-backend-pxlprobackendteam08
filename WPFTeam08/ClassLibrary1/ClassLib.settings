@@ -1,0 +1,16 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ClassLibrary1" GeneratedClassName="ClassLib">
+  <Profiles />
+  <Settings>
+    <Setting Name="SQLServerConnect" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;ConnectionString&gt;TrustServerCertificate=True; Server=10.128.4.7; Database=Db2025Team_08; User Id=PxlUser_08; Password=41FFVf7!&lt;/ConnectionString&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">TrustServerCertificate=True; Server=10.128.4.7; Database=Db2025Team_08; User Id=PxlUser_08; Password=41FFVf7!</Value>
+    </Setting>
+    <Setting Name="SaschaLocalDataBase" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Trusted_Connection=True; TrustServerCertificate=true; Server=DESKTOP-VE15COE\SQLEXPRESS; Database=DataEssentials; user id = sa; Password = digital@PXL</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
