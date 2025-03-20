@@ -16,4 +16,19 @@
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="ClassLib.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ClassLib.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ClassLib.settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <LastGenOutput>ClassLib.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
 </Project>

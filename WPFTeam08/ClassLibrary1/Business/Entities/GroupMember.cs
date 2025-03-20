@@ -10,14 +10,14 @@ namespace ClassLibrary1.Business.Entities
     {
         public int MemberID { get; set; }
 
-        public int UsertID { get; set; }
+        public int UserID { get; set; }
 
         public bool IsAdmin { get; set; }
 
         GroupMember(int memberId, int userId, bool isAdmin) 
         {
             MemberID = memberId;
-            UsertID = userId;
+            UserID = userId;
             IsAdmin = isAdmin;
         }
     }

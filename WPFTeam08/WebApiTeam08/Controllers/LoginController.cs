@@ -3,6 +3,7 @@ using ClassLibTeam08.Business.Entities;
 using ClassLibTeam08.Data.Framework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace WebApiTeam08.Controllers
 {
@@ -14,6 +15,7 @@ namespace WebApiTeam08.Controllers
         public ActionResult UsersAdd(string firstName, string lastName, string username, string email, string address, string password, string birthday, string phone)
         {
             InsertResult users = Logins.Add(firstName, lastName, username, email, address, password, birthday, phone);
+            string JSONresult = JsonConvert.SerializeObject(users);
             return Ok(users);
         }
 
@@ -21,7 +23,8 @@ namespace WebApiTeam08.Controllers
         public ActionResult LoginUser(string email, string password)
         {
             SelectResult users = Logins.CheckLogin(email, password);
-            return Ok(users);
+            string JSONresult = JsonConvert.SerializeObject(users);
+            return Ok(JSONresult);
         }
     }
 }

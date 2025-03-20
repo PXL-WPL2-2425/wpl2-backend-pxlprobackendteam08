@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClassLibrary1;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -27,7 +28,14 @@ namespace ClassLibTeam08.Data.Framework
             connectionString += $"Database=Db2025Team_08;";
             connectionString += "TrustServerCertificate=true";
 
+            //Inlog voor SQL server
+            //string connectionString = "user id = PxlUser_08;";
+            //connectionString += "Password = 41FFVf7!\r\n;";
+            //connectionString += $@"Server=10.128.4.7;"; 
+            //connectionString += $"Database=Db2025Team_08;";
+            //connectionString += "TrustServerCertificate=true";
 
+            //string connectionString = ConfigurationManager.ConnectionStrings["PxlServerConn"].ConnectionString;
             return connectionString;
         }
     }
