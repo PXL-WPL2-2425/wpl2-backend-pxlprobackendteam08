@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:WPFTeam08"
         mc:Ignorable="d"
         Title="AddUserWindow" Height="450" Width="800"
-        KeyDown="addUserWindow_KeyDown">
+        KeyDown="addUserWindow_KeyDown"
+        Background="#F1F0EA">
     <Grid VerticalAlignment="Center" Name="rootGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -43,8 +44,8 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Name="addUserButton" Content="Add user" Grid.Column="0" Height="30px" Margin="10px" Click="addUserButton_Click"/>
-            <Button Name="resetContentButton" Content="Reset content" Grid.Column="1" Height="30px" Margin="10px" Click="resetContentButton_Click"/>
+            <Button Name="addUserButton" Content="Add user" Grid.Column="0" Height="30px" Margin="10px" Click="addUserButton_Click" Background="#A6AE90"/>
+            <Button Name="resetContentButton" Content="Reset content" Grid.Column="1" Height="30px" Margin="10px" Click="resetContentButton_Click" Background="#A6AE90"/>
         </Grid>
     </Grid>
 </Window>
