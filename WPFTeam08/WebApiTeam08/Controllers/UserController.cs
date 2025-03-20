@@ -23,5 +23,12 @@ namespace WebApiTeam08.Controllers
             UpdateResult users = Users.AddRoles(rol, email);
             return Ok(users);
         }
+        [HttpGet("CheckRole")]
+        public ActionResult CheckRole(string email)
+        {
+            SelectResult users = Users.CheckRoles(email);
+            string JSONresult = JsonConvert.SerializeObject(users);
+            return Ok(JSONresult);
+        }
     }
 }
