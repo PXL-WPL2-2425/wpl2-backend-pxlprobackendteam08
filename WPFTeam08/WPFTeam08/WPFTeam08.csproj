@@ -9,11 +9,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="mono.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ClassLibrary1\ClassLibrary1.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="mono.png" />
   </ItemGroup>
 
 </Project>

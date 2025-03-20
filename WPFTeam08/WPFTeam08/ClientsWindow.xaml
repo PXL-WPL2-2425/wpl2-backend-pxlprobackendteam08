@@ -5,8 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFTeam08"
         mc:Ignorable="d"
-        Title="ClientsWindow" Height="450" Width="800">
-    <Grid>
-        <Label Content="Clients Window" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25px"/>
-    </Grid>
+        Title="ClientsWindow" Height="450" Width="800"
+        Background="#F1F0EA">
+    <StackPanel Width="350px" VerticalAlignment="Center">
+        <Image Source="/mono.png" Margin="0px 0px 0px 25px"/>
+        <Label Content="Clients" Margin="10px 0" FontWeight="Bold" FontSize="18px" HorizontalAlignment="Center"/>
+        <Button Name="addUserButton" Content="Add user" Margin="10px 5px" Height="35px" Click="addUserButton_Click" Background="#A6AE90"/>
+        <Button Name="updateUserButton" Content="Update user" Margin="10px 5px" Height="35px" Click="updateUserButton_Click" Background="#A6AE90"/>
+        <Button Name="changeUserPasswordButton" Content="Change user password" Margin="10px 5px" Height="35px" Click="changeUserPasswordButton_Click" Background="#A6AE90"/>
+        <Button Name="deleteUserButtonButton" Content="Delete user" Margin="10px 5px" Height="35px" Click="deleteUserButtonButton_Click" Background="#A6AE90"/>
+    </StackPanel>
 </Window>

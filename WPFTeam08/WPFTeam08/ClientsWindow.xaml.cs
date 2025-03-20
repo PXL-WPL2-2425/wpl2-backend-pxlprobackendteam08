@@ -23,5 +23,29 @@ namespace WPFTeam08
         {
             InitializeComponent();
         }
+
+        private void addUserButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddUserWindow addUserWindow = new AddUserWindow();
+            addUserWindow.ShowDialog();
+        }
+
+        private void updateUserButton_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateUserWindow updateUserWindow = new UpdateUserWindow();
+            updateUserWindow.ShowDialog();
+        }
+
+        private void changeUserPasswordButton_Click(object sender, RoutedEventArgs e)
+        {
+            ChangePasswordUserWindow changePasswordWindow = new ChangePasswordUserWindow();
+            changePasswordWindow.ShowDialog();
+        }
+
+        private void deleteUserButtonButton_Click(object sender, RoutedEventArgs e)
+        {
+            DeleteUserWindow deleteUserWindow = new DeleteUserWindow();
+            deleteUserWindow.ShowDialog();
+        }
     }
 }

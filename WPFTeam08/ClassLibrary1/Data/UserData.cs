@@ -9,6 +9,8 @@ using System.Net.Mail;
 using ClassLibrary1.Data;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using System.Diagnostics;
+using System.Linq.Expressions;
 
 namespace ClassLibTeam08.Data
 {
@@ -177,27 +179,6 @@ namespace ClassLibTeam08.Data
             return result;
         }
 
-        //public SelectResult SelectByID()
-        //{
-        //    var result = new SelectResult();
-        //    try
-        //    {
-        //        //SQL Command
-        //        StringBuilder insertQuery = new StringBuilder();
-        //        insertQuery.Append($"Insert INTO {TableName}");
-        //        insertQuery.Append($"(firstname, lastname, username, email, adres, wachtWord, birthday, phone) VALUES");
-        //        insertQuery.Append($"(@firstname, @lastname, @username, @email, @adres, @wachtWord, @birthday, @phone);");
-        //        using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
-        //        {
-        //            result = Select(insertCommand);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception(ex.Message, ex);
-        //    }
-        //    return result;
-        //}
 
         public DeleteResult DeleteByID(int id)
         {
@@ -218,7 +199,23 @@ namespace ClassLibTeam08.Data
             }
             return result;
         }
+        public UpdateResult AddRoles(string rol, string email)
+        {
+            var result = new UpdateResult();
+            try
+            {
+                StringBuilder insertquery = new StringBuilder();
+                insertquery.Append($"UPDATE users SET rol = '{rol}' WHERE email = '{email}';");
+                SqlCommand insertCommand = new SqlCommand(insertquery.ToString());
+                result = Update(insertCommand);
 
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         public UpdateResult UpdateAllUserData(int id, string firstName, string lastName, string userName, string email, string adres, string wachtwoord, string Birhday, string phone)
         {
             var result = new UpdateResult();
@@ -234,7 +231,7 @@ namespace ClassLibTeam08.Data
                     result = Update(insertCommand);
 
                 }
-                SendNewPasswordEmail(id, wachtwoord);
+                //SendNewPasswordEmail(id, wachtwoord);
             }
             catch (Exception ex)
             {
@@ -243,7 +240,12 @@ namespace ClassLibTeam08.Data
             return result;
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <param name="newPassword"></param>
+        /// <exception cref="Exception"></exception>
         private void SendNewPasswordEmail(int ID, string newPassword)
         {
             var userResult = SelectByID(ID);
@@ -258,34 +260,43 @@ namespace ClassLibTeam08.Data
                 throw new Exception("User email not found.");
             }
 
+            //incapsuleren!!!
+            string smtpServer = "smtp.gmail.com"; // SMTP-server 
+            int port = 587;
+            string fromEmail = "monohomepass@gmail.com";
+            string fromPassword = "dndz vqer tfcm ierc"; // monohome app-wachtwoord!
+            string toEmail = userEmail.ToString();
+
             // Genereer de bevestigingslink
             string confirmationLink = GeneratePasswordResetToken(email: userEmail);
 
-            // Stel de e-mail op
-            var emailSettings = new EmailSettings(_configuration);
-            var fromAddress = new MailAddress(emailSettings.Address, "MonoHome");
-            var toAddress = new MailAddress(userEmail);
-            var fromPassword = emailSettings.Password;
-            const string subject = "Bevestig uw wachtwoordwijziging";
-            string body = $"Beste gebruiker, \n\nBevestig je wachtwoordwijziging door op de volgende link te klikken: {confirmationLink}";
+            try
+            {
+                using (SmtpClient smtp = new SmtpClient(smtpServer, port))
+                {
+                    smtp.Credentials = new NetworkCredential(fromEmail, fromPassword);
+                    smtp.EnableSsl = true;
+                    smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    smtp.UseDefaultCredentials = false;
 
-            var smtp = new SmtpClient
-            {
-                Host = emailSettings.SmtpServer,
-                Port = emailSettings.SmtpPort,
-                EnableSsl = true,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
-            };
+                    MailMessage mail = new MailMessage(fromEmail, toEmail)
+                    {
+                        Subject = "Bevestig uw wachtwoordwijziging",
+                        Body = $"Beste gebruiker, \n\nBevestig je wachtwoordwijziging door op de volgende link te klikken: {confirmationLink}",
+                        IsBodyHtml = false
+                    };
 
-            using (var message = new MailMessage(fromAddress, toAddress)
+                    smtp.Send(mail);
+                    //"E-mail verzonden!"
+                }
+            }
+            catch (SmtpException smtpEx)
             {
-                Subject = subject,
-                Body = body
-            })
+                Debug.WriteLine($"SMTP Fout bij verzenden van e-mail: {smtpEx.Message}");
+            }
+            catch (Exception ex)
             {
-                smtp.Send(message);    
+                Debug.WriteLine($"Fout bij verzenden van e-mail: {ex.Message}");
             }
         }
 
@@ -293,10 +304,12 @@ namespace ClassLibTeam08.Data
         {
             var token = Guid.NewGuid().ToString();//unike token maken
             var encodedToken = Convert.ToBase64String(Encoding.UTF8.GetBytes(token));
-            string confirmationLink = $"http://localhost:5173/login/account-maken?token={encodedToken}&email={email}";
+            string confirmationLink = $"http://localhost:5173/login/?token={encodedToken}&email={email}";
 
             return confirmationLink;
         }
+
+
     }
 }
 
