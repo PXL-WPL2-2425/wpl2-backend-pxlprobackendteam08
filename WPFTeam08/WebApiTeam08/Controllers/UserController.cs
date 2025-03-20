@@ -1,6 +1,9 @@
-﻿using ClassLibTeam08.Business.Entities;
+﻿using ClassLibrary1.Business;
+using ClassLibTeam08.Business.Entities;
+using ClassLibTeam08.Data.Framework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace WebApiTeam08.Controllers
 {
@@ -13,6 +16,12 @@ namespace WebApiTeam08.Controllers
         {
             var students = Users.GetUser(ID);
             return Ok(students);
+        }
+        [HttpGet("AddRole")]
+        public ActionResult AddRole(string rol, string email)
+        {
+            UpdateResult users = Users.AddRoles(rol, email);
+            return Ok(users);
         }
     }
 }

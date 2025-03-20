@@ -17,6 +17,7 @@ namespace ClassLibTeam08.Business.Entities
         public string Password {get; set; }
         public string BirthDay {get; set; }
         public string Phone {get; set; }
+        public string Roles {get; set; }
         
         public string GeneratePasswordResetToken()
         {

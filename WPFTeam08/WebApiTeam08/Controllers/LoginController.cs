@@ -26,5 +26,6 @@ namespace WebApiTeam08.Controllers
             string JSONresult = JsonConvert.SerializeObject(users);
             return Ok(JSONresult);
         }
+        
     }
 }
