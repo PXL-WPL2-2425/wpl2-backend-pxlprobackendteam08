@@ -52,7 +52,7 @@ namespace ClassLibTeam08.Data
                 insertQuery.Append($"select email from Users");
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
-                    result = Select(insertCommand);
+                    result = Select(insertCommand); 
                 }
             }
             catch (Exception ex)

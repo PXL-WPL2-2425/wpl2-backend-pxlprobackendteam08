@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using System.Data;
 using Microsoft.Extensions.Configuration;
+using ClassLibrary1.Data;
+using ClassLibrary1.Business.Entities;
 
 namespace ClassLibrary1.Business
 {
@@ -27,6 +29,18 @@ namespace ClassLibrary1.Business
             UserData data = new UserData(_configuration);
             SelectResult result = data.SelectByID(id);
             return result;
+        }
+
+        public static InsertResult AddLogin(int UserID, DateTime loginTime, string IPadress)
+        {
+            LoginData data = new LoginData(_configuration); 
+            Login login = new Login();
+            login.loginTime = loginTime;
+            login.ipAdresss = IPadress;
+
+            InsertResult result = data.Insert(login, UserID);
+            result.Succeeded = true;
+            return result; 
         }
 
         public static SelectResult CheckLogin(string Email, string password)
