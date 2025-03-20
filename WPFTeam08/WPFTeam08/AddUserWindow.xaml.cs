@@ -15,19 +15,13 @@ using System.Windows.Shapes;
 namespace WPFTeam08
 {
     /// <summary>
-    /// Interaction logic for ClientsWindow.xaml
+    /// Interaction logic for AddUserWindow.xaml
     /// </summary>
-    public partial class ClientsWindow : Window
+    public partial class AddUserWindow : Window
     {
-        public ClientsWindow()
+        public AddUserWindow()
         {
             InitializeComponent();
-        }
-
-        private void addUserButton_Click(object sender, RoutedEventArgs e)
-        {
-            AddUserWindow addUserWindow = new AddUserWindow();
-            addUserWindow.ShowDialog();
         }
     }
 }

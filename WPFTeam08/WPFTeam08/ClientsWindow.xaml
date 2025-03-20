@@ -6,7 +6,11 @@
         xmlns:local="clr-namespace:WPFTeam08"
         mc:Ignorable="d"
         Title="ClientsWindow" Height="450" Width="800">
-    <Grid>
-        <Label Content="Clients Window" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25px"/>
-    </Grid>
+    <StackPanel Width="350px" VerticalAlignment="Center">
+        <Label Content="Clients" Margin="10px 0" FontWeight="Bold" FontSize="18px"/>
+        <Button Name="addUserButton" Content="Add user" Margin="10px 5px" Height="35px" Click="addUserButton_Click"/>
+        <Button Name="updateUserButton" Content="Update user" Margin="10px 5px" Height="35px"/>
+        <Button Name="changeUserPasswordButton" Content="Change user password" Margin="10px 5px" Height="35px"/>
+        <Button Name="deleteUserButtonButton" Content="Delete user" Margin="10px 5px" Height="35px"/>
+    </StackPanel>
 </Window>
