@@ -227,7 +227,7 @@ namespace ClassLibTeam08.Data
 
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
-                    insertCommand.Parameters.Add("@email", SqlDbType.VarChar);
+                    insertCommand.Parameters.AddWithValue("@email", "email");
                     result = Select(insertCommand);
                 }
             }
