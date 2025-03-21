@@ -270,7 +270,7 @@ namespace ClassLibTeam08.Data
                     };
 
                     smtp.Send(mail);
-                    //"E-mail verzonden!"
+                    throw new Exception("E-mail verzonden!");                  
                 }
             }
             catch (SmtpException smtpEx)
