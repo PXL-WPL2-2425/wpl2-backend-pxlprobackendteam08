@@ -76,6 +76,17 @@ namespace ClassLibTeam08.Business.Entities
             var userData = new UserData(_configuration); // Pass the configuration
             return userData.UpdateAllUserData(id, firstName, lastName, userName, email, adres, wachtwoord, Birhday, phone);
         }
-        
+
+        public static UpdateResult AddRoles(string rol, string email)
+        {
+            var userData = new UserData(_configuration); // Pass the configuration
+            return userData.AddRoles(rol, email);
+        }
+        public static SelectResult CheckRoles( string email)
+        {
+            var userData = new UserData(_configuration); // Pass the configuration
+            return userData.CheckRoles(email);
+        }
+
     }
 }

@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:WPFTeam08"
         mc:Ignorable="d"
         Title="UpdateUserWindow" Height="450" Width="800"
-        KeyDown="updateUserWindow_KeyDown">
+        KeyDown="updateUserWindow_KeyDown"
+        Background="#F1F0EA">
     <Grid VerticalAlignment="Center" Name="rootGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -21,7 +22,7 @@
         <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="10px" Width="350px">
             <Label Content="User ID" Margin="10px 0px"/>
             <TextBox Name="userIDTextBox" Margin="10px 5px"/>
-            <Button Name="checkUserButton" Content="Check user" Margin="10px 5px" Click="checkUserButton_Click"/>
+            <Button Name="checkUserButton" Content="Check user" Margin="10px 5px" Click="checkUserButton_Click" Background="#A6AE90"/>
         </StackPanel>
         <Label HorizontalAlignment="Center" Content="Update user" Margin="10px 0" FontWeight="Bold" FontSize="18px" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"/>
         <StackPanel Grid.Column="0" Grid.Row="2" Margin="10px">
@@ -49,7 +50,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Name="updateUserButton" Content="Update user" Grid.Column="0" Grid.ColumnSpan="2" Height="30px" Margin="10px" Click="updateUserButton_Click" Width="350px"/>
+            <Button Name="updateUserButton" Content="Update user" Grid.Column="0" Grid.ColumnSpan="2" Height="30px" Margin="10px" Click="updateUserButton_Click" Width="350px" Background="#A6AE90"/>
         </Grid>
     </Grid>
 </Window>

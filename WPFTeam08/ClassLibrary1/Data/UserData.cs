@@ -10,6 +10,7 @@ using ClassLibrary1.Data;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using System.Diagnostics;
+using System.Linq.Expressions;
 
 namespace ClassLibTeam08.Data
 {
@@ -53,7 +54,7 @@ namespace ClassLibTeam08.Data
                 insertQuery.Append($"select email from Users");
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
-                    result = Select(insertCommand);
+                    result = Select(insertCommand); 
                 }
             }
             catch (Exception ex)
@@ -198,7 +199,45 @@ namespace ClassLibTeam08.Data
             }
             return result;
         }
+        public UpdateResult AddRoles(string rol, string email)
+        {
+            var result = new UpdateResult();
+            try
+            {
+                StringBuilder insertquery = new StringBuilder();
+                insertquery.Append($"UPDATE users SET rol = '{rol}' WHERE email = '{email}';");
+                SqlCommand insertCommand = new SqlCommand(insertquery.ToString());
+                result = Update(insertCommand);
 
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public SelectResult CheckRoles(string email)
+        {
+            var result = new SelectResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"select rol from Users where email = @email ");
+
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    insertCommand.Parameters.AddWithValue("@email", "email");
+                    result = Select(insertCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+
+        }
         public UpdateResult UpdateAllUserData(int id, string firstName, string lastName, string userName, string email, string adres, string wachtwoord, string Birhday, string phone)
         {
             var result = new UpdateResult();
@@ -291,6 +330,8 @@ namespace ClassLibTeam08.Data
 
             return confirmationLink;
         }
+
+
     }
 }
 
