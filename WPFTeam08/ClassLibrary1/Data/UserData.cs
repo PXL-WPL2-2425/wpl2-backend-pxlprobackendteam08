@@ -22,7 +22,9 @@ namespace ClassLibTeam08.Data
             TableName = "Users";
             _configuration = configuration;
         }
+
         public string TableName { get; set; }
+
         public SelectResult SelectByID(int ID)
         {
             var result = new SelectResult();
@@ -62,7 +64,6 @@ namespace ClassLibTeam08.Data
                 throw new Exception(ex.Message, ex);
             }
             return result;
-
         }
 
         public SelectResult SelectAllEmailAndPasswords()
@@ -95,7 +96,6 @@ namespace ClassLibTeam08.Data
                 StringBuilder insertQuery = new StringBuilder();
                 insertQuery.Append($"select * from Users where email = @email and wachtword = @password");
 
-               
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
                     insertCommand.Parameters.Add("@email", SqlDbType.VarChar);
@@ -109,8 +109,8 @@ namespace ClassLibTeam08.Data
             {
                 throw new Exception(ex.Message, ex);
             }
-            return result;
 
+            return result;
         }
 
         public InsertResult Insert(User user)
@@ -142,7 +142,6 @@ namespace ClassLibTeam08.Data
                     insertCommand.Parameters.Add("@phone", SqlDbType.VarChar).Value =
                     user.Phone;
                     result = Insert(insertCommand);
-
                 }
             }
             catch (Exception ex)
@@ -179,7 +178,6 @@ namespace ClassLibTeam08.Data
             return result;
         }
 
-
         public DeleteResult DeleteByID(int id)
         {
             var result = new DeleteResult();
@@ -199,6 +197,7 @@ namespace ClassLibTeam08.Data
             }
             return result;
         }
+
         public UpdateResult AddRoles(string rol, string email)
         {
             var result = new UpdateResult();
@@ -216,6 +215,7 @@ namespace ClassLibTeam08.Data
             }
             return result;
         }
+
         public SelectResult CheckRoles(string email)
         {
             var result = new SelectResult();
@@ -238,6 +238,7 @@ namespace ClassLibTeam08.Data
             return result;
 
         }
+
         public UpdateResult UpdateAllUserData(int id, string firstName, string lastName, string userName, string email, string adres, string wachtwoord, string Birhday, string phone)
         {
             var result = new UpdateResult();
@@ -330,8 +331,6 @@ namespace ClassLibTeam08.Data
 
             return confirmationLink;
         }
-
-
     }
 }
 

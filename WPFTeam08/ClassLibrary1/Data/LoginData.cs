@@ -1,7 +1,8 @@
-﻿using ClassLibrary1.Business;
-using ClassLibrary1.Business.Entities;
+﻿using ClassLibrary08.Data.Framework;
 using ClassLibTeam08.Business.Entities;
 using ClassLibTeam08.Data.Framework;
+using ClassLibrary1.Business;
+using ClassLibrary1.Business.Entities;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 namespace ClassLibrary1.Data
 {
 
-    internal class LoginData
+    internal class LoginData : SqlServer
     {
         private readonly IConfiguration _configuration;
         public string TableName { get; set; }
@@ -50,6 +51,27 @@ namespace ClassLibrary1.Data
                 throw new Exception(ex.Message, ex);
             }
             return result;
+        }
+
+        public SelectResult SelectByUserID(int ID)
+        {
+            var result = new SelectResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"SELECT * FROM Logins WHERE userID = {ID}");
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    result = Select(insertCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+
         }
 
     }
