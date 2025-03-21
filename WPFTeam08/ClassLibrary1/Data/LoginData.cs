@@ -74,5 +74,24 @@ namespace ClassLibrary1.Data
 
         }
 
+        public SelectResult SelectByLoginID(int ID)
+        {
+            var result = new SelectResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"SELECT * FROM Logins WHERE loginID = {ID}");
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    result = Select(insertCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
     }
 }
