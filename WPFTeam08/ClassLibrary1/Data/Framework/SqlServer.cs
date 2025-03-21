@@ -121,7 +121,40 @@ namespace ClassLibTeam08.Data.Framework
             }
             return result;
         }
+
+        protected AggregateResult Count(SqlCommand selectCommand)
+        {
+            var result = new AggregateResult();
+            try
+            {
+                connection = new SqlConnection(Settings.GetConnectionString());
+
+                using (connection)
+                {
+                    selectCommand.Connection = connection;
+                    connection.Open();
+                    adapter = new SqlDataAdapter(selectCommand);
+
+                
+                    result.queryResult = (int)selectCommand.ExecuteScalar();
+
+
+
+                    connection.Close();
+                    result.Succeeded = true;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                result.AddError(ex.Message);
+            }
+            return result;
+
+        }
     }
+
+   
 
     //public 
 }

@@ -27,6 +27,7 @@ namespace WebApiTeam08.Controllers
             return Ok(JSONresult);
         }
 
+
        [HttpGet("AddLogin")]
         public ActionResult AddLogin(int UserID, DateTime loginTime)
         {
@@ -36,5 +37,15 @@ namespace WebApiTeam08.Controllers
             string JSONresult = JsonConvert.SerializeObject(users);
             return Ok(JSONresult);
         }
+
+        [HttpGet("CountAllLogins")]
+        public ActionResult GetAllLogins()
+        {
+            AggregateResult result = Logins.CountAll();
+            string JSONresult = JsonConvert.SerializeObject(result);
+            return Ok(JSONresult);
+        }
+
+
     }
 }

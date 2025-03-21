@@ -56,6 +56,28 @@ namespace ClassLibrary1.Business
 
         }
 
+        public static SelectResult SelectAll()
+        {
+            LoginData loginData = new LoginData(_configuration);
+            SelectResult selectResult = loginData.selectAllLogins();
+
+            if (selectResult.DataTable == null)
+            {
+                return new SelectResult() { Succeeded = true, message = "" };
+            }
+
+            return selectResult;
+        }
+
+        public static AggregateResult CountAll()
+        {
+            LoginData loginData = new LoginData(_configuration);
+            AggregateResult aggregateResult = loginData.CountAllLogins();
+            
+
+            return aggregateResult;
+        }
+
         public static InsertResult Add(string firstName, string lastName, string username, string email, string address, string password, string birthday, string phone)
         {
             if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName) || string.IsNullOrEmpty(username) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(address) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(birthday))
