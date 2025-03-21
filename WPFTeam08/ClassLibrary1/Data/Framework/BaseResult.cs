@@ -17,5 +17,4 @@ namespace ClassLibTeam08.Data.Framework
             errors.Add(error);
         }
     }
-  
 }
