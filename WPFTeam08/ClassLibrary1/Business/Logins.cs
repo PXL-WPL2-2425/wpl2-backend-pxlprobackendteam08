@@ -24,10 +24,10 @@ namespace ClassLibrary1.Business
             _configuration = configuration;
         }
 
-        public static SelectResult GetUser(int id)
+        public static SelectResult LoginData(int id)
         {
-            UserData data = new UserData(_configuration);
-            SelectResult result = data.SelectByID(id);
+            LoginData data = new LoginData(_configuration);
+            SelectResult result = data.SelectByUserID(id);
             return result;
         }
 
