@@ -113,6 +113,29 @@ namespace ClassLibTeam08.Data
             return result;
         }
 
+        public SelectResult SelectByRole(string role)
+        {
+            var result = new SelectResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"SELECT * FROM Users WHERE rol = @role");
+
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    insertCommand.Parameters.AddWithValue("@role", role);
+                    result = Select(insertCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+
+            return result;
+        }
+
         public InsertResult Insert(User user)
         {
             var result = new InsertResult();
