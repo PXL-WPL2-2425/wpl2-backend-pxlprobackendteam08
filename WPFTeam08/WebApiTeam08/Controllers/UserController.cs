@@ -30,5 +30,21 @@ namespace WebApiTeam08.Controllers
             string JSONresult = JsonConvert.SerializeObject(users);
             return Ok(JSONresult);
         }
+
+        [HttpGet("SendPasswordChangeEmail")]
+        public ActionResult SendPasswordChangeEmail(string email)
+        {
+            SelectResult users = Users.SendConfirmationEmail(email);
+            string JSONresult = JsonConvert.SerializeObject(users);
+            return Ok(JSONresult);
+        }
+
+        [HttpGet("ChangePassword")]
+        public ActionResult ChangePasswordOfUser(string email, string password)
+        {
+            UpdateResult users = Users.ChangePassword(email, password);
+            string JSONresult = JsonConvert.SerializeObject(users);
+            return Ok(JSONresult);
+        }
     }
 }

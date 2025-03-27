@@ -65,10 +65,10 @@ namespace ClassLibTeam08.Business.Entities
             return result;
         }
 
-        public static UpdateResult ChangePassWord(int userID, string newPassword)
+        public static SelectResult SendConfirmationEmail(string Email)
         {
             var userData = new UserData(_configuration); // Pass the configuration
-            return userData.ChangePassword(userID, newPassword);
+            return userData.SendNewPasswordEmail(Email);
         }
 
         public static UpdateResult UpdateUserData(int id, string firstName, string lastName, string userName, string email, string adres, string wachtwoord, string Birhday, string phone)
@@ -86,6 +86,12 @@ namespace ClassLibTeam08.Business.Entities
         {
             var userData = new UserData(_configuration); // Pass the configuration
             return userData.CheckRoles(email);
+        }
+
+        public static UpdateResult ChangePassword(string email, string newPassword)
+        {
+            var userData = new UserData(_configuration); // Pass the configuration
+            return userData.ChangePassword(email, newPassword);
         }
 
     }

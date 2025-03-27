@@ -81,6 +81,7 @@ namespace ClassLibTeam08.Data.Framework
             UpdateResult result = new UpdateResult();
             try
             {
+                connection.ConnectionString = Settings.GetConnectionString();
                 using (connection)
                 {
                     insertCommand.Connection = connection;
@@ -128,7 +129,6 @@ namespace ClassLibTeam08.Data.Framework
             try
             {
                 connection = new SqlConnection(Settings.GetConnectionString());
-
                 using (connection)
                 {
                     selectCommand.Connection = connection;

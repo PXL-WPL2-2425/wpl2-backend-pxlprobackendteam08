@@ -46,6 +46,27 @@ namespace ClassLibTeam08.Data
 
         }
 
+        public SelectResult SelectByEmail(string Email)
+        {
+            var result = new SelectResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"select * from Users WHERE email = '{Email}' ");
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    result = Select(insertCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+
+        }
+
         public SelectResult SelectAllEmail()
         {
             var result = new SelectResult();
@@ -174,24 +195,27 @@ namespace ClassLibTeam08.Data
             return result;
         }
 
-        public UpdateResult ChangePassword(int ID, string newPassword)
+        public UpdateResult ChangePassword(string Email, string newPassword)
         {
+            SendNewPasswordEmail(Email);
+
             var result = new UpdateResult();
             try
             {
                 //SQL Command
                 StringBuilder insertQuery = new StringBuilder();
                 insertQuery.Append($"UPDATE Users ");
-                insertQuery.Append($"SET wachtWord = '{newPassword}' ");
-                insertQuery.Append($"WHERE UserID = {ID}");
+                insertQuery.Append($"SET wachtWord = @newPassword ");
+                insertQuery.Append($"WHERE email = @Email ");
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
                     insertCommand.Parameters.Add("@newPassword", SqlDbType.VarChar).Value = newPassword;
-                    insertCommand.Parameters.Add("@ID", SqlDbType.Int).Value = ID;
+                    insertCommand.Parameters.Add("@Email", SqlDbType.VarChar).Value = Email;
+                    string debug = insertCommand.CommandText;
                     result = Update(insertCommand);
                 }
 
-                SendNewPasswordEmail(ID, newPassword);
+               
             }
             catch (Exception ex)
             {
@@ -292,9 +316,9 @@ namespace ClassLibTeam08.Data
         /// <param name="ID"></param>
         /// <param name="newPassword"></param>
         /// <exception cref="Exception"></exception>
-        private void SendNewPasswordEmail(int ID, string newPassword)
+        public SelectResult SendNewPasswordEmail(string email)
         {
-            var userResult = SelectByID(ID);
+            var userResult = SelectByEmail(email);
             if (!userResult.Succeeded || userResult.DataTable.Rows.Count == 0)
             {
                 throw new Exception("User not found.");
@@ -303,7 +327,7 @@ namespace ClassLibTeam08.Data
             var userEmail = userResult.DataTable.Rows[0]["email"]?.ToString();
             if (string.IsNullOrEmpty(userEmail))
             {
-                throw new Exception("User email not found.");
+                throw new Exception("User email does not exist.");
             }
 
             //incapsuleren!!!
@@ -333,16 +357,19 @@ namespace ClassLibTeam08.Data
                     };
 
                     smtp.Send(mail);
-                    throw new Exception("E-mail verzonden!");                  
+                    return new SelectResult(true);
+                    //throw new Exception("E-mail verzonden!");                  
                 }
             }
             catch (SmtpException smtpEx)
             {
                 Debug.WriteLine($"SMTP Fout bij verzenden van e-mail: {smtpEx.Message}");
+                return new SelectResult(false);
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"Fout bij verzenden van e-mail: {ex.Message}");
+                return new SelectResult(false);
             }
         }
 
