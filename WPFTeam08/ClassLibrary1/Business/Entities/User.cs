@@ -39,6 +39,7 @@ namespace ClassLibTeam08.Business.Entities
             }
         }
 
+        // Constructor
         public User(int userId, string firstName, string lastName, string userName, string email, string address, string password, string birthday, string phone, string roles)
         {
             UserID = userId;
@@ -51,6 +52,12 @@ namespace ClassLibTeam08.Business.Entities
             BirthDay = birthday;
             Phone = phone;
             Roles = roles;
+        }
+
+        // Constructor met default role
+        public User(int userId, string firstName, string lastName, string userName, string email, string address, string password, string birthday, string phone) : this(userId, firstName, lastName, userName, email, address, password, birthday, phone, "guest")
+        {
+
         }
     }
 }

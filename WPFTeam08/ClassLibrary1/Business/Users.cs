@@ -11,9 +11,8 @@ namespace ClassLibTeam08.Business.Entities
 {
     public static class Users
     {
-        private static IConfiguration _configuration; // Add this field
+        private static IConfiguration _configuration;
 
-        // Add this method to set the configuration
         public static void SetConfiguration(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -44,11 +43,10 @@ namespace ClassLibTeam08.Business.Entities
             return result;
         }
 
-        public static DeleteResult DeleteUser(int id)
+        public static SelectResult CheckRoles(string email)
         {
-            var data = new UserData(_configuration); // Pass the configuration
-            DeleteResult result = data.DeleteByID(id);
-            return result;
+            var userData = new UserData(_configuration); // Pass the configuration
+            return userData.CheckRoles(email);
         }
 
         public static SelectResult SelectAllEmailAndPasswords()
@@ -82,11 +80,12 @@ namespace ClassLibTeam08.Business.Entities
             var userData = new UserData(_configuration); // Pass the configuration
             return userData.AddRoles(rol, email);
         }
-        public static SelectResult CheckRoles( string email)
-        {
-            var userData = new UserData(_configuration); // Pass the configuration
-            return userData.CheckRoles(email);
-        }
 
+        public static DeleteResult DeleteUser(int id)
+        {
+            var data = new UserData(_configuration); // Pass the configuration
+            DeleteResult result = data.DeleteByID(id);
+            return result;
+        }
     }
 }
