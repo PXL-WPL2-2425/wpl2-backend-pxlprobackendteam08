@@ -14,11 +14,14 @@ namespace ClassLibrary1.Business.Entities
 
         public bool IsAdmin { get; set; }
 
-        GroupMember(int memberId, int userId, bool isAdmin) 
+        public int GroupID { get; set; }
+
+        GroupMember(int memberId, int userId, bool isAdmin, int groupId) 
         {
             MemberID = memberId;
             UserID = userId;
             IsAdmin = isAdmin;
+            GroupID = groupId;
         }
     }
 }
