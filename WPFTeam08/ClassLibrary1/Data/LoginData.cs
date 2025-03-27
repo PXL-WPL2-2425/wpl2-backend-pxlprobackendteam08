@@ -26,7 +26,6 @@ namespace ClassLibTeam08.Data
             TableName = "Logins";
         }
 
-
         public SelectResult selectAllLogins()
         {
             var result = new SelectResult();
@@ -68,6 +67,7 @@ namespace ClassLibTeam08.Data
             }
             return result;
         }
+
         public InsertResult Insert(Login login, int userID)
         {
             var result = new InsertResult();

@@ -14,9 +14,29 @@ namespace ClassLibrary1.Business.Entities
 
         public DateTime StartDate { get; set; }
 
-        public DateTime EndDate { get; set; }
+        public DateTime EndDate
+        {
+            get { return EndDate; }
+            set 
+            { 
+                if (value > StartDate)
+                {
+                    EndDate = value;
+                }
+            }
+        }
 
-        public DateTime RenewDate { get; set; }
+        public DateTime RenewDate
+        {
+            get { return RenewDate; }
+            set 
+            {
+                if (value > StartDate)
+                {
+                    RenewDate = value;
+                }
+            }
+        }
 
         public string Status { get; set; }
 
