@@ -87,5 +87,12 @@ namespace ClassLibTeam08.Business.Entities
             DeleteResult result = data.DeleteByID(id);
             return result;
         }
+
+        public static UpdateResult ChangePassword(string email, string password)
+        {
+            var data = new UserData(_configuration); // Pass the configuration
+            UpdateResult result = data.ChangePassword(email, password);
+            return result;
+        }
     }
 }

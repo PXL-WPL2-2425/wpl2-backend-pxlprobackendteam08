@@ -59,5 +59,9 @@ namespace ClassLibTeam08.Business.Entities
         {
 
         }
+        public User()
+        {
+
+        }
     }
 }

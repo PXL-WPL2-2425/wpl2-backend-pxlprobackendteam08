@@ -97,7 +97,7 @@ namespace ClassLibrary1.Business
             //}
             else
             {
-                User user = new User
+                User user = new()
                 {
                     FirstName = firstName,
                     LastName = lastName,

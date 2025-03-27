@@ -197,8 +197,6 @@ namespace ClassLibTeam08.Data
 
         public UpdateResult ChangePassword(string Email, string newPassword)
         {
-            SendNewPasswordEmail(Email);
-
             var result = new UpdateResult();
             try
             {
@@ -319,7 +317,7 @@ namespace ClassLibTeam08.Data
         public SelectResult SendNewPasswordEmail(string email)
         {
             // Get user data
-            var userResult = SelectByID(ID);
+            var userResult = SelectByEmail(email);
             if (!userResult.Succeeded || userResult.DataTable.Rows.Count == 0)
             {
                 throw new Exception("User not found.");
