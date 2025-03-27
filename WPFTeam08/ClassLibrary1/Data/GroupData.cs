@@ -44,7 +44,6 @@ namespace ClassLibrary1.Data
                 throw new Exception(ex.Message, ex);
             }
             return result;
-
         }
     }
 }
