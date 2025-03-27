@@ -294,33 +294,38 @@ namespace ClassLibTeam08.Data
         /// <exception cref="Exception"></exception>
         private void SendNewPasswordEmail(int ID, string newPassword)
         {
+            // Get user data
             var userResult = SelectByID(ID);
             if (!userResult.Succeeded || userResult.DataTable.Rows.Count == 0)
             {
                 throw new Exception("User not found.");
             }
 
+            // Get user email
             var userEmail = userResult.DataTable.Rows[0]["email"]?.ToString();
             if (string.IsNullOrEmpty(userEmail))
             {
                 throw new Exception("User email not found.");
             }
 
-            //incapsuleren!!!
-            string smtpServer = "smtp.gmail.com"; // SMTP-server 
+            // Prepare SMTP settings
+            string smtpServer = "smtp.gmail.com"; // SMTP-server
             int port = 587;
             string fromEmail = "monohomepass@gmail.com";
-            string fromPassword = "dndz vqer tfcm ierc"; // monohome app-wachtwoord!
+            string fromPassword = "dndz vqer tfcm ierc"; // monohome app-wachtwoord
             string toEmail = userEmail.ToString();
 
-            // Genereer de bevestigingslink
+            // Generate confirmation link
             string confirmationLink = GeneratePasswordResetToken(email: userEmail);
 
+            // SMTP Setup + send email
             try
             {
                 using (SmtpClient smtp = new SmtpClient(smtpServer, port))
                 {
+                    // Login for authentication
                     smtp.Credentials = new NetworkCredential(fromEmail, fromPassword);
+                    // Encrypt connection to Gmail
                     smtp.EnableSsl = true;
                     smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                     smtp.UseDefaultCredentials = false;
