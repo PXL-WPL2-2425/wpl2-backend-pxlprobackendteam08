@@ -42,7 +42,28 @@ namespace ClassLibTeam08.Business.Entities
             result.Succeeded = true;
             return result;
         }
+        public static User GetUserById(int userId)
+        {
+            UserData userData = new UserData(_configuration);
+            SelectResult result = userData.SelectUserById(userId);
 
+            if (result.DataTable != null && result.DataTable.Rows.Count > 0)
+            {
+                var row = result.DataTable.Rows[0];
+                return new User
+                {
+                    UserID = row.Field<int>("userID"),
+                    FirstName = row.Field<string>("firstName"),
+                    LastName = row.Field<string>("lastName"),
+                    Email = row.Field<string>("email"),
+                    Phone = row.Field<string>("phone"),
+                    Roles = row.Field<string>("Rol"),
+                    BirthDay = row.Field<DateTime>("birthday"),
+                };
+            }
+
+            return null;
+        }
         public static SelectResult CheckRoles(string email)
         {
             var userData = new UserData(_configuration); // Pass the configuration

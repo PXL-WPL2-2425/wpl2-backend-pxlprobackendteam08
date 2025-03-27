@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassLibTeam08.Business.Entities
 {
-    internal class User
+    public class User
     {
         public int UserID { get; set; }
         public string FirstName { get; set; }
@@ -25,7 +25,7 @@ namespace ClassLibTeam08.Business.Entities
         }
         public string Address {get; set; }
         public string Password {get; set; }
-        public string BirthDay {get; set; }
+        public DateTime BirthDay {get; set; }
         public string Phone {get; set; }
         public string Roles 
         {
@@ -40,7 +40,7 @@ namespace ClassLibTeam08.Business.Entities
         }
 
         // Constructor
-        public User(int userId, string firstName, string lastName, string userName, string email, string address, string password, string birthday, string phone, string roles)
+        public User(int userId, string firstName, string lastName, string userName, string email, string address, string password, DateTime birthday, string phone, string roles)
         {
             UserID = userId;
             FirstName = firstName;
@@ -55,7 +55,7 @@ namespace ClassLibTeam08.Business.Entities
         }
 
         // Constructor met default role
-        public User(int userId, string firstName, string lastName, string userName, string email, string address, string password, string birthday, string phone) : this(userId, firstName, lastName, userName, email, address, password, birthday, phone, "guest")
+        public User(int userId, string firstName, string lastName, string userName, string email, string address, string password, DateTime birthday, string phone) : this(userId, firstName, lastName, userName, email, address, password, birthday, phone, "guest")
         {
 
         }

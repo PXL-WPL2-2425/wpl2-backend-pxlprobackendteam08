@@ -46,5 +46,17 @@ namespace WebApiTeam08.Controllers
             string JSONresult = JsonConvert.SerializeObject(users);
             return Ok(JSONresult);
         }
+        [HttpGet("{userId}")]
+        public ActionResult<User> GetUserById(int userId)
+        {
+            var user = Users.GetUserById(userId);
+
+            if (user == null)
+            {
+                return NotFound($"Role with ID {userId} not found.");
+            }
+
+            return Ok(user);
+        }
     }
 }

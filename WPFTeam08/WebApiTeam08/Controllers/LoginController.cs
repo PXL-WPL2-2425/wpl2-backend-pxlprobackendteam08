@@ -12,7 +12,7 @@ namespace WebApiTeam08.Controllers
     public class LoginController : ControllerBase
     {
         [HttpPost("AddUser")]
-        public ActionResult UsersAdd(string firstName, string lastName, string username, string email, string address, string password, string birthday, string phone)
+        public ActionResult UsersAdd(string firstName, string lastName, string username, string email, string address, string password, DateTime birthday, string phone)
         {
             InsertResult users = Logins.Add(firstName, lastName, username, email, address, password, birthday, phone);
             string JSONresult = JsonConvert.SerializeObject(users);
