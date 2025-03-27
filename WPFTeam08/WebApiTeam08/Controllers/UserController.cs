@@ -4,6 +4,7 @@ using ClassLibTeam08.Data.Framework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using WebApiTeam08.ViewModels;
 
 namespace WebApiTeam08.Controllers
 {
@@ -43,6 +44,14 @@ namespace WebApiTeam08.Controllers
         public ActionResult ChangePasswordOfUser(string email, string password)
         {
             UpdateResult users = Users.ChangePassword(email, password);
+            string JSONresult = JsonConvert.SerializeObject(users);
+            return Ok(JSONresult);
+        }
+
+        [HttpPost("LoginUser")]
+        public ActionResult LoginUser(LoginViewmodel loginViewmodel)
+        {
+            SelectResult users = Users.CheckLogin(loginViewmodel.Email, loginViewmodel.Wachtwoord);
             string JSONresult = JsonConvert.SerializeObject(users);
             return Ok(JSONresult);
         }

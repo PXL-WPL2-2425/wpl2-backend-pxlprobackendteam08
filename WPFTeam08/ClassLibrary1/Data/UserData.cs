@@ -20,7 +20,7 @@ namespace ClassLibTeam08.Data
         public UserData(IConfiguration configuration)
         {
             TableName = "Users";
-            _configuration = configuration;
+            _configuration = configuration; 
         }
 
         public string TableName { get; set; }
@@ -108,7 +108,7 @@ namespace ClassLibTeam08.Data
 
         }
 
-        public SelectResult SelectByEmailAndPasswords(string email, string password)
+        public SelectResult SelectByEmailAndPassword(string email, string password)
         {
             var result = new SelectResult();
             try
