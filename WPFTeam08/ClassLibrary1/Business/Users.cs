@@ -80,7 +80,7 @@ namespace ClassLibTeam08.Business.Entities
         public static SelectResult SelectByEmailAndPasswords(string email, string password)
         {
             var data = new UserData(_configuration); // Pass the configuration
-            SelectResult result = data.SelectByEmailAndPasswords(email, password);
+            SelectResult result = data.SelectByEmailAndPassword(email, password);
             return result;
         }
 
@@ -113,6 +113,13 @@ namespace ClassLibTeam08.Business.Entities
         {
             var data = new UserData(_configuration); // Pass the configuration
             UpdateResult result = data.ChangePassword(email, password);
+            return result;
+        }
+
+        public static SelectResult CheckLogin(string email, string password)
+        {
+            var data = new UserData(_configuration); // Pass the configuration
+            SelectResult result = data.SelectByEmailAndPassword(email, password);
             return result;
         }
     }

@@ -11,24 +11,17 @@ namespace WebApiTeam08.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-        [HttpPost("AddUser")]
-        public ActionResult UsersAdd(string firstName, string lastName, string username, string email, string address, string password, DateTime birthday, string phone)
+
+        [HttpGet("AddUser")]
+        public ActionResult UsersAdd(string firstName, string lastName, string username, string email, string address, string password, string birthday, string phone)
         {
             InsertResult users = Logins.Add(firstName, lastName, username, email, address, password, birthday, phone);
             string JSONresult = JsonConvert.SerializeObject(users);
             return Ok(users);
         }
 
-        [HttpPost("CheckLogin")]
-        public ActionResult LoginUser(string email, string password)
-        {
-            SelectResult users = Logins.CheckLogin(email, password);
-            string JSONresult = JsonConvert.SerializeObject(users);
-            return Ok(JSONresult);
-        }
 
-
-       [HttpPost("AddLogin")]
+       [HttpGet("AddLogin")]
         public ActionResult AddLogin(int UserID, DateTime loginTime)
         {
             string ipAdress = HttpContext.Connection.RemoteIpAddress.ToString();

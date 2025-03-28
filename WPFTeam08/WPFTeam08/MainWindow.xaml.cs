@@ -59,7 +59,7 @@ namespace WPFTeam08
 
         private void ChangePassword_button_click(object sender, RoutedEventArgs e)
         {
-            UpdateResult updateResult = Users.ChangePassWord(int.Parse(TxtID.Text), TxtnewPassword.Text);
+            //UpdateResult updateResult = Users.ChangePassWord(int.Parse(TxtID.Text), TxtnewPassword.Text);
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)

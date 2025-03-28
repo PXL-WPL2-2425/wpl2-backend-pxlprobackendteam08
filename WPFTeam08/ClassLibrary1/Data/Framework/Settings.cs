@@ -35,7 +35,7 @@ namespace ClassLibTeam08.Data.Framework
             //connectionString += $"Database=Db2025Team_08;";
             //connectionString += "TrustServerCertificate=true";
 
-            string connectionString = ClassLib.Default.SQLServerConnect;
+            string connectionString = ClassLib.Default.SaschaLocalDataBase;
             return connectionString;
         }
     }

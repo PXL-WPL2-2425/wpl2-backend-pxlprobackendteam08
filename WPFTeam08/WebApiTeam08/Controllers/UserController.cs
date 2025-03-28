@@ -4,6 +4,7 @@ using ClassLibTeam08.Data.Framework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using WebApiTeam08.ViewModels;
 
 namespace WebApiTeam08.Controllers
 {
@@ -46,6 +47,15 @@ namespace WebApiTeam08.Controllers
             string JSONresult = JsonConvert.SerializeObject(users);
             return Ok(JSONresult);
         }
+
+
+        [HttpPost("LoginUser")]
+        public ActionResult LoginUser(LoginViewmodel loginViewmodel)
+        {
+            SelectResult users = Users.CheckLogin(loginViewmodel.Email, loginViewmodel.Wachtwoord);
+            string JSONresult = JsonConvert.SerializeObject(users);
+            return Ok(JSONresult);
+
         [HttpGet("{userId}")]
         public ActionResult<User> GetUserById(int userId)
         {
@@ -57,6 +67,7 @@ namespace WebApiTeam08.Controllers
             }
 
             return Ok(user);
+
         }
     }
 }
