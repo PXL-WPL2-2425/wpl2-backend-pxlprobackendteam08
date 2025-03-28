@@ -15,14 +15,28 @@ namespace ClassLibrary1.Business
         public static SelectResult GetMember(int id)
         {
             GroupMemberData data = new GroupMemberData();
-            SelectResult result = data.SelectByID(id);
+            SelectResult result = data.SelectByMemberID(id);
+            return result;
+        }
+
+        public static SelectResult GetGroupMembers(int id)
+        {
+            GroupMemberData data = new GroupMemberData();
+            SelectResult result = data.SelectByGroupID(id);
             return result;
         }
 
         public static DeleteResult DeleteMember(int id)
         {
             GroupMemberData data = new GroupMemberData();
-            DeleteResult result = data.DeleteByID(id);
+            DeleteResult result = data.DeleteByMemberID(id);
+            return result;
+        }
+
+        public static DeleteResult DeleteGroupMembers(int id)
+        {
+            GroupMemberData data = new GroupMemberData();
+            DeleteResult result = data.DeleteByGroupID(id);
             return result;
         }
     }
