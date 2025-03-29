@@ -55,8 +55,11 @@ namespace ClassLibTeam08.Business.Entities
                     UserID = row.Field<int>("userID"),
                     FirstName = row.Field<string>("firstName"),
                     LastName = row.Field<string>("lastName"),
+                    UserName = row.Field<string>("userName"),
                     Email = row.Field<string>("email"),
+                    Password = row.Field<string>("wachtWord"),
                     Phone = row.Field<string>("phone"),
+                    Address = row.Field<string>("adres"),
                     Roles = row.Field<string>("Rol"),
                     BirthDay = row.Field<DateTime>("birthday"),
                 };
@@ -90,7 +93,7 @@ namespace ClassLibTeam08.Business.Entities
             return userData.SendNewPasswordEmail(Email);
         }
 
-        public static UpdateResult UpdateUserData(int id, string firstName, string lastName, string userName, string email, string adres, string wachtwoord, string Birhday, string phone)
+        public static UpdateResult UpdateUserData(int id, string firstName, string lastName, string userName, string email, string adres, string wachtwoord, DateTime Birhday, string phone)
         {
             var userData = new UserData(_configuration); // Pass the configuration
             return userData.UpdateAllUserData(id, firstName, lastName, userName, email, adres, wachtwoord, Birhday, phone);

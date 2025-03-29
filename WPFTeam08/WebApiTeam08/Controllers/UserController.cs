@@ -24,6 +24,12 @@ namespace WebApiTeam08.Controllers
             UpdateResult users = Users.AddRoles(rol, email);
             return Ok(users);
         }
+        [HttpGet("ChangeUser")]
+        public ActionResult UpdateAllUserData(int id, string firstName, string lastName, string userName, string email, string adres, string wachtwoord, DateTime Birhday, string phone)
+        {
+            UpdateResult users = Users.UpdateUserData(id, firstName, lastName, userName, email, adres, wachtwoord, Birhday, phone);
+            return Ok(users);
+        }
         [HttpGet("CheckRole")]
         public ActionResult CheckRole(string email)
         {
@@ -56,18 +62,18 @@ namespace WebApiTeam08.Controllers
             string JSONresult = JsonConvert.SerializeObject(users);
             return Ok(JSONresult);
 
-        [HttpGet("{userId}")]
+        }
+        [HttpGet("UserId")]
         public ActionResult<User> GetUserById(int userId)
         {
             var user = Users.GetUserById(userId);
 
             if (user == null)
             {
-                return NotFound($"Role with ID {userId} not found.");
+                return NotFound($"User with ID {userId} not found.");
             }
 
             return Ok(user);
-
         }
     }
 }

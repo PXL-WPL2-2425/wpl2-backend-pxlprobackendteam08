@@ -289,7 +289,7 @@ namespace ClassLibTeam08.Data
 
         }
 
-        public UpdateResult UpdateAllUserData(int id, string firstName, string lastName, string userName, string email, string adres, string wachtwoord, string Birhday, string phone)
+        public UpdateResult UpdateAllUserData(int id, string firstName, string lastName, string userName, string email, string adres, string wachtwoord, DateTime Birhday, string phone)
         {
             var result = new UpdateResult();
             try
