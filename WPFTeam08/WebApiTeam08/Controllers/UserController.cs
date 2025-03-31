@@ -35,15 +35,15 @@ namespace WebApiTeam08.Controllers
         [HttpGet("SendPasswordChangeEmail")]
         public ActionResult SendPasswordChangeEmail(string email)
         {
-            SelectResult users = Users.SendConfirmationEmail(email);
+            EmailResult users = Users.SendConfirmationEmail(email);
             string JSONresult = JsonConvert.SerializeObject(users);
             return Ok(JSONresult);
         }
 
-        [HttpGet("ChangePassword")]
-        public ActionResult ChangePasswordOfUser(string email, string password)
+        [HttpPost("ChangePassword")]
+        public ActionResult ChangePasswordOfUser(LoginViewmodel loginViewmodel)
         {
-            UpdateResult users = Users.ChangePassword(email, password);
+            UpdateResult users = Users.ChangePassword(loginViewmodel.Email, loginViewmodel.Wachtwoord);
             string JSONresult = JsonConvert.SerializeObject(users);
             return Ok(JSONresult);
         }

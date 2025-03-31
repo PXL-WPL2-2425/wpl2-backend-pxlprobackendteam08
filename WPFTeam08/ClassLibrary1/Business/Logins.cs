@@ -78,6 +78,15 @@ namespace ClassLibrary1.Business
             return aggregateResult;
         }
 
+        public static SelectResult GeLoginsByDate()
+        {
+            LoginData loginData = new LoginData(_configuration);
+            SelectResult aggregateResult = loginData.CountLoginsByDate();
+
+
+            return aggregateResult;
+        }
+
         public static InsertResult Add(string firstName, string lastName, string username, string email, string address, string password, string birthday, string phone)
         {
             if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName) || string.IsNullOrEmpty(username) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(address) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(birthday))

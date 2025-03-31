@@ -63,10 +63,13 @@ namespace ClassLibTeam08.Business.Entities
             return result;
         }
 
-        public static SelectResult SendConfirmationEmail(string Email)
+        public static EmailResult SendConfirmationEmail(string Email)
         {
             var userData = new UserData(_configuration); // Pass the configuration
-            return userData.SendNewPasswordEmail(Email);
+
+            EmailResult emailResult = userData.SendNewPasswordEmail(Email);
+
+            return emailResult;
         }
 
         public static UpdateResult UpdateUserData(int id, string firstName, string lastName, string userName, string email, string adres, string wachtwoord, string Birhday, string phone)

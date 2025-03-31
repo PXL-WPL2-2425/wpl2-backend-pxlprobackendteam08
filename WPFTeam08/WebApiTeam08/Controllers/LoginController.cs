@@ -38,6 +38,14 @@ namespace WebApiTeam08.Controllers
             return Ok(JSONresult);
         }
 
+        [HttpGet("GetAllLoginsByDate")]
+        public ActionResult GetAllLoginsByDate()
+        {
+            SelectResult result = Logins.GeLoginsByDate();
+            string JSONresult = JsonConvert.SerializeObject(result);
+            return Ok(JSONresult);
+        }
+
 
     }
 }

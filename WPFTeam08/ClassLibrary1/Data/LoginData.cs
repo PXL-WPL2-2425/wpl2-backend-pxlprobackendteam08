@@ -68,6 +68,27 @@ namespace ClassLibTeam08.Data
             }
             return result;
         }
+
+        public SelectResult CountLoginsByDate()
+        {
+            var result = new SelectResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"SELECT count(loginID),  CAST(loginTime AS DATE) from Logins\r\ngroup by CAST(loginTime AS DATE)");
+
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    result = Select(insertCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         public InsertResult Insert(Login login, int userID)
         {
             var result = new InsertResult();
