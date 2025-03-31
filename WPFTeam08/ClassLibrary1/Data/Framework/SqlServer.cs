@@ -26,7 +26,6 @@ namespace ClassLibTeam08.Data.Framework
                 {
                     selectCommand.Connection = connection;
                     connection.Open();
-                    adapter = new SqlDataAdapter(selectCommand);
 
                     //selectCommand.ExecuteReader();
 
