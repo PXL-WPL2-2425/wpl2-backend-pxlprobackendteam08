@@ -242,7 +242,12 @@ namespace ClassLibTeam08.Data
             }
             return result;
         }
-
+        public SelectResult SelectUserById(int userId)
+        {
+            SqlCommand command = new SqlCommand();
+            command.CommandText = $"SELECT * FROM {TableName} WHERE UserId = {userId}";
+            return base.Select(command);
+        }
         public UpdateResult AddRoles(string rol, string email)
         {
             var result = new UpdateResult();

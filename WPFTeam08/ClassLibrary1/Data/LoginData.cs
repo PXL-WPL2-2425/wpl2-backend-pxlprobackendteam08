@@ -26,7 +26,6 @@ namespace ClassLibTeam08.Data
             TableName = "Logins";
         }
 
-
         public SelectResult selectAllLogins()
         {
             var result = new SelectResult();

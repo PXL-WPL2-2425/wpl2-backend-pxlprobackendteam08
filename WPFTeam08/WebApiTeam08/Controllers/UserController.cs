@@ -48,12 +48,26 @@ namespace WebApiTeam08.Controllers
             return Ok(JSONresult);
         }
 
+
         [HttpPost("LoginUser")]
         public ActionResult LoginUser(LoginViewmodel loginViewmodel)
         {
             SelectResult users = Users.CheckLogin(loginViewmodel.Email, loginViewmodel.Wachtwoord);
             string JSONresult = JsonConvert.SerializeObject(users);
             return Ok(JSONresult);
+
+        [HttpGet("{userId}")]
+        public ActionResult<User> GetUserById(int userId)
+        {
+            var user = Users.GetUserById(userId);
+
+            if (user == null)
+            {
+                return NotFound($"Role with ID {userId} not found.");
+            }
+
+            return Ok(user);
+
         }
     }
 }

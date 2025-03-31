@@ -11,6 +11,7 @@ namespace WebApiTeam08.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
+
         [HttpGet("AddUser")]
         public ActionResult UsersAdd(string firstName, string lastName, string username, string email, string address, string password, string birthday, string phone)
         {
