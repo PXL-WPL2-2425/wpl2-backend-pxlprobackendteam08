@@ -17,12 +17,23 @@ namespace WebApiTeam08.Controllers
             var students = Users.GetUser(ID);
             return Ok(students);
         }
-        [HttpGet("AddRole")]
-        public ActionResult AddRole(string rol, string email)
+        [HttpGet("ChangeRole")]
+        public ActionResult ChangeRole(string rol, string email, string token)
         {
-            UpdateResult users = Users.AddRoles(rol, email);
-            return Ok(users);
+            
+            UpdateResult result = Users.ChangeRole(rol, email);
+
+            if (token == result.Token)
+            {
+                return Ok(result);
+            }
+            
+
+            return BadRequest("token is not valid");
+
+
         }
+
         [HttpGet("CheckRole")]
         public ActionResult CheckRole(string email)
         {
@@ -45,6 +56,29 @@ namespace WebApiTeam08.Controllers
             UpdateResult users = Users.ChangePassword(email, password);
             string JSONresult = JsonConvert.SerializeObject(users);
             return Ok(JSONresult);
+        }
+
+
+        [HttpPost("LoginUser")]
+        public ActionResult LoginUser(LoginViewmodel loginViewmodel)
+        {
+            SelectResult select = Users.CheckLogin(loginViewmodel.Email, loginViewmodel.Wachtwoord);
+            string JSONresult = JsonConvert.SerializeObject(select);
+            return Ok(JSONresult);
+        }
+
+        [HttpGet("userId")]
+        public ActionResult<User> GetUserById(int userId)
+        {
+            var user = Users.GetUserById(userId);
+
+            if (user == null)
+            {
+                return NotFound($"Role with ID {userId} not found.");
+            }
+
+            return Ok(user);
+
         }
     }
 }
