@@ -4,6 +4,7 @@ using ClassLibTeam08.Data.Framework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using WebApiTeam08.ViewModels;
 
 namespace WebApiTeam08.Controllers
 {
@@ -23,12 +24,56 @@ namespace WebApiTeam08.Controllers
             UpdateResult users = Users.AddRoles(rol, email);
             return Ok(users);
         }
+        [HttpGet("ChangeUser")]
+        public ActionResult UpdateAllUserData(int id, string firstName, string lastName, string userName, string email, string adres, string wachtwoord, DateTime Birhday, string phone)
+        {
+            UpdateResult users = Users.UpdateUserData(id, firstName, lastName, userName, email, adres, wachtwoord, Birhday, phone);
+            return Ok(users);
+        }
         [HttpGet("CheckRole")]
         public ActionResult CheckRole(string email)
         {
             SelectResult users = Users.CheckRoles(email);
             string JSONresult = JsonConvert.SerializeObject(users);
             return Ok(JSONresult);
+        }
+
+        [HttpGet("SendPasswordChangeEmail")]
+        public ActionResult SendPasswordChangeEmail(string email)
+        {
+            EmailResult users = Users.SendConfirmationEmail(email);
+            string JSONresult = JsonConvert.SerializeObject(users);
+            return Ok(JSONresult);
+        }
+
+        [HttpPost("ChangePassword")]
+        public ActionResult ChangePasswordOfUser(LoginViewmodel loginViewmodel)
+        {
+            UpdateResult users = Users.ChangePassword(loginViewmodel.Email, loginViewmodel.Wachtwoord);
+            string JSONresult = JsonConvert.SerializeObject(users);
+            return Ok(JSONresult);
+        }
+
+
+        [HttpPost("LoginUser")]
+        public ActionResult LoginUser(LoginViewmodel loginViewmodel)
+        {
+            SelectResult users = Users.CheckLogin(loginViewmodel.Email, loginViewmodel.Wachtwoord);
+            string JSONresult = JsonConvert.SerializeObject(users);
+            return Ok(JSONresult);
+
+        }
+        [HttpGet("UserId")]
+        public ActionResult<User> GetUserById(int userId)
+        {
+            var user = Users.GetUserById(userId);
+
+            if (user == null)
+            {
+                return NotFound($"User with ID {userId} not found.");
+            }
+
+            return Ok(user);
         }
     }
 }

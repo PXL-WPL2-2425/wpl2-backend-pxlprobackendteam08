@@ -20,7 +20,7 @@ namespace ClassLibTeam08.Data
         public UserData(IConfiguration configuration)
         {
             TableName = "Users";
-            _configuration = configuration;
+            _configuration = configuration; 
         }
 
         public string TableName { get; set; }
@@ -33,6 +33,27 @@ namespace ClassLibTeam08.Data
                 //SQL Command
                 StringBuilder insertQuery = new StringBuilder();
                 insertQuery.Append($"select * from Users WHERE UserID = {ID}");
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    result = Select(insertCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+
+        }
+
+        public SelectResult SelectByEmail(string Email)
+        {
+            var result = new SelectResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"select * from Users WHERE email = '{Email}' ");
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
                     result = Select(insertCommand);
@@ -87,7 +108,7 @@ namespace ClassLibTeam08.Data
 
         }
 
-        public SelectResult SelectByEmailAndPasswords(string email, string password)
+        public SelectResult SelectByEmailAndPassword(string email, string password)
         {
             var result = new SelectResult();
             try
@@ -102,6 +123,29 @@ namespace ClassLibTeam08.Data
                     insertCommand.Parameters.Add("@password", SqlDbType.VarChar);
                     insertCommand.Parameters["@email"].Value = email;
                     insertCommand.Parameters["@password"].Value = password;
+                    result = Select(insertCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+
+            return result;
+        }
+
+        public SelectResult SelectByRole(string role)
+        {
+            var result = new SelectResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"SELECT * FROM Users WHERE rol = @role");
+
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    insertCommand.Parameters.AddWithValue("@role", role);
                     result = Select(insertCommand);
                 }
             }
@@ -151,7 +195,7 @@ namespace ClassLibTeam08.Data
             return result;
         }
 
-        public UpdateResult ChangePassword(int ID, string newPassword)
+        public UpdateResult ChangePassword(string Email, string newPassword)
         {
             var result = new UpdateResult();
             try
@@ -159,16 +203,17 @@ namespace ClassLibTeam08.Data
                 //SQL Command
                 StringBuilder insertQuery = new StringBuilder();
                 insertQuery.Append($"UPDATE Users ");
-                insertQuery.Append($"SET wachtWord = '{newPassword}' ");
-                insertQuery.Append($"WHERE UserID = {ID}");
+                insertQuery.Append($"SET wachtWord = @newPassword ");
+                insertQuery.Append($"WHERE email = @Email ");
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
                     insertCommand.Parameters.Add("@newPassword", SqlDbType.VarChar).Value = newPassword;
-                    insertCommand.Parameters.Add("@ID", SqlDbType.Int).Value = ID;
+                    insertCommand.Parameters.Add("@Email", SqlDbType.VarChar).Value = Email;
+                    string debug = insertCommand.CommandText;
                     result = Update(insertCommand);
                 }
 
-                SendNewPasswordEmail(ID, newPassword);
+               
             }
             catch (Exception ex)
             {
@@ -197,7 +242,12 @@ namespace ClassLibTeam08.Data
             }
             return result;
         }
-
+        public SelectResult SelectUserById(int userId)
+        {
+            SqlCommand command = new SqlCommand();
+            command.CommandText = $"SELECT * FROM {TableName} WHERE UserId = {userId}";
+            return base.Select(command);
+        }
         public UpdateResult AddRoles(string rol, string email)
         {
             var result = new UpdateResult();
@@ -239,7 +289,7 @@ namespace ClassLibTeam08.Data
 
         }
 
-        public UpdateResult UpdateAllUserData(int id, string firstName, string lastName, string userName, string email, string adres, string wachtwoord, string Birhday, string phone)
+        public UpdateResult UpdateAllUserData(int id, string firstName, string lastName, string userName, string email, string adres, string wachtwoord, DateTime Birhday, string phone)
         {
             var result = new UpdateResult();
             try
@@ -269,35 +319,49 @@ namespace ClassLibTeam08.Data
         /// <param name="ID"></param>
         /// <param name="newPassword"></param>
         /// <exception cref="Exception"></exception>
-        private void SendNewPasswordEmail(int ID, string newPassword)
+        public EmailResult SendNewPasswordEmail(string email)
         {
-            var userResult = SelectByID(ID);
+            // Get user data
+            SelectResult userResult = SelectByEmail(email);
+            EmailResult emailResult = new EmailResult();
+
+
             if (!userResult.Succeeded || userResult.DataTable.Rows.Count == 0)
             {
-                throw new Exception("User not found.");
+                emailResult.Succeeded = false;
+                return emailResult;
             }
 
+            // Get user email
             var userEmail = userResult.DataTable.Rows[0]["email"]?.ToString();
             if (string.IsNullOrEmpty(userEmail))
             {
-                throw new Exception("User email not found.");
+                emailResult.AddError("Gebruiker heeft geen Email");
+                emailResult.Succeeded = false;
+                return emailResult;
             }
 
-            //incapsuleren!!!
-            string smtpServer = "smtp.gmail.com"; // SMTP-server 
+            //SelectResult has succeeded, copy EMail from selectresult to Emailresult
+            emailResult.Email = userEmail;
+
+            // Prepare SMTP settings
+            string smtpServer = "smtp.gmail.com"; // SMTP-server
             int port = 587;
             string fromEmail = "monohomepass@gmail.com";
-            string fromPassword = "dndz vqer tfcm ierc"; // monohome app-wachtwoord!
+            string fromPassword = "dndz vqer tfcm ierc"; // monohome app-wachtwoord
             string toEmail = userEmail.ToString();
 
-            // Genereer de bevestigingslink
+            // Generate confirmation link
             string confirmationLink = GeneratePasswordResetToken(email: userEmail);
 
+            // SMTP Setup + send email
             try
             {
                 using (SmtpClient smtp = new SmtpClient(smtpServer, port))
                 {
+                    // Login for authentication
                     smtp.Credentials = new NetworkCredential(fromEmail, fromPassword);
+                    // Encrypt connection to Gmail
                     smtp.EnableSsl = true;
                     smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                     smtp.UseDefaultCredentials = false;
@@ -310,16 +374,19 @@ namespace ClassLibTeam08.Data
                     };
 
                     smtp.Send(mail);
-                    throw new Exception("E-mail verzonden!");                  
+                    emailResult.Succeeded = true;
+                    return emailResult;           
                 }
             }
             catch (SmtpException smtpEx)
             {
                 Debug.WriteLine($"SMTP Fout bij verzenden van e-mail: {smtpEx.Message}");
+                return emailResult;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"Fout bij verzenden van e-mail: {ex.Message}");
+                return emailResult;
             }
         }
 
@@ -327,7 +394,7 @@ namespace ClassLibTeam08.Data
         {
             var token = Guid.NewGuid().ToString();//unike token maken
             var encodedToken = Convert.ToBase64String(Encoding.UTF8.GetBytes(token));
-            string confirmationLink = $"http://localhost:5173/login/?token={encodedToken}&email={email}";
+            string confirmationLink = $"http://localhost:5173/NewWachtWoordView/?token={encodedToken}&email={email}";
 
             return confirmationLink;
         }

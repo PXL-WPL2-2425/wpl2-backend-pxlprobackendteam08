@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClassLibrary1.Data
+namespace ClassLibTeam08.Data
 {
 
     internal class LoginData : SqlServer
@@ -23,9 +23,71 @@ namespace ClassLibrary1.Data
         public LoginData(IConfiguration configuration)
         {
             _configuration = configuration;
-            TableName = "Login";
+            TableName = "Logins";
         }
 
+        public SelectResult selectAllLogins()
+        {
+            var result = new SelectResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"Select * from {TableName}");
+
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {          
+                    result = Select(insertCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+
+        public AggregateResult CountAllLogins()
+        {
+            var result = new AggregateResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"select count(loginID) from logins");
+
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    result = Count(insertCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+
+        public SelectResult CountLoginsByDate()
+        {
+            var result = new SelectResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"SELECT count(loginID),  CAST(loginTime AS DATE) from Logins\r\ngroup by CAST(loginTime AS DATE)");
+
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    result = Select(insertCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         public InsertResult Insert(Login login, int userID)
         {
             var result = new InsertResult();
@@ -44,6 +106,8 @@ namespace ClassLibrary1.Data
                     login.loginTime;
                     insertCommand.Parameters.Add("@IPadress", SqlDbType.VarChar).Value =
                     login.ipAdresss;
+
+                    result = Insert(insertCommand);
                 }
             }
             catch (Exception ex)
@@ -74,5 +138,24 @@ namespace ClassLibrary1.Data
 
         }
 
+        public SelectResult SelectByLoginID(int ID)
+        {
+            var result = new SelectResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"SELECT * FROM Logins WHERE loginID = {ID}");
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    result = Select(insertCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
     }
 }

@@ -11,5 +11,15 @@ namespace ClassLibTeam08.Data.Framework
     public class SelectResult : BaseResult
     {
         public DataTable DataTable { get; set; } = new DataTable();
+
+        public SelectResult(bool succeeded)
+        { 
+            this.Succeeded = succeeded;
+        }
+
+        public SelectResult()
+        {
+
+        }
     }
 }

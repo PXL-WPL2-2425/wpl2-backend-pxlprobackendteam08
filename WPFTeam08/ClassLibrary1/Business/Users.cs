@@ -11,9 +11,8 @@ namespace ClassLibTeam08.Business.Entities
 {
     public static class Users
     {
-        private static IConfiguration _configuration; // Add this field
+        private static IConfiguration _configuration;
 
-        // Add this method to set the configuration
         public static void SetConfiguration(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -43,12 +42,35 @@ namespace ClassLibTeam08.Business.Entities
             result.Succeeded = true;
             return result;
         }
-
-        public static DeleteResult DeleteUser(int id)
+        public static User GetUserById(int userId)
         {
-            var data = new UserData(_configuration); // Pass the configuration
-            DeleteResult result = data.DeleteByID(id);
-            return result;
+            UserData userData = new UserData(_configuration);
+            SelectResult result = userData.SelectUserById(userId);
+
+            if (result.DataTable != null && result.DataTable.Rows.Count > 0)
+            {
+                var row = result.DataTable.Rows[0];
+                return new User
+                {
+                    UserID = row.Field<int>("userID"),
+                    FirstName = row.Field<string>("firstName"),
+                    LastName = row.Field<string>("lastName"),
+                    UserName = row.Field<string>("userName"),
+                    Email = row.Field<string>("email"),
+                    Password = row.Field<string>("wachtWord"),
+                    Phone = row.Field<string>("phone"),
+                    Address = row.Field<string>("adres"),
+                    Roles = row.Field<string>("Rol"),
+                    BirthDay = row.Field<DateTime>("birthday"),
+                };
+            }
+
+            return null;
+        }
+        public static SelectResult CheckRoles(string email)
+        {
+            var userData = new UserData(_configuration); // Pass the configuration
+            return userData.CheckRoles(email);
         }
 
         public static SelectResult SelectAllEmailAndPasswords()
@@ -61,17 +83,20 @@ namespace ClassLibTeam08.Business.Entities
         public static SelectResult SelectByEmailAndPasswords(string email, string password)
         {
             var data = new UserData(_configuration); // Pass the configuration
-            SelectResult result = data.SelectByEmailAndPasswords(email, password);
+            SelectResult result = data.SelectByEmailAndPassword(email, password);
             return result;
         }
 
-        public static UpdateResult ChangePassWord(int userID, string newPassword)
+        public static EmailResult SendConfirmationEmail(string Email)
         {
             var userData = new UserData(_configuration); // Pass the configuration
-            return userData.ChangePassword(userID, newPassword);
+
+            EmailResult emailResult = userData.SendNewPasswordEmail(Email);
+
+            return emailResult;
         }
 
-        public static UpdateResult UpdateUserData(int id, string firstName, string lastName, string userName, string email, string adres, string wachtwoord, string Birhday, string phone)
+        public static UpdateResult UpdateUserData(int id, string firstName, string lastName, string userName, string email, string adres, string wachtwoord, DateTime Birhday, string phone)
         {
             var userData = new UserData(_configuration); // Pass the configuration
             return userData.UpdateAllUserData(id, firstName, lastName, userName, email, adres, wachtwoord, Birhday, phone);
@@ -82,11 +107,26 @@ namespace ClassLibTeam08.Business.Entities
             var userData = new UserData(_configuration); // Pass the configuration
             return userData.AddRoles(rol, email);
         }
-        public static SelectResult CheckRoles( string email)
+
+        public static DeleteResult DeleteUser(int id)
         {
-            var userData = new UserData(_configuration); // Pass the configuration
-            return userData.CheckRoles(email);
+            var data = new UserData(_configuration); // Pass the configuration
+            DeleteResult result = data.DeleteByID(id);
+            return result;
         }
 
+        public static UpdateResult ChangePassword(string email, string password)
+        {
+            var data = new UserData(_configuration); // Pass the configuration
+            UpdateResult result = data.ChangePassword(email, password);
+            return result;
+        }
+
+        public static SelectResult CheckLogin(string email, string password)
+        {
+            var data = new UserData(_configuration); // Pass the configuration
+            SelectResult result = data.SelectByEmailAndPassword(email, password);
+            return result;
+        }
     }
 }
