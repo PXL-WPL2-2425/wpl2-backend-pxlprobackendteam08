@@ -288,7 +288,6 @@ namespace ClassLibTeam08.Data
             return result;
 
         }
-
         public UpdateResult UpdateAllUserData(int id, string firstName, string lastName, string userName, string email, string adres, string wachtwoord, DateTime Birhday, string phone)
         {
             var result = new UpdateResult();
@@ -389,7 +388,6 @@ namespace ClassLibTeam08.Data
                 return emailResult;
             }
         }
-
         private string GeneratePasswordResetToken(string email)
         {
             var token = Guid.NewGuid().ToString();//unike token maken
@@ -398,6 +396,28 @@ namespace ClassLibTeam08.Data
 
             return confirmationLink;
         }
+       
+        public SelectResult SelectAdmins()
+        {
+            var result = new SelectResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"SELECT * FROM users WHERE rol = 'admin'");
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    result = Select(insertCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+
+        }
+
     }
 }
 

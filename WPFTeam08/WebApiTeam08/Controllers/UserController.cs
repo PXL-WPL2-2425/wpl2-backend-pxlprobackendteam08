@@ -75,5 +75,13 @@ namespace WebApiTeam08.Controllers
 
             return Ok(user);
         }
+       
+        [HttpGet("Admin")]
+        public ActionResult SelectAdmins()
+        {
+            SelectResult result = Users.Admins();
+            string JSONresult = JsonConvert.SerializeObject(result);
+            return Ok(JSONresult);
+        }
     }
 }
