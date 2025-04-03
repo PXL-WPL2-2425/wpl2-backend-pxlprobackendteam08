@@ -69,16 +69,8 @@ namespace WebApiTeam08.Controllers
         }
 
 
-        [HttpPost("LoginUser")]
-        public ActionResult LoginUser(LoginViewmodel loginViewmodel)
-        {
-            SelectResult select = Users.CheckLogin(loginViewmodel.Email, loginViewmodel.Wachtwoord);
-            string JSONresult = JsonConvert.SerializeObject(select);
-            return Ok(JSONresult);
-        }
-
-        [HttpGet("userId")]
-        public ActionResult<User> GetUserById(int userId)
+       /* [HttpGet("userId")]
+        public ActionResult GetUserById(int userId)
         {
             var user = Users.GetUserById(userId);
 
@@ -89,6 +81,6 @@ namespace WebApiTeam08.Controllers
 
             return Ok(user);
 
-        }
+        }*/
     }
 }
