@@ -42,7 +42,7 @@ namespace ClassLibTeam08.Business.Entities
             result.Succeeded = true;
             return result;
         }
-        public static User GetUserById(int userId)
+        static User GetUserById(int userId)
         {
             UserData userData = new UserData(_configuration);
             SelectResult result = userData.SelectUserById(userId);
@@ -102,10 +102,17 @@ namespace ClassLibTeam08.Business.Entities
             return userData.UpdateAllUserData(id, firstName, lastName, userName, email, adres, wachtwoord, Birhday, phone);
         }
 
-        public static UpdateResult AddRoles(string rol, string email)
+        public static UpdateResult ChangeRole(string rol, string email)
         {
             var userData = new UserData(_configuration); // Pass the configuration
-            return userData.AddRoles(rol, email);
+            UpdateResult updateResult = userData.ChangeRole(rol, email);
+
+            SelectResult selectResult = GetToken(email);
+
+            if(selectResult.DataTable != null)
+            updateResult.Token = (string)selectResult.DataTable.Rows[0][0];
+
+            return updateResult;
         }
 
         public static DeleteResult DeleteUser(int id)
@@ -126,6 +133,23 @@ namespace ClassLibTeam08.Business.Entities
         {
             var data = new UserData(_configuration); // Pass the configuration
             SelectResult result = data.SelectByEmailAndPassword(email, password);
+             
+            AddToken((int)result.DataTable.Rows[0][0], result.GenerateToken());
+
+            return result;
+        }
+
+        public static UpdateResult AddToken(int id, string token)
+        {
+            var data = new UserData(_configuration); // Pass the configuration
+            UpdateResult result = data.UpdateToken(id, token);
+            return result;
+        }
+
+        public static SelectResult GetToken(string email)
+        {
+            var data = new UserData(_configuration); // Pass the configuration
+            SelectResult result = data.GetToken(email);
             return result;
         }
         public static SelectResult Admins()

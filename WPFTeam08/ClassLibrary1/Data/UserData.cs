@@ -242,13 +242,55 @@ namespace ClassLibTeam08.Data
             }
             return result;
         }
+
+        public UpdateResult UpdateToken(int id, string token)
+        {
+            var result = new UpdateResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"update Users set token = '{token}' where userID = {id}");
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    result = Update(insertCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+
+        public SelectResult GetToken(string email)
+        {
+            var result = new SelectResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"select token from users where email = '{email}'");
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    result = Select(insertCommand);
+                    result.Succeeded = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Succeeded= false;
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
         public SelectResult SelectUserById(int userId)
         {
             SqlCommand command = new SqlCommand();
             command.CommandText = $"SELECT * FROM {TableName} WHERE UserId = {userId}";
             return base.Select(command);
         }
-        public UpdateResult AddRoles(string rol, string email)
+        public UpdateResult ChangeRole(string rol, string email)
         {
             var result = new UpdateResult();
             try

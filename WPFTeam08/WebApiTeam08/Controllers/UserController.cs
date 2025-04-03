@@ -18,18 +18,23 @@ namespace WebApiTeam08.Controllers
             var students = Users.GetUser(ID);
             return Ok(students);
         }
-        [HttpGet("AddRole")]
-        public ActionResult AddRole(string rol, string email)
+        [HttpGet("ChangeRole")]
+        public ActionResult ChangeRole(string rol, string email, string token)
         {
-            UpdateResult users = Users.AddRoles(rol, email);
-            return Ok(users);
+            
+            UpdateResult result = Users.ChangeRole(rol, email);
+
+            if (token == result.Token)
+            {
+                return Ok(result);
+            }
+            
+
+            return BadRequest("token is not valid");
+
+
         }
-        [HttpGet("ChangeUser")]
-        public ActionResult UpdateAllUserData(int id, string firstName, string lastName, string userName, string email, string adres, string wachtwoord, DateTime Birhday, string phone)
-        {
-            UpdateResult users = Users.UpdateUserData(id, firstName, lastName, userName, email, adres, wachtwoord, Birhday, phone);
-            return Ok(users);
-        }
+
         [HttpGet("CheckRole")]
         public ActionResult CheckRole(string email)
         {
@@ -61,16 +66,17 @@ namespace WebApiTeam08.Controllers
             SelectResult users = Users.CheckLogin(loginViewmodel.Email, loginViewmodel.Wachtwoord);
             string JSONresult = JsonConvert.SerializeObject(users);
             return Ok(JSONresult);
-
         }
-        [HttpGet("UserId")]
-        public ActionResult<User> GetUserById(int userId)
+
+
+       /* [HttpGet("userId")]
+        public ActionResult GetUserById(int userId)
         {
             var user = Users.GetUserById(userId);
 
             if (user == null)
             {
-                return NotFound($"User with ID {userId} not found.");
+                return NotFound($"Role with ID {userId} not found.");
             }
 
             return Ok(user);
