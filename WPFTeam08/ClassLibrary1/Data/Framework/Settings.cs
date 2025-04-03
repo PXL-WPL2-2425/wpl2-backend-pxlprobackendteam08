@@ -35,11 +35,11 @@ namespace ClassLibTeam08.Data.Framework
             //connectionString += "TrustServerCertificate=true";
 
             //Inlog voor SQL server
-            //string connectionString = "user id = PxlUser_08;";
-            //connectionString += "Password = 41FFVf7!\r\n;";
-            //connectionString += $@"Server=10.128.4.7;"; 
-            //connectionString += $"Database=Db2025Team_08;";
-            //connectionString += "TrustServerCertificate=true";
+            string connectionString = "user id = PxlUser_08;";
+            connectionString += "Password = GoTeam08;";
+            connectionString += $@"Server=10.128.4.7;";
+            connectionString += $"Database=Db2025Team_08;";
+            connectionString += "TrustServerCertificate=true";
 
             //string connectionString = ClassLib.Default.SaschaLocalDataBase;
 
