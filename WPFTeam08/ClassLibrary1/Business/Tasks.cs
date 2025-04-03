@@ -1,26 +1,30 @@
-﻿using ClassLibTeam08.Data.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ClassLibrary08.Data.Framework;
+using ClassLibTeam08.Data;
+using ClassLibTeam08.Data.Framework;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+using System.Data;
+using System.Net.Mail;
+using System.Net;
+using System.Configuration;
+using ClassLibrary1.Data;
 
 namespace ClassLibTeam08.Business
 {
-    
-        public static class Tasks
+    public static class Tasks
+    {
+        private static IConfiguration _configuration;
+
+        public static void SetConfiguration(IConfiguration configuration)
         {
-           /* public static SelectResult GetTasks()
-            {
-                //ManualData manualData = new ManualData();
-                //SelectResult result = manualData.Select();
-               // return result;
-            }*/
-            public static void Add(string firstName, string lastName)
-            {
-                //TODO -> InsertResult
-                //InsertResult result=server.Insert(data ...);
-            }
+            _configuration = configuration;
         }
-    
+
+        public static SelectResult GetTasksByGroup(int groupId)
+        {
+            var data = new TaskData(_configuration);
+            SelectResult result = data.SelectByGroupID(groupId);
+            return result;
+        }
+    }
 }
