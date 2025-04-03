@@ -26,5 +26,11 @@ namespace ClassLibTeam08.Business
             SelectResult result = data.SelectByGroupID(groupId);
             return result;
         }
+        public static SelectResult AddTask(int SupplierId, string ServiceName, string Description)
+        {
+            var data = new TaskData(_configuration);
+            SelectResult result = data.SelectByGroupID(SupplierId, ServiceName, Description);
+            return result;
+        }
     }
 }

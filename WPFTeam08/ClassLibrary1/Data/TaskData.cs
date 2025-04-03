@@ -26,7 +26,7 @@ namespace ClassLibrary1.Data
             _configuration = configuration;
         }
 
-        public SelectResult SelectByGroupID(int groupId)
+        public SelectResult SelectByGroupID(int groupId, string serviceName, string description)
         {
             var result = new SelectResult();
             try
@@ -43,6 +43,11 @@ namespace ClassLibrary1.Data
                 throw new Exception(ex.Message, ex);
             }
             return result;
+        }
+
+        internal SelectResult SelectByGroupID(int groupId)
+        {
+            throw new NotImplementedException();
         }
     }
 }
