@@ -20,7 +20,7 @@ namespace ClassLibTeam08.Data
         public UserData(IConfiguration configuration)
         {
             TableName = "Users";
-            _configuration = configuration;
+            _configuration = configuration; 
         }
 
         public string TableName { get; set; }
@@ -108,7 +108,7 @@ namespace ClassLibTeam08.Data
 
         }
 
-        public SelectResult SelectByEmailAndPasswords(string email, string password)
+        public SelectResult SelectByEmailAndPassword(string email, string password)
         {
             var result = new SelectResult();
             try
@@ -331,7 +331,7 @@ namespace ClassLibTeam08.Data
 
         }
 
-        public UpdateResult UpdateAllUserData(int id, string firstName, string lastName, string userName, string email, string adres, string wachtwoord, string Birhday, string phone)
+        public UpdateResult UpdateAllUserData(int id, string firstName, string lastName, string userName, string email, string adres, string wachtwoord, DateTime Birhday, string phone)
         {
             var result = new UpdateResult();
             try
@@ -361,21 +361,30 @@ namespace ClassLibTeam08.Data
         /// <param name="ID"></param>
         /// <param name="newPassword"></param>
         /// <exception cref="Exception"></exception>
-        public SelectResult SendNewPasswordEmail(string email)
+        public EmailResult SendNewPasswordEmail(string email)
         {
             // Get user data
-            var userResult = SelectByEmail(email);
+            SelectResult userResult = SelectByEmail(email);
+            EmailResult emailResult = new EmailResult();
+
+
             if (!userResult.Succeeded || userResult.DataTable.Rows.Count == 0)
             {
-                throw new Exception("User not found.");
+                emailResult.Succeeded = false;
+                return emailResult;
             }
 
             // Get user email
             var userEmail = userResult.DataTable.Rows[0]["email"]?.ToString();
             if (string.IsNullOrEmpty(userEmail))
             {
-                throw new Exception("User email does not exist.");
+                emailResult.AddError("Gebruiker heeft geen Email");
+                emailResult.Succeeded = false;
+                return emailResult;
             }
+
+            //SelectResult has succeeded, copy EMail from selectresult to Emailresult
+            emailResult.Email = userEmail;
 
             // Prepare SMTP settings
             string smtpServer = "smtp.gmail.com"; // SMTP-server
@@ -407,19 +416,19 @@ namespace ClassLibTeam08.Data
                     };
 
                     smtp.Send(mail);
-                    return new SelectResult(true);
-                    //throw new Exception("E-mail verzonden!");                  
+                    emailResult.Succeeded = true;
+                    return emailResult;           
                 }
             }
             catch (SmtpException smtpEx)
             {
                 Debug.WriteLine($"SMTP Fout bij verzenden van e-mail: {smtpEx.Message}");
-                return new SelectResult(false);
+                return emailResult;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"Fout bij verzenden van e-mail: {ex.Message}");
-                return new SelectResult(false);
+                return emailResult;
             }
         }
 
@@ -427,7 +436,7 @@ namespace ClassLibTeam08.Data
         {
             var token = Guid.NewGuid().ToString();//unike token maken
             var encodedToken = Convert.ToBase64String(Encoding.UTF8.GetBytes(token));
-            string confirmationLink = $"http://localhost:5173/login/?token={encodedToken}&email={email}";
+            string confirmationLink = $"http://localhost:5173/NewWachtWoordView/?token={encodedToken}&email={email}";
 
             return confirmationLink;
         }
