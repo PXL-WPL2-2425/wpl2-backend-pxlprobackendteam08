@@ -23,7 +23,8 @@ namespace WebApiTeam08.Controllers
         public ActionResult SelectTasksByGroup(int groupId)
         {
             SelectResult tasks = Tasks.GetTasksByGroup(groupId);
-            return Ok(tasks);
+            string JSONresult = JsonConvert.SerializeObject(tasks);
+            return Ok(JSONresult);
         }
     }
 }
