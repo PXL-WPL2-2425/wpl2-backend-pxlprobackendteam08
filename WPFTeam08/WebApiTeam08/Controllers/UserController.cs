@@ -69,25 +69,25 @@ namespace WebApiTeam08.Controllers
         }
 
 
-       /* [HttpGet("userId")]
-        public ActionResult GetUserById(int userId)
-        {
-            var user = Users.GetUserById(userId);
+        //[HttpGet("userId")]
+        //public ActionResult GetUserById(int userId)
+        //{
+        //    var user = Users.GetUserById(userId);
 
-            if (user == null)
-            {
-                return NotFound($"Role with ID {userId} not found.");
-            }
+        //    if (user == null)
+        //    {
+        //        return NotFound($"Role with ID {userId} not found.");
+        //    }
 
-            return Ok(user);
-        }
+        //    return Ok(user);
+        //}
        
-        [HttpGet("Admin")]
-        public ActionResult SelectAdmins()
-        {
-            SelectResult result = Users.Admins();
-            string JSONresult = JsonConvert.SerializeObject(result);
-            return Ok(JSONresult);
-        }
+        //[HttpGet("Admin")]
+        //public ActionResult SelectAdmins()
+        //{
+        //    SelectResult result = Users.Admins();
+        //    string JSONresult = JsonConvert.SerializeObject(result);
+        //    return Ok(JSONresult);
+        //}
     }
 }
