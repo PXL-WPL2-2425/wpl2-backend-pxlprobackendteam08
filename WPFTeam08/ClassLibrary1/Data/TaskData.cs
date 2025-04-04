@@ -45,9 +45,23 @@ namespace ClassLibrary1.Data
             return result;
         }
 
-        internal SelectResult SelectByGroupID(int groupId)
+        public SelectResult SelectByGroupID(int groupId)
         {
-            throw new NotImplementedException();
+            var result = new SelectResult();
+            try
+            {
+                StringBuilder selectQuery = new StringBuilder();
+                selectQuery.Append($"SELECT * FROM Tasks WHERE GroupID = {groupId}");
+                using (SqlCommand selectCommand = new SqlCommand(selectQuery.ToString()))
+                {
+                    result = Select(selectCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
         }
     }
 }
