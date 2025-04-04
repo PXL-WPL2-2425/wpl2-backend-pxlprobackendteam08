@@ -69,10 +69,10 @@ namespace WebApiTeam08.Controllers
         }
 
 
-        //[HttpGet("userId")]
-        //public ActionResult GetUserById(int userId)
-        //{
-        //    var user = Users.GetUserById(userId);
+       /* [HttpGet("userId")]
+        public ActionResult GetUserById(int userId)
+        {
+            var user = Users.GetUserById(userId);
 
         //    if (user == null)
         //    {
