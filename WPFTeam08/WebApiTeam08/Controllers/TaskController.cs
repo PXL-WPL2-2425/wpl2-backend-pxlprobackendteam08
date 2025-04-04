@@ -18,11 +18,25 @@ namespace WebApiTeam08.Controllers
             string JSONresult = JsonConvert.SerializeObject(tasks);
             return Ok(JSONresult);
         }
+        [HttpDelete("DeleteTask")]
+        public ActionResult DeleteTask(int TaskId)
+        {
+            SelectResult tasks = Tasks.DeleteTask(TaskId);
+            string JSONresult = JsonConvert.SerializeObject(tasks);
+            return Ok(JSONresult);
+        }
+        [HttpPut("UpdateTask")]
+        public ActionResult UpdateTask(int TaskId, int SupplierId, string ServiceName, string Description)
+        {
+            SelectResult tasks = Tasks.UpdateTask(/*TaskId,*/ SupplierId, ServiceName, Description);
+            string JSONresult = JsonConvert.SerializeObject(tasks);
+            return Ok(JSONresult);
+        }
 
         [HttpGet("GetTasks")]
-        public ActionResult SelectTasksByGroup(int groupId)
+        public ActionResult SelectTasksByGroup(int TaskId)
         {
-            SelectResult tasks = Tasks.GetTasksByGroup(groupId);
+            SelectResult tasks = Tasks.GetTasksByGroup(TaskId);
             return Ok(tasks);
         }
     }
