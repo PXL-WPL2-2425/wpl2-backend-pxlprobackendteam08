@@ -1,6 +1,20 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Text.Json.Serialization;//!! namespace WebApiTeam08 for serialisation;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+
+//!! Controller toevoegen met ondersteuning voor serialisatie van cyclische referenties
+//Hier voeg ik de JsonOptins toe om controller kan serialisatie van cyclische objecten onderstunen
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+        options.JsonSerializerOptions.WriteIndented = true;
+    });
+//
+
 
 // Add services to the container.
 
@@ -27,6 +41,7 @@ app.UseCors(x => x
 .AllowAnyHeader()
 .SetIsOriginAllowed(origin => true)
 .AllowCredentials());
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
