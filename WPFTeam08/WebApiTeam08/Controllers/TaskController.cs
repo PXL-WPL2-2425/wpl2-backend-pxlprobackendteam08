@@ -43,11 +43,18 @@ namespace WebApiTeam08.Controllers
         }
 
         [HttpPut("UpdateTask")]
-        public ActionResult UpdateTask(int TaskId, int SupplierId, string ServiceName, string Description)
+        public ActionResult UpdateTask([FromBody] UpdateTaskRequest dto)
         {
-            SelectResult tasks = Tasks.UpdateTask(SupplierId, ServiceName, Description);
-            string JSONresult = JsonConvert.SerializeObject(tasks);
-            return Ok(JSONresult);
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState); // Return validation errors
+            }
+
+            SelectResult result = Tasks.UpdateTask(dto.ServiceID, dto.ServiceName, dto.Description);
+            return Ok(result);  
+            //SelectResult tasks = Tasks.UpdateTask(SupplierId, ServiceName, Description);
+            //string JSONresult = JsonConvert.SerializeObject(tasks);
+            //return Ok(JSONresult);
         }
 
         [HttpGet("GetTasks")]

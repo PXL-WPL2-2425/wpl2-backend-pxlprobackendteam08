@@ -99,6 +99,8 @@ namespace ClassLibTeam08.Business
             SelectResult result = data.SelectByGroupID(TaskId);
             return result;
         }
+
+
         //public static SelectResult AddTask(int SupplierId, string ServiceName, string Description)
         //{
         //    var data = new TaskData(_configuration);
@@ -134,10 +136,35 @@ namespace ClassLibTeam08.Business
             return result;
             
         }
-        public static SelectResult UpdateTask(/*int TaskId,*/ int SupplierId, string ServiceName, string Description)
+        public static SelectResult UpdateTask( int serviceId, string serviceName, string description)
         {
-            var data = new TaskData(_configuration);
-            SelectResult result = data.SelectByGroupID(/*TaskId,*/ SupplierId, ServiceName, Description);
+            var result = new SelectResult();
+
+            try
+            {
+                using(SqlConnection conn = new SqlConnection(_connectionString))
+                {
+                    conn.Open();
+
+                    string updateServiceQuery = "UPDATE Services SET ServiceName = @ServiceName, Descriptions = @Description WHERE ServiceID = @ServiceID";
+
+                    SqlCommand cmd = new SqlCommand(updateServiceQuery, conn);
+                    cmd.Parameters.AddWithValue("@ServiceID", serviceId);
+                    cmd.Parameters.AddWithValue("@ServiceName", serviceName);
+                    cmd.Parameters.AddWithValue("@Description", description);
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+
+                    result.Success = rowsAffected > 0;
+                    result.Message = rowsAffected > 0 ? "Service succesvol geupdate." : "Service met deze ID niet gevonden.";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = $"Error: {ex.Message}";
+            }
+
             return result;
         }
     }
