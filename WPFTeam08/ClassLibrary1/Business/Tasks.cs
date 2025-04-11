@@ -1,12 +1,6 @@
-﻿using ClassLibrary08.Data.Framework;
-using ClassLibTeam08.Data;
-using ClassLibTeam08.Data.Framework;
+﻿using ClassLibTeam08.Data.Framework;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using System.Data;
-using System.Net.Mail;
-using System.Net;
-using System.Configuration;
 using ClassLibrary1.Data;
 using WebApiTeam08.DTOs;
 
@@ -23,11 +17,19 @@ namespace ClassLibTeam08.Business
 
         }
 
-        //private static string _connectionString = "TrustServerCertificate=True; Server=10.128.4.7; Database=Db2025Team_08; User Id=PxlUser_08; Password=GoTeam08";
+        //Connection to remote SQL Server trhough appsettings.json
+        //var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+        //string _connectionString = _configuration.GetConnectionString("DefaultConnection");
 
+
+        //Connection to Remote SQL Server of Team08
         //private static string _connectionString = ClassLibrary1.ClassLib.Default.SqlServerConnect;
+
+
+        //Connection to my Local SQL Server
         private static string _connectionString = ClassLibrary1.ClassLib.Default.MyLocalDB;
-        //AddOrUpdateTask
+
+        //AddTask
         public static SelectResult AddTask(TaskRequest dto) 
         {
             var result = new SelectResult();
@@ -36,8 +38,8 @@ namespace ClassLibTeam08.Business
             {
                 using (SqlConnection conn = new SqlConnection(_connectionString))
                 {
-                    conn.Open();
-
+                    conn.Open();     
+                    
                     //Controleer per e-mail of de leverancier bestaat
                     string checkSupplierQuery = "SELECT SupplierID FROM Suppliers WHERE Email = @Email";
                     SqlCommand checkCmd = new SqlCommand(checkSupplierQuery, conn);
@@ -53,6 +55,7 @@ namespace ClassLibTeam08.Business
                     else
                     {
                         // 2. Een nieuwe leverancier invoegen
+                        
                         string insertSupplier = @"INSERT INTO Suppliers (CompanyName, Email, Phone, Address, ServiceType)
                                           VALUES (@CompanyName, @Email, @Phone, @Address, @ServiceType);
                                           SELECT SCOPE_IDENTITY();";
@@ -76,10 +79,11 @@ namespace ClassLibTeam08.Business
 
                     int serviceRows = serviceCmd.ExecuteNonQuery();
                     result.Message = serviceRows > 0 ? "Service succesvol toegevoegd." : "Fout bij het toevoegen van een service.";
+                    
                 }
             }
             catch (Exception ex)
-            {
+            {               
                 result.Success = false;
                 result.Message = $"Error: {ex.Message}";
             }
@@ -101,11 +105,34 @@ namespace ClassLibTeam08.Business
         //    SelectResult result = data.SelectByGroupID(SupplierId, ServiceName, Description);
         //    return result;
         //}
-        public static SelectResult DeleteTask(int TaskId)
+        public static SelectResult DeleteTask(int ServiceID)
         {
-            var data = new TaskData(_configuration);
-            SelectResult result = data.SelectByGroupID(TaskId);
+            var result = new SelectResult();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(_connectionString))
+                {
+                    conn.Open();
+
+                    string deleteServiceQuery = "DELETE FROM Services WHERE ServiceID = @ServiceID";
+                    SqlCommand cmd = new SqlCommand(deleteServiceQuery, conn);
+                    cmd.Parameters.AddWithValue("@ServiceID", ServiceID);
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+
+                    result.Success = rowsAffected > 0;
+                    result.Message = rowsAffected > 0 ? "Service succesvol verwijderd." : "Service met deze ID niet gevonden.";
+                }
+            }
+            catch(Exception ex)
+            {
+                result.Success = false;
+                result.Message = $"Error: {ex.Message}";
+            }
+
             return result;
+            
         }
         public static SelectResult UpdateTask(/*int TaskId,*/ int SupplierId, string ServiceName, string Description)
         {

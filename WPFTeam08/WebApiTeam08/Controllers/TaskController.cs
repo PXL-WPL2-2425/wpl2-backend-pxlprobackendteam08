@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using WebApiTeam08.ViewModels;
 using WebApiTeam08.DTOs;
+using ClassLibrary1.DTOs;
 
 namespace WebApiTeam08.Controllers
 {
@@ -30,11 +31,15 @@ namespace WebApiTeam08.Controllers
         }
 
         [HttpDelete("DeleteTask")]
-        public ActionResult DeleteTask(int TaskId)
+        public ActionResult DeleteTask([FromBody] DeleteTaskRequest dto)
         {
-            SelectResult tasks = Tasks.DeleteTask(TaskId);
-            string JSONresult = JsonConvert.SerializeObject(tasks);
-            return Ok(JSONresult);
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState); // Return validation errors
+            }
+            var result = Tasks.DeleteTask(dto.ServiceID);
+            return Ok(result);
+
         }
 
         [HttpPut("UpdateTask")]
