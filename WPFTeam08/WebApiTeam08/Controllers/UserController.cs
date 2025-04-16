@@ -69,10 +69,10 @@ namespace WebApiTeam08.Controllers
         }
 
 
-       /* [HttpGet("userId")]
+        [HttpGet("userId")]
         public ActionResult GetUserById(int userId)
         {
-            var user = Users.GetUserById(userId);
+            var user = Users.GetUser(userId);
 
             if (user == null)
             {
@@ -80,7 +80,14 @@ namespace WebApiTeam08.Controllers
             }
 
             return Ok(user);
+        }
 
-        }*/
+        [HttpGet("Admin")]
+        public ActionResult SelectAdmins()
+        {
+            SelectResult result = Users.Admins();
+            string JSONresult = JsonConvert.SerializeObject(result);
+            return Ok(JSONresult);
+        }
     }
 }

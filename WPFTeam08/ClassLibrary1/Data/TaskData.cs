@@ -26,6 +26,25 @@ namespace ClassLibrary1.Data
             _configuration = configuration;
         }
 
+        public SelectResult SelectByGroupID(int groupId, string serviceName, string description)
+        {
+            var result = new SelectResult();
+            try
+            {
+                StringBuilder selectQuery = new StringBuilder();
+                selectQuery.Append($"SELECT * FROM Tasks WHERE GroupID = {groupId}");
+                using (SqlCommand selectCommand = new SqlCommand(selectQuery.ToString()))
+                {
+                    result = Select(selectCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+
         public SelectResult SelectByGroupID(int groupId)
         {
             var result = new SelectResult();

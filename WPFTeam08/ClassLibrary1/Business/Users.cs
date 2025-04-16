@@ -60,7 +60,7 @@ namespace ClassLibTeam08.Business.Entities
                     Password = row.Field<string>("wachtWord"),
                     Phone = row.Field<string>("phone"),
                     Address = row.Field<string>("adres"),
-                    Roles = row.Field<string>("Rol"),
+                    Roles = row.Field<string>("rol"),
                     BirthDay = row.Field<DateTime>("birthday"),
                 };
             }
@@ -134,7 +134,7 @@ namespace ClassLibTeam08.Business.Entities
             var data = new UserData(_configuration); // Pass the configuration
             SelectResult result = data.SelectByEmailAndPassword(email, password);
              
-            AddToken((int)result.DataTable.Rows[0][0], result.GenerateToken());
+            //AddToken((int)result.DataTable.Rows[0][0], result.GenerateToken());
 
             return result;
         }
@@ -151,6 +151,11 @@ namespace ClassLibTeam08.Business.Entities
             var data = new UserData(_configuration); // Pass the configuration
             SelectResult result = data.GetToken(email);
             return result;
+        }
+        public static SelectResult Admins()
+        {
+            var data = new UserData(_configuration); 
+            return data.SelectAdmins();
         }
     }
 }
