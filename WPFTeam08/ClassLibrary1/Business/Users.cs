@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.Net.Mail;
 using System.Net;
+using Isopoh.Cryptography.Argon2;
 
 namespace ClassLibTeam08.Business.Entities
 {
@@ -60,7 +61,7 @@ namespace ClassLibTeam08.Business.Entities
                     Password = row.Field<string>("wachtWord"),
                     Phone = row.Field<string>("phone"),
                     Address = row.Field<string>("adres"),
-                    Roles = row.Field<string>("Rol"),
+                    Rol = row.Field<string>("Rol"),
                     BirthDay = row.Field<DateTime>("birthday"),
                 };
             }
@@ -132,9 +133,27 @@ namespace ClassLibTeam08.Business.Entities
         public static SelectResult CheckLogin(string email, string password)
         {
             var data = new UserData(_configuration); // Pass the configuration
-            SelectResult result = data.SelectByEmailAndPassword(email, password);
+            SelectResult result = data.SelectByEmail(email); 
+
+            if(result.DataTable.Rows.Count != 0)
+            {
+                if (Argon2.Verify((string)result.DataTable.Rows[0][6], password))
+                {
+                    result.Succeeded = true;
+                }
+
+                else
+                {
+                    result.AddError("wrong password");
+                    result.Succeeded = false;
+                }
+            }
              
-            AddToken((int)result.DataTable.Rows[0][0], result.GenerateToken());
+           else
+            {
+                result.AddError("nothing found");
+                result.Succeeded = false;
+            }
 
             return result;
         }

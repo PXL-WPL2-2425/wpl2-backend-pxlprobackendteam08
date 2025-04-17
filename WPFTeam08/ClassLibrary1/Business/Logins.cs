@@ -87,9 +87,9 @@ namespace ClassLibrary1.Business
             return aggregateResult;
         }
 
-        public static InsertResult Add(string firstName, string lastName, string username, string email, string address, string password, DateTime birthday, string phone)
+        public static InsertResult Add(string firstName, string lastName, string userName, string email, string address, string password, DateTime birthday, string phone)
         {
-            if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName) || string.IsNullOrEmpty(username) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(address) || string.IsNullOrEmpty(password) || birthday == DateTime.MinValue)
+            if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName) || string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(address) || string.IsNullOrEmpty(password) || birthday == DateTime.MinValue)
             {
                 return new InsertResult() { Success = false, Message = "All fields are required" };
             }
@@ -106,17 +106,9 @@ namespace ClassLibrary1.Business
             //}
             else
             {
-                User user = new()
-                {
-                    FirstName = firstName,
-                    LastName = lastName,
-                    UserName = username,
-                    Email = email,
-                    Address = address,
-                    Password = password,
-                    BirthDay = birthday,
-                    Phone = phone
-                };
+                User user = new User(firstName, lastName, userName, email, address, password, birthday, phone, "client");
+
+
                 UserData userData = new UserData(_configuration);
                 InsertResult result = userData.Insert(user);
 

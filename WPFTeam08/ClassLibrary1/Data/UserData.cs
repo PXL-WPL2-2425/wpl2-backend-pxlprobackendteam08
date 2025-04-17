@@ -108,6 +108,30 @@ namespace ClassLibTeam08.Data
 
         }
 
+        public SelectResult SelectByPassword(string email)
+        {
+            var result = new SelectResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"select * from Users where email = @email");
+
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    insertCommand.Parameters.Add("@email", SqlDbType.VarChar);
+                    insertCommand.Parameters["@email"].Value = email;
+                    result = Select(insertCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+
+            return result;
+        }
+
         public SelectResult SelectByEmailAndPassword(string email, string password)
         {
             var result = new SelectResult();
@@ -120,8 +144,8 @@ namespace ClassLibTeam08.Data
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
                     insertCommand.Parameters.Add("@email", SqlDbType.VarChar);
-                    insertCommand.Parameters.Add("@password", SqlDbType.VarChar);
                     insertCommand.Parameters["@email"].Value = email;
+                    insertCommand.Parameters.Add("@password", SqlDbType.VarChar);
                     insertCommand.Parameters["@password"].Value = password;
                     result = Select(insertCommand);
                 }
@@ -165,8 +189,8 @@ namespace ClassLibTeam08.Data
                 //SQL Command
                 StringBuilder insertQuery = new StringBuilder();
                 insertQuery.Append($"Insert INTO {TableName}");
-                insertQuery.Append($"(firstname, lastname, username, email, adres, wachtWord, birthday, phone) VALUES");
-                insertQuery.Append($"(@firstname, @lastname, @username, @email, @adres, @wachtWord, @birthday, @phone);");
+                insertQuery.Append($"(firstname, lastname, username, email, adres, wachtWord, birthday, phone, rol) VALUES");
+                insertQuery.Append($"(@firstname, @lastname, @username, @email, @adres, @wachtWord, @birthday, @phone, @rol);");
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
                     insertCommand.Parameters.Add("@firstname", SqlDbType.VarChar).Value =
@@ -185,6 +209,8 @@ namespace ClassLibTeam08.Data
                     user.BirthDay;
                     insertCommand.Parameters.Add("@phone", SqlDbType.VarChar).Value =
                     user.Phone;
+                    insertCommand.Parameters.Add("@rol", SqlDbType.VarChar).Value =
+                    user.Rol;
                     result = Insert(insertCommand);
                 }
             }
