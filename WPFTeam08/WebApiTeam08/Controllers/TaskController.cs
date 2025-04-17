@@ -58,7 +58,7 @@ namespace WebApiTeam08.Controllers
         }
 
         [HttpGet("GetTasks")]
-        public ActionResult SelectTasksByGroup(int TaskId)
+        public ActionResult SelectTasksByGroup(int groupId)
         {
             SelectResult tasks = Tasks.GetTasksByGroup(groupId);
             string JSONresult = JsonConvert.SerializeObject(tasks);
