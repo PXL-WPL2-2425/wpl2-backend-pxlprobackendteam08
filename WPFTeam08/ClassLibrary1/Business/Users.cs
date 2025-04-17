@@ -134,7 +134,7 @@ namespace ClassLibTeam08.Business.Entities
             var data = new UserData(_configuration); // Pass the configuration
             SelectResult result = data.SelectByEmailAndPassword(email, password);
              
-            AddToken((int)result.DataTable.Rows[0][0], result.GenerateToken());
+            //AddToken((int)result.DataTable.Rows[0][0], result.GenerateToken());
 
             return result;
         }
