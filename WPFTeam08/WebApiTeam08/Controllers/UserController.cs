@@ -93,5 +93,13 @@ namespace WebApiTeam08.Controllers
             string JSONresult = JsonConvert.SerializeObject(result);
             return Ok(JSONresult);
         }
+
+        [HttpGet("SendConfirmEmail")]
+        public ActionResult SendConfirmEmail(string toEmail, string subject, string body)
+        {
+            EmailResult result = Users.SendOrderConfirmation(toEmail, subject, body);
+            string JSONresult = JsonConvert.SerializeObject(result);
+            return Ok(JSONresult);
+        }
     }
 }

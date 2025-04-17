@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.Net.Mail;
 using System.Net;
+
 using Isopoh.Cryptography.Argon2;
 
 namespace ClassLibTeam08.Business.Entities
@@ -61,7 +62,7 @@ namespace ClassLibTeam08.Business.Entities
                     Password = row.Field<string>("wachtWord"),
                     Phone = row.Field<string>("phone"),
                     Address = row.Field<string>("adres"),
-                    Roles = row.Field<string>("rol"),
+                    Rol = row.Field<string>("rol"),
                     BirthDay = row.Field<DateTime>("birthday"),
                 };
             }
@@ -93,6 +94,15 @@ namespace ClassLibTeam08.Business.Entities
             var userData = new UserData(_configuration); // Pass the configuration
 
             EmailResult emailResult = userData.SendNewPasswordEmail(Email);
+
+            return emailResult;
+        }
+
+        public static EmailResult SendOrderConfirmation(string toEmail, string subject, string body)
+        {
+            var userData = new UserData(_configuration); // Pass the configuration
+
+            EmailResult emailResult = userData.SendConfirmEmail(toEmail, subject, body);
 
             return emailResult;
         }

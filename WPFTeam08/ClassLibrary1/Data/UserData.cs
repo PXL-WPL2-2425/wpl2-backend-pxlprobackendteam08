@@ -6,6 +6,8 @@ using System.Data;
 using System.Text;
 using System.Net;
 using System.Net.Mail;
+using MailKit.Net.Smtp;
+using MimeKit;
 using ClassLibrary1.Data;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
@@ -424,7 +426,7 @@ namespace ClassLibTeam08.Data
             // SMTP Setup + send email
             try
             {
-                using (SmtpClient smtp = new SmtpClient(smtpServer, port))
+                using (System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(smtpServer, port))
                 {
                     // Login for authentication
                     smtp.Credentials = new NetworkCredential(fromEmail, fromPassword);
@@ -463,6 +465,50 @@ namespace ClassLibTeam08.Data
             string confirmationLink = $"http://localhost:5173/NewWachtWoordView/?token={encodedToken}&email={email}";
 
             return confirmationLink;
+        }
+
+        public EmailResult SendConfirmEmail(string toEmail, string subject, string body)
+        {
+            EmailResult emailResult = new EmailResult();
+            
+                var email = new MimeMessage();
+                email.From.Add(new MailboxAddress("MonoHome", "monohomepass@gmail.com"));
+                email.To.Add(new MailboxAddress("reciever", toEmail));
+                email.Subject = subject;
+
+                email.Body = new TextPart("html")
+                {
+                    Text = body
+                };
+
+            try 
+            {
+                using (var client = new MailKit.Net.Smtp.SmtpClient())
+                {
+                    client.Connect("smtp.gmail.com", 587, MailKit.Security.SecureSocketOptions.StartTls);
+                    client.Authenticate("monohomepass@gmail.com", "dndz vqer tfcm ierc");
+                    client.Send(email);
+                    client.Disconnect(true);
+                }
+            }
+
+            catch (SmtpException smtpEx)
+            {
+                Debug.WriteLine($"SMTP Fout bij verzenden van e-mail: {smtpEx.Message}");
+                emailResult.AddError(smtpEx.Message);
+                emailResult.Succeeded = false;
+            }
+
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Fout bij verzenden van e-mail: {ex.Message}");
+                emailResult.AddError(ex.Message);
+                emailResult.Succeeded = false;
+            }
+
+
+            emailResult.Succeeded = true;
+            return emailResult;
         }
        
         public SelectResult SelectAdmins()
