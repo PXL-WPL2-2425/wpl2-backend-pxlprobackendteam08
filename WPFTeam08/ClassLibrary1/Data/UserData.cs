@@ -1,18 +1,15 @@
 ﻿using ClassLibrary08.Data.Framework;
+using ClassLibrary1.Data;
 using ClassLibTeam08.Business.Entities;
 using ClassLibTeam08.Data.Framework;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+using MimeKit;
 using System.Data;
-using System.Text;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Mail;
-using MailKit.Net.Smtp;
-using MimeKit;
-using ClassLibrary1.Data;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using System.Diagnostics;
-using System.Linq.Expressions;
+using System.Text;
 
 namespace ClassLibTeam08.Data
 {
@@ -22,7 +19,7 @@ namespace ClassLibTeam08.Data
         public UserData(IConfiguration configuration)
         {
             TableName = "Users";
-            _configuration = configuration; 
+            _configuration = configuration;
         }
 
         public string TableName { get; set; }
@@ -79,7 +76,7 @@ namespace ClassLibTeam08.Data
                 insertQuery.Append($"select email from Users");
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
-                    result = Select(insertCommand); 
+                    result = Select(insertCommand);
                 }
             }
             catch (Exception ex)
@@ -241,7 +238,7 @@ namespace ClassLibTeam08.Data
                     result = Update(insertCommand);
                 }
 
-               
+
             }
             catch (Exception ex)
             {
@@ -307,7 +304,7 @@ namespace ClassLibTeam08.Data
             }
             catch (Exception ex)
             {
-                result.Succeeded= false;
+                result.Succeeded = false;
                 throw new Exception(ex.Message, ex);
             }
             return result;
@@ -444,7 +441,7 @@ namespace ClassLibTeam08.Data
 
                     smtp.Send(mail);
                     emailResult.Succeeded = true;
-                    return emailResult;           
+                    return emailResult;
                 }
             }
             catch (SmtpException smtpEx)
@@ -470,26 +467,21 @@ namespace ClassLibTeam08.Data
         public EmailResult SendConfirmEmail(string toEmail, string subject, string body)
         {
             EmailResult emailResult = new EmailResult();
-            
-                var email = new MimeMessage();
-                email.From.Add(new MailboxAddress("MonoHome", "monohomepass@gmail.com"));
-                email.To.Add(new MailboxAddress("reciever", toEmail));
-                email.Subject = subject;
+            MimeMailWrapper mimeMailWrapper = new MimeMailWrapper();
 
-                email.Body = new TextPart("html")
-                {
-                    Text = body
-                };
+            BodyBuilder bodyBuilder = new BodyBuilder();
 
-            try 
+            bodyBuilder.TextBody = "Test body";
+
+            bodyBuilder.HtmlBody += @"<p>Hallo gebruiker,<br>
+<h1>Order bevestigd!<br>
+<h3>bye<br>
+<p>-- MonoHome<br>";
+
+         
+            try
             {
-                using (var client = new MailKit.Net.Smtp.SmtpClient())
-                {
-                    client.Connect("smtp.gmail.com", 587, MailKit.Security.SecureSocketOptions.StartTls);
-                    client.Authenticate("monohomepass@gmail.com", "dndz vqer tfcm ierc");
-                    client.Send(email);
-                    client.Disconnect(true);
-                }
+                mimeMailWrapper.SendEmail(toEmail, subject, bodyBuilder);
             }
 
             catch (SmtpException smtpEx)
@@ -510,7 +502,7 @@ namespace ClassLibTeam08.Data
             emailResult.Succeeded = true;
             return emailResult;
         }
-       
+
         public SelectResult SelectAdmins()
         {
             var result = new SelectResult();

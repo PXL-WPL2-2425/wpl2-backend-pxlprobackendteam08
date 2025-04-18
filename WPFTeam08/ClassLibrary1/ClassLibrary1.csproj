@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Folder Include="Data\repositories\" />
+    <Folder Include="Assets\" />
   </ItemGroup>
 
   <ItemGroup>
