@@ -8,6 +8,7 @@ using System.Net.Mail;
 using System.Net;
 
 using Isopoh.Cryptography.Argon2;
+using ClassLibrary1.Data;
 
 namespace ClassLibTeam08.Business.Entities
 {
@@ -136,7 +137,18 @@ namespace ClassLibTeam08.Business.Entities
         public static UpdateResult ChangePassword(string email, string password)
         {
             var data = new UserData(_configuration); // Pass the configuration
-            UpdateResult result = data.ChangePassword(email, password);
+            UpdateResult result = new UpdateResult();
+
+            result = (UpdateResult)PasswordChecker.CheckPassword(password, result);
+
+            if (result.Succeeded == false)
+                return result;
+
+
+            string encryptedPassword = Argon2.Hash(password);
+
+            result = data.ChangePassword(email, encryptedPassword);
+
             return result;
         }
 

@@ -89,16 +89,27 @@ namespace ClassLibrary1.Business
 
         public static InsertResult Add(string firstName, string lastName, string userName, string email, string address, string password, DateTime birthday, string phone)
         {
+            InsertResult insertResult = new InsertResult();
+
             if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName) || string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(address) || string.IsNullOrEmpty(password) || birthday == DateTime.MinValue)
             {
+
                 return new InsertResult() { Success = false, Message = "All fields are required" };
             }
 
             else if (password.Length <= 8)
-
             {
                 return new InsertResult() { Success = false, Message = "Password must be at least 8 characters" };
             }
+
+            insertResult = PasswordChecker.CheckPasswordInsertResult(password, insertResult);
+
+            if(insertResult.Succeeded == false)
+            {
+                insertResult.Success = false;
+                return insertResult;
+            }
+
 
             //if(user.Email == true)
             //{
@@ -106,6 +117,7 @@ namespace ClassLibrary1.Business
             //}
             else
             {
+                //pasword ghets ncrypted in the User constructor
                 User user = new User(firstName, lastName, userName, email, address, password, birthday, phone, "client");
 
 

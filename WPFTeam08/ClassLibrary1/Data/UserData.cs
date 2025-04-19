@@ -5,6 +5,7 @@ using ClassLibTeam08.Data.Framework;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
+using Org.BouncyCastle.Utilities.Net;
 using System.Data;
 using System.Diagnostics;
 using System.Net;
@@ -223,6 +224,7 @@ namespace ClassLibTeam08.Data
         public UpdateResult ChangePassword(string Email, string newPassword)
         {
             var result = new UpdateResult();
+
             try
             {
                 //SQL Command
@@ -242,7 +244,7 @@ namespace ClassLibTeam08.Data
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message, ex);
+                result.AddError(ex.Message);
             }
 
             return result;
@@ -261,7 +263,7 @@ namespace ClassLibTeam08.Data
                     result = Delete(insertCommand);
                 }
             }
-            catch (Exception ex)
+            catch (Exception ex) 
             {
                 throw new Exception(ex.Message, ex);
             }
