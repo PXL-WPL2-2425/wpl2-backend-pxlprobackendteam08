@@ -45,7 +45,7 @@ namespace ClassLibTeam08.Business.Entities
             result.Succeeded = true;
             return result;
         }
-        static User GetUserById(int userId)
+        public static User GetUserById(int userId)
         {
             UserData userData = new UserData(_configuration);
             SelectResult result = userData.SelectUserById(userId);

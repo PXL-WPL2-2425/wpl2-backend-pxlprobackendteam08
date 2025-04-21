@@ -32,7 +32,7 @@ namespace ClassLibTeam08.Data
             {
                 //SQL Command
                 StringBuilder insertQuery = new StringBuilder();
-                insertQuery.Append($"select * from Users WHERE UserID = {ID}");
+                insertQuery.Append($"select * from Users WHERE userID = {ID}");
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
                     result = Select(insertCommand);
