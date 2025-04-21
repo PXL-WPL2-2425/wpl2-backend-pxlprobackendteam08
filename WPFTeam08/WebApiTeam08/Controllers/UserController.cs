@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using WebApiTeam08.ViewModels;
+using Isopoh;
+
 
 namespace WebApiTeam08.Controllers
 {
@@ -63,7 +65,9 @@ namespace WebApiTeam08.Controllers
         [HttpPost("LoginUser")]
         public ActionResult LoginUser(LoginViewmodel loginViewmodel)
         {
+          
             SelectResult users = Users.CheckLogin(loginViewmodel.Email, loginViewmodel.Wachtwoord);
+
             string JSONresult = JsonConvert.SerializeObject(users);
             return Ok(JSONresult);
         }
@@ -86,6 +90,14 @@ namespace WebApiTeam08.Controllers
         public ActionResult SelectAdmins()
         {
             SelectResult result = Users.Admins();
+            string JSONresult = JsonConvert.SerializeObject(result);
+            return Ok(JSONresult);
+        }
+
+        [HttpGet("SendConfirmEmail")]
+        public ActionResult SendConfirmEmail(string toEmail, string subject, string body)
+        {
+            EmailResult result = Users.SendOrderConfirmation(toEmail, subject, body);
             string JSONresult = JsonConvert.SerializeObject(result);
             return Ok(JSONresult);
         }

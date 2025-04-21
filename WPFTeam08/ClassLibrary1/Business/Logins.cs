@@ -87,18 +87,29 @@ namespace ClassLibrary1.Business
             return aggregateResult;
         }
 
-        public static InsertResult Add(string firstName, string lastName, string username, string email, string address, string password, DateTime birthday, string phone)
+        public static InsertResult Add(string firstName, string lastName, string userName, string email, string address, string password, DateTime birthday, string phone)
         {
-            if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName) || string.IsNullOrEmpty(username) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(address) || string.IsNullOrEmpty(password) || birthday == DateTime.MinValue)
+            InsertResult insertResult = new InsertResult();
+
+            if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName) || string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(address) || string.IsNullOrEmpty(password) || birthday == DateTime.MinValue)
             {
+
                 return new InsertResult() { Success = false, Message = "All fields are required" };
             }
 
             else if (password.Length <= 8)
-
             {
                 return new InsertResult() { Success = false, Message = "Password must be at least 8 characters" };
             }
+
+            insertResult = PasswordChecker.CheckPasswordInsertResult(password, insertResult);
+
+            if(insertResult.Succeeded == false)
+            {
+                insertResult.Success = false;
+                return insertResult;
+            }
+
 
             //if(user.Email == true)
             //{
@@ -106,17 +117,10 @@ namespace ClassLibrary1.Business
             //}
             else
             {
-                User user = new()
-                {
-                    FirstName = firstName,
-                    LastName = lastName,
-                    UserName = username,
-                    Email = email,
-                    Address = address,
-                    Password = password,
-                    BirthDay = birthday,
-                    Phone = phone
-                };
+                //pasword ghets ncrypted in the User constructor
+                User user = new User(firstName, lastName, userName, email, address, password, birthday, phone, "client");
+
+
                 UserData userData = new UserData(_configuration);
                 InsertResult result = userData.Insert(user);
 

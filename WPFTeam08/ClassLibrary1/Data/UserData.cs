@@ -1,16 +1,16 @@
 ﻿using ClassLibrary08.Data.Framework;
+using ClassLibrary1.Data;
 using ClassLibTeam08.Business.Entities;
 using ClassLibTeam08.Data.Framework;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+using MimeKit;
+using Org.BouncyCastle.Utilities.Net;
 using System.Data;
-using System.Text;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Mail;
-using ClassLibrary1.Data;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using System.Diagnostics;
-using System.Linq.Expressions;
+using System.Text;
 
 namespace ClassLibTeam08.Data
 {
@@ -20,7 +20,7 @@ namespace ClassLibTeam08.Data
         public UserData(IConfiguration configuration)
         {
             TableName = "Users";
-            _configuration = configuration; 
+            _configuration = configuration;
         }
 
         public string TableName { get; set; }
@@ -77,7 +77,7 @@ namespace ClassLibTeam08.Data
                 insertQuery.Append($"select email from Users");
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
-                    result = Select(insertCommand); 
+                    result = Select(insertCommand);
                 }
             }
             catch (Exception ex)
@@ -108,6 +108,30 @@ namespace ClassLibTeam08.Data
 
         }
 
+        public SelectResult SelectByPassword(string email)
+        {
+            var result = new SelectResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"select * from Users where email = @email");
+
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    insertCommand.Parameters.Add("@email", SqlDbType.VarChar);
+                    insertCommand.Parameters["@email"].Value = email;
+                    result = Select(insertCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+
+            return result;
+        }
+
         public SelectResult SelectByEmailAndPassword(string email, string password)
         {
             var result = new SelectResult();
@@ -120,8 +144,8 @@ namespace ClassLibTeam08.Data
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
                     insertCommand.Parameters.Add("@email", SqlDbType.VarChar);
-                    insertCommand.Parameters.Add("@password", SqlDbType.VarChar);
                     insertCommand.Parameters["@email"].Value = email;
+                    insertCommand.Parameters.Add("@password", SqlDbType.VarChar);
                     insertCommand.Parameters["@password"].Value = password;
                     result = Select(insertCommand);
                 }
@@ -165,8 +189,8 @@ namespace ClassLibTeam08.Data
                 //SQL Command
                 StringBuilder insertQuery = new StringBuilder();
                 insertQuery.Append($"Insert INTO {TableName}");
-                insertQuery.Append($"(firstname, lastname, username, email, adres, wachtWord, birthday, phone) VALUES");
-                insertQuery.Append($"(@firstname, @lastname, @username, @email, @adres, @wachtWord, @birthday, @phone);");
+                insertQuery.Append($"(firstname, lastname, username, email, adres, wachtWord, birthday, phone, rol) VALUES");
+                insertQuery.Append($"(@firstname, @lastname, @username, @email, @adres, @wachtWord, @birthday, @phone, @rol);");
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
                     insertCommand.Parameters.Add("@firstname", SqlDbType.VarChar).Value =
@@ -185,6 +209,8 @@ namespace ClassLibTeam08.Data
                     user.BirthDay;
                     insertCommand.Parameters.Add("@phone", SqlDbType.VarChar).Value =
                     user.Phone;
+                    insertCommand.Parameters.Add("@rol", SqlDbType.VarChar).Value =
+                    user.Rol;
                     result = Insert(insertCommand);
                 }
             }
@@ -198,6 +224,7 @@ namespace ClassLibTeam08.Data
         public UpdateResult ChangePassword(string Email, string newPassword)
         {
             var result = new UpdateResult();
+
             try
             {
                 //SQL Command
@@ -213,11 +240,11 @@ namespace ClassLibTeam08.Data
                     result = Update(insertCommand);
                 }
 
-               
+
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message, ex);
+                result.AddError(ex.Message);
             }
 
             return result;
@@ -236,7 +263,7 @@ namespace ClassLibTeam08.Data
                     result = Delete(insertCommand);
                 }
             }
-            catch (Exception ex)
+            catch (Exception ex) 
             {
                 throw new Exception(ex.Message, ex);
             }
@@ -279,7 +306,7 @@ namespace ClassLibTeam08.Data
             }
             catch (Exception ex)
             {
-                result.Succeeded= false;
+                result.Succeeded = false;
                 throw new Exception(ex.Message, ex);
             }
             return result;
@@ -398,7 +425,7 @@ namespace ClassLibTeam08.Data
             // SMTP Setup + send email
             try
             {
-                using (SmtpClient smtp = new SmtpClient(smtpServer, port))
+                using (System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(smtpServer, port))
                 {
                     // Login for authentication
                     smtp.Credentials = new NetworkCredential(fromEmail, fromPassword);
@@ -416,7 +443,7 @@ namespace ClassLibTeam08.Data
 
                     smtp.Send(mail);
                     emailResult.Succeeded = true;
-                    return emailResult;           
+                    return emailResult;
                 }
             }
             catch (SmtpException smtpEx)
@@ -438,7 +465,46 @@ namespace ClassLibTeam08.Data
 
             return confirmationLink;
         }
-       
+
+        public EmailResult SendConfirmEmail(string toEmail, string subject, string body)
+        {
+            EmailResult emailResult = new EmailResult();
+            MimeMailWrapper mimeMailWrapper = new MimeMailWrapper();
+
+            BodyBuilder bodyBuilder = new BodyBuilder();
+
+            bodyBuilder.TextBody = "Test body";
+
+            bodyBuilder.HtmlBody += @"<p>Hallo gebruiker,<br>
+<h1>Order bevestigd!<br>
+<h3>bye<br>
+<p>-- MonoHome<br>";
+
+         
+            try
+            {
+                mimeMailWrapper.SendEmail(toEmail, subject, bodyBuilder);
+            }
+
+            catch (SmtpException smtpEx)
+            {
+                Debug.WriteLine($"SMTP Fout bij verzenden van e-mail: {smtpEx.Message}");
+                emailResult.AddError(smtpEx.Message);
+                emailResult.Succeeded = false;
+            }
+
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Fout bij verzenden van e-mail: {ex.Message}");
+                emailResult.AddError(ex.Message);
+                emailResult.Succeeded = false;
+            }
+
+
+            emailResult.Succeeded = true;
+            return emailResult;
+        }
+
         public SelectResult SelectAdmins()
         {
             var result = new SelectResult();
@@ -446,7 +512,7 @@ namespace ClassLibTeam08.Data
             {
                 //SQL Command
                 StringBuilder insertQuery = new StringBuilder();
-                insertQuery.Append($"SELECT u.firstName, u.lastName, u.phone, u.email, u.rol, MAX(l.loginTime) AS lastLoginTime FROM users u JOIN logins l ON u.userID = l.userID WHERE u.rol = 'admin'GROUP BY  u.userID, u.firstName, u.lastName, u.phone, u.email, u.rol ORDER BY lastLoginTime DESC;");
+                insertQuery.Append($"SELECT u.firstName, u.lastName, u.adres, u.phone, u.email, u.rol, MAX(l.loginTime) AS lastLoginTime FROM users u JOIN logins l ON u.userID = l.userID GROUP BY  u.userID, u.firstName, u.lastName, u.adres,u.phone, u.email, u.rol ORDER BY lastLoginTime DESC;");
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
                     result = Select(insertCommand);

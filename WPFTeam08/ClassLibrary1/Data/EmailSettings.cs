@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 
+
 namespace ClassLibrary1.Data
 {
     public class EmailSettings

@@ -7,6 +7,9 @@ using System.Data;
 using System.Net.Mail;
 using System.Net;
 
+using Isopoh.Cryptography.Argon2;
+using ClassLibrary1.Data;
+
 namespace ClassLibTeam08.Business.Entities
 {
     public static class Users
@@ -60,7 +63,7 @@ namespace ClassLibTeam08.Business.Entities
                     Password = row.Field<string>("wachtWord"),
                     Phone = row.Field<string>("phone"),
                     Address = row.Field<string>("adres"),
-                    Roles = row.Field<string>("rol"),
+                    Rol = row.Field<string>("rol"),
                     BirthDay = row.Field<DateTime>("birthday"),
                 };
             }
@@ -96,6 +99,15 @@ namespace ClassLibTeam08.Business.Entities
             return emailResult;
         }
 
+        public static EmailResult SendOrderConfirmation(string toEmail, string subject, string body)
+        {
+            var userData = new UserData(_configuration); // Pass the configuration
+
+            EmailResult emailResult = userData.SendConfirmEmail(toEmail, subject, body);
+
+            return emailResult;
+        }
+
         public static UpdateResult UpdateUserData(int id, string firstName, string lastName, string userName, string email, string adres, string wachtwoord, DateTime Birhday, string phone)
         {
             var userData = new UserData(_configuration); // Pass the configuration
@@ -125,14 +137,39 @@ namespace ClassLibTeam08.Business.Entities
         public static UpdateResult ChangePassword(string email, string password)
         {
             var data = new UserData(_configuration); // Pass the configuration
-            UpdateResult result = data.ChangePassword(email, password);
+            UpdateResult result = new UpdateResult();
+
+            result = (UpdateResult)PasswordChecker.CheckPassword(password, result);
+
+            if (result.Succeeded == false)
+                return result;
+
+
+            string encryptedPassword = Argon2.Hash(password);
+
+            result = data.ChangePassword(email, encryptedPassword);
+
             return result;
         }
 
         public static SelectResult CheckLogin(string email, string password)
         {
             var data = new UserData(_configuration); // Pass the configuration
-            SelectResult result = data.SelectByEmailAndPassword(email, password);
+            SelectResult result = data.SelectByEmail(email); 
+
+            if(result.DataTable.Rows.Count != 0)
+            {
+                if (Argon2.Verify((string)result.DataTable.Rows[0][6], password))
+                {
+                    result.Succeeded = true;
+                }
+
+                else
+                {
+                    result.AddError("wrong password");
+                    result.Succeeded = false;
+                }
+            }
              
             //AddToken((int)result.DataTable.Rows[0][0], result.GenerateToken());
 
