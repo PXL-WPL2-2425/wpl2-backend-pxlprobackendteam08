@@ -14,7 +14,7 @@ namespace WebApiTeam08.Controllers
     public class TaskController : ControllerBase
     {
         [HttpPost("PostTask")]
-        public ActionResult AddTask([FromBody] TaskRequest dto) // Use the alias to specify the correct type
+        public ActionResult AddTask([FromBody] TaskRequest dto) 
         {
             if (!ModelState.IsValid)
             {
