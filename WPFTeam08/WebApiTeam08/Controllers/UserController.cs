@@ -81,7 +81,7 @@ namespace WebApiTeam08.Controllers
             return Ok(JSONresult);
         }
 
-        [HttpGet("UpdateUser")]
+        [HttpPost("UpdateUser")]
         public ActionResult UpdateUser(int id, string firstName, string lastName, string userName, string email, string adres, string wachtwoord, DateTime Birhday, string phone)
         {
 
