@@ -81,6 +81,13 @@ namespace WebApiTeam08.Controllers
             return Ok(JSONresult);
         }
 
+        [HttpGet("UpdateUser")]
+        public ActionResult UpdateUser(int id, string firstName, string lastName, string userName, string email, string adres, string wachtwoord, DateTime Birhday, string phone)
+        {
+
+            UpdateResult result = Users.UpdateUserData(id,firstName, lastName, userName, email, adres, wachtwoord, Birhday, phone);
+            return Ok(result);
+        }
         [HttpGet("Admin")]
         public ActionResult SelectAdmins()
         {
