@@ -360,12 +360,15 @@ namespace ClassLibTeam08.Data
         public UpdateResult UpdateAllUserData(int id, string firstName, string lastName, string userName, string email, string adres, string wachtwoord, DateTime Birhday, string phone)
         {
             var result = new UpdateResult();
+
+            string test = Birhday.ToString("yyyy/MM/dd");
+
             try
             {
                 //SQL Command
                 StringBuilder insertQuery = new StringBuilder();
                 insertQuery.Append($"UPDATE {TableName} ");
-                insertQuery.Append($"SET firstname = '{firstName}', lastname = '{lastName}', username = '{userName}', email = '{email}', adres = '{adres}', wachtWord = '{wachtwoord}', birthday = '{Birhday}', phone = '{phone}' ");
+                insertQuery.Append($"SET firstname = '{firstName}', lastname = '{lastName}', username = '{userName}', email = '{email}', adres = '{adres}', wachtWord = '{wachtwoord}', birthday = '{Birhday.ToString("yyyy/MM/dd")}', phone = '{phone}' ");
                 insertQuery.Append($"where userID = '{id}'");
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {

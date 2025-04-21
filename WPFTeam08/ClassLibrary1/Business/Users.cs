@@ -111,6 +111,18 @@ namespace ClassLibTeam08.Business.Entities
         public static UpdateResult UpdateUserData(int id, string firstName, string lastName, string userName, string email, string adres, string wachtwoord, DateTime Birhday, string phone)
         {
             var userData = new UserData(_configuration); // Pass the configuration
+
+            UpdateResult result = new UpdateResult();
+
+            PasswordChecker.CheckPassword(wachtwoord, result);
+
+            if(result.Succeeded == false)
+            {
+                return result;
+            }
+
+           wachtwoord = Argon2.Hash(wachtwoord);
+
             return userData.UpdateAllUserData(id, firstName, lastName, userName, email, adres, wachtwoord, Birhday, phone);
         }
 

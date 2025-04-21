@@ -86,10 +86,10 @@ namespace WebApiTeam08.Controllers
         }
 
         [HttpPost("UpdateUser")]
-        public ActionResult UpdateUser(int id, string firstName, string lastName, string userName, string email, string adres, string wachtwoord, DateTime Birhday, string phone)
+        public ActionResult UpdateUser(UserViewModel user)
         {
 
-            UpdateResult result = Users.UpdateUserData(id,firstName, lastName, userName, email, adres, wachtwoord, Birhday, phone);
+            UpdateResult result = Users.UpdateUserData(user.ID, user.FirstName, user.LastName, user.UserName, user.Email, user.Address, user.Password, user.BirthDay, user.Phone);
             return Ok(result);
         }
         [HttpGet("Admin")]

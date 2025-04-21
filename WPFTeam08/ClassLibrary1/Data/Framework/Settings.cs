@@ -43,7 +43,7 @@ namespace ClassLibTeam08.Data.Framework
 
             //string connectionString = ClassLib.Default.SaschaLocalDataBase;
 
-            string connectionString = ClassLib.Default.SaschaLocalDataBase;
+            string connectionString = ClassLib.Default.SQLServerConnect;
             return connectionString;
         }
     }

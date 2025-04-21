@@ -11,5 +11,7 @@
         public string Password { get; set; }
         public DateTime BirthDay { get; set; }
         public string Phone { get; set; }
+
+        public int ID { get; set; }
     }
 }
