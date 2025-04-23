@@ -14,18 +14,9 @@ namespace WebApiTeam08.Controllers
     public class TaskController : ControllerBase
     {
         [HttpPost("PostTask")]
-        public ActionResult AddTask([FromBody] TaskRequest dto) 
+        public ActionResult AddTask(TaskViewModel taskViewModel) 
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState); // Return validation errors
-            }
-
-            var result = Tasks.AddTask(dto);
-
-
-            if (!result.Succeeded)
-                return StatusCode(500, result.message);
+            var result = Tasks.AddTask(taskViewModel.Groupid, taskViewModel.Taskname, taskViewModel.Taskdescription, taskViewModel.Taskstatus, taskViewModel.Tasktype);
 
             return Ok(result);
         }

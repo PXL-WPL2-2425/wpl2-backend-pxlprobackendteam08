@@ -63,5 +63,37 @@ namespace ClassLibrary1.Data
             }
             return result;
         }
+
+        public InsertResult AddTask(int groupID, string taskName, string taskDescription, int taskStatus, string taskType)
+        {
+            var result = new InsertResult();
+
+            SqlCommand cmd = new SqlCommand("insert into tasks (groupid, taskname, taskdescription, taskstatus, tasktype) " +
+                "values (@groupid, @taskname, @taskdescription, @taskstatus, @tasktype)");
+
+            cmd.Parameters.AddWithValue("@groupid", groupID);
+            cmd.Parameters.AddWithValue("@taskname", taskName);
+            cmd.Parameters.AddWithValue("@taskdescription", taskDescription);
+            cmd.Parameters.AddWithValue("@taskstatus", taskStatus);
+            cmd.Parameters.AddWithValue("@tasktype", taskType);
+
+            try
+            {
+                using (cmd)
+                {
+                    result = Insert(cmd);
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                result.Succeeded = false;
+                result.AddError(ex.ToString());
+            }
+
+            result.Succeeded = true;
+            return result;
+        }
     }
 }
