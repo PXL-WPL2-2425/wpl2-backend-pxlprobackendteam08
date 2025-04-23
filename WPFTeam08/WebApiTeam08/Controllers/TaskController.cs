@@ -24,8 +24,8 @@ namespace WebApiTeam08.Controllers
             var result = Tasks.AddTask(dto);
 
 
-            if (!result.Success)
-                return StatusCode(500, result.Message);
+            if (!result.Succeeded)
+                return StatusCode(500, result.message);
 
             return Ok(result);
         }

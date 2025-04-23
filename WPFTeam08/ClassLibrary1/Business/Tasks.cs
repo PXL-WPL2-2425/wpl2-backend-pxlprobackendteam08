@@ -17,18 +17,6 @@ namespace ClassLibTeam08.Business
 
         }
 
-        //Connection to remote SQL Server trhough appsettings.json
-        //var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-        //string _connectionString = _configuration.GetConnectionString("DefaultConnection");
-
-
-        //Connection to Remote SQL Server of Team08
-        //private static string _connectionString = ClassLibrary1.ClassLib.Default.SqlServerConnect;
-
-
-        //Connection to my Local SQL Server
-        private static string _connectionString = ClassLibrary1.ClassLib.Default.MyLocalDB;
-
         //AddTask
         public static SelectResult AddTask(TaskRequest dto) 
         {
@@ -36,7 +24,7 @@ namespace ClassLibTeam08.Business
 
             try
             {
-                using (SqlConnection conn = new SqlConnection(_connectionString))
+                using (SqlConnection conn = new SqlConnection(Settings.GetConnectionString()))
                 {
                     conn.Open();     
                     
@@ -78,14 +66,14 @@ namespace ClassLibTeam08.Business
                     serviceCmd.Parameters.AddWithValue("@Description", dto.Description);
 
                     int serviceRows = serviceCmd.ExecuteNonQuery();
-                    result.Message = serviceRows > 0 ? "Service succesvol toegevoegd." : "Fout bij het toevoegen van een service.";
+                    result.message = serviceRows > 0 ? "Service succesvol toegevoegd." : "Fout bij het toevoegen van een service.";
                     
                 }
             }
             catch (Exception ex)
             {               
-                result.Success = false;
-                result.Message = $"Error: {ex.Message}";
+                result.Succeeded = false;
+                result.message = $"Error: {ex.Message}";
             }
 
             return result;
@@ -113,7 +101,7 @@ namespace ClassLibTeam08.Business
 
             try
             {
-                using (SqlConnection conn = new SqlConnection(_connectionString))
+                using (SqlConnection conn = new SqlConnection(Settings.GetConnectionString()))
                 {
                     conn.Open();
 
@@ -123,14 +111,14 @@ namespace ClassLibTeam08.Business
 
                     int rowsAffected = cmd.ExecuteNonQuery();
 
-                    result.Success = rowsAffected > 0;
-                    result.Message = rowsAffected > 0 ? "Service succesvol verwijderd." : "Service met deze ID niet gevonden.";
+                    result.Succeeded = rowsAffected > 0;
+                    result.message = rowsAffected > 0 ? "Service succesvol verwijderd." : "Service met deze ID niet gevonden.";
                 }
             }
             catch(Exception ex)
             {
-                result.Success = false;
-                result.Message = $"Error: {ex.Message}";
+                result.Succeeded = false;
+                result.message = $"Error: {ex.Message}";
             }
 
             return result;
@@ -142,7 +130,7 @@ namespace ClassLibTeam08.Business
 
             try
             {
-                using(SqlConnection conn = new SqlConnection(_connectionString))
+                using(SqlConnection conn = new SqlConnection(Settings.GetConnectionString()))
                 {
                     conn.Open();
 
@@ -155,14 +143,14 @@ namespace ClassLibTeam08.Business
 
                     int rowsAffected = cmd.ExecuteNonQuery();
 
-                    result.Success = rowsAffected > 0;
-                    result.Message = rowsAffected > 0 ? "Service succesvol geupdate." : "Service met deze ID niet gevonden.";
+                    result.Succeeded = rowsAffected > 0;
+                    result.message = rowsAffected > 0 ? "Service succesvol geupdate." : "Service met deze ID niet gevonden.";
                 }
             }
             catch (Exception ex)
             {
-                result.Success = false;
-                result.Message = $"Error: {ex.Message}";
+                result.Succeeded = false;
+                result.message = $"Error: {ex.Message}";
             }
 
             return result;

@@ -13,8 +13,17 @@
       <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;SerializableConnectionString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
   &lt;ConnectionString&gt;Trusted_Connection=True; TrustServerCertificate=true; Server=DESKTOP-VE15COE\SQLEXPRESS; Database=DataEssentials; user id = sa; Password = digital@PXL&lt;/ConnectionString&gt;
-  &lt;ProviderName /&gt;
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
       <Value Profile="(Default)">Trusted_Connection=True; TrustServerCertificate=true; Server=DESKTOP-VE15COE\SQLEXPRESS; Database=DataEssentials; user id = sa; Password = digital@PXL</Value>
+    </Setting>
+    <Setting Name="MyLocalDB" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;ConnectionString&gt;Server=SERGEY\SQLEXPRESS;Database=monohomeDB;Integrated Security=True;TrustServerCertificate=True;
+&lt;/ConnectionString&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">Server=SERGEY\SQLEXPRESS;Database=monohomeDB;Integrated Security=True;TrustServerCertificate=True;
+</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
