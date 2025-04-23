@@ -209,8 +209,7 @@ namespace ClassLibTeam08.Data
                     user.BirthDay;
                     insertCommand.Parameters.Add("@phone", SqlDbType.VarChar).Value =
                     user.Phone;
-                    insertCommand.Parameters.Add("@rol", SqlDbType.VarChar).Value =
-                    user.Rol;
+                    insertCommand.Parameters.Add("@rol", SqlDbType.VarChar).Value = user.Rol;
                     result = Insert(insertCommand);
                 }
             }
@@ -515,7 +514,7 @@ namespace ClassLibTeam08.Data
             {
                 //SQL Command
                 StringBuilder insertQuery = new StringBuilder();
-                insertQuery.Append($"SELECT u.firstName, u.lastName, u.adres, u.phone, u.email, u.rol, MAX(l.loginTime) AS lastLoginTime FROM users u JOIN logins l ON u.userID = l.userID GROUP BY  u.userID, u.firstName, u.lastName, u.adres,u.phone, u.email, u.rol ORDER BY lastLoginTime DESC;");
+                insertQuery.Append($"SELECT u.firstName, u.lastName, u.adres, u.phone, u.email, u.rol,  CASE \r\n WHEN MAX(l.loginTime) IS NULL THEN 'niet ingelogd' \r\n  ELSE CONVERT(varchar, MAX(l.loginTime), 120) \r\n  END AS lastLoginTime FROM users u left JOIN logins l ON u.userID = l.userID GROUP BY  u.userID, u.firstName, u.lastName, u.adres,u.phone, u.email, u.rol ORDER BY lastLoginTime DESC;");
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
                     result = Select(insertCommand);

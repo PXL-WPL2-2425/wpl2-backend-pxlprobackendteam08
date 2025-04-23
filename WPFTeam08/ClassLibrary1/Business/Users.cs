@@ -182,8 +182,12 @@ namespace ClassLibTeam08.Business.Entities
                     result.Succeeded = false;
                 }
             }
-             
-            //AddToken((int)result.DataTable.Rows[0][0], result.GenerateToken());
+
+            if (result.DataTable.Rows.Count != 0)
+                AddToken((int)result.DataTable.Rows[0][0], result.GenerateToken());
+
+            else
+                result.AddError("mail niet gevonden");
 
             return result;
         }
