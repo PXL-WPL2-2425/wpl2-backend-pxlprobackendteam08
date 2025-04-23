@@ -12,7 +12,7 @@ namespace ClassLibrary1 {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.11.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.13.0.0")]
     public sealed partial class ClassLib : global::System.Configuration.ApplicationSettingsBase {
         
         private static ClassLib defaultInstance = ((ClassLib)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new ClassLib())));
@@ -34,16 +34,33 @@ namespace ClassLibrary1 {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
         [global::System.Configuration.DefaultSettingValueAttribute("Trusted_Connection=True; TrustServerCertificate=true; Server=DESKTOP-VE15COE\\SQLE" +
             "XPRESS; Database=DataEssentials; user id = sa; Password = digital@PXL")]
         public string SaschaLocalDataBase {
             get {
                 return ((string)(this["SaschaLocalDataBase"]));
             }
-            set {
-                this["SaschaLocalDataBase"] = value;
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"Server=SERGEY\SQLEXPRESS;Database=monohomeDB;Integrated Security=True;TrustServerCertificate=True;
+Server=SERGEY\SQLEXPRESS;Database=monohomeDB;Integrated Security=True;TrustServerCertificate=True;
+Server=SERGEY\SQLEXPRESS;Database=monohomeDB;Integrated Security=True;TrustServerCertificate=True;
+Server=SERGEY\SQLEXPRESS;Database=monohomeDB;Integrated Security=True;TrustServerCertificate=True;
+Server=SERGEY\SQLEXPRESS;Database=monohomeDB;Integrated Security=True;TrustServerCertificate=True;
+Server=SERGEY\SQLEXPRESS;Database=monohomeDB;Integrated Security=True;TrustServerCertificate=True;
+Server=SERGEY\SQLEXPRESS;Database=monohomeDB;Integrated Security=True;TrustServerCertificate=True;
+Server=SERGEY\SQLEXPRESS;Database=monohomeDB;Integrated Security=True;TrustServerCertificate=True;
+Server=SERGEY\SQLEXPRESS;Database=monohomeDB;Integrated Security=True;TrustServerCertificate=True;
+Server=SERGEY\SQLEXPRESS;Database=monohomeDB;Integrated Security=True;TrustServerCertificate=True;")]
+        public string MyLocalDB {
+            get {
+                return ((string)(this["MyLocalDB"]));
             }
         }
     }
