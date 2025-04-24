@@ -88,10 +88,10 @@ namespace WebApiTeam08.Controllers
             return Ok(JSONresult);
         }
 
-        [HttpGet("SendConfirmEmail")]
-        public ActionResult SendConfirmEmail(string toEmail, string subject, string body)
+        [HttpGet("SendMailToUser")]
+        public ActionResult SendMailToUser(string toEmail, string subject, string body, string name)
         {
-            EmailResult result = Users.SendOrderConfirmation(toEmail, subject, body);
+            EmailResult result = Users.SendMailTouser(toEmail, subject, body, name);
             string JSONresult = JsonConvert.SerializeObject(result);
             return Ok(JSONresult);
         }

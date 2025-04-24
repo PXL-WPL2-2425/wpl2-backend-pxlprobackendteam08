@@ -215,6 +215,9 @@ namespace ClassLibTeam08.Data
                 }
                 GroupMemberData groupMemberData = new GroupMemberData();
                 GroupMember groupMember = new GroupMember();
+
+
+
                 groupMember._userID = user.UserID;
                 groupMember._isAdmin = true;
                 groupMemberData.InsertGroupMember(groupMember);
@@ -488,7 +491,7 @@ namespace ClassLibTeam08.Data
             return confirmationLink;
         }
 
-        public EmailResult SendConfirmEmail(string toEmail, string subject, string body)
+        public EmailResult SendMailTouser(string toEmail, string subject, string body, string name)
         {
             EmailResult emailResult = new EmailResult();
             MimeMailWrapper mimeMailWrapper = new MimeMailWrapper();
@@ -497,10 +500,10 @@ namespace ClassLibTeam08.Data
 
             bodyBuilder.TextBody = "Test body";
 
-            bodyBuilder.HtmlBody += @"<p>Hallo gebruiker,<br>
-<h1>Order bevestigd!<br>
-<h3>bye<br>
-<p>-- MonoHome<br>";
+            bodyBuilder.HtmlBody += @$"<h2>Beste {name}</h2>
+<p>{body}</p>
+<p>met vriendelijke groeten</p>
+<c>-- MonoHome<br>";
 
          
             try

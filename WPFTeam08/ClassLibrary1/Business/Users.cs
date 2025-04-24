@@ -95,12 +95,12 @@ namespace ClassLibTeam08.Business.Entities
             return emailResult;
         }
 
-        public static EmailResult SendOrderConfirmation(string toEmail, string subject, string body)
+        public static EmailResult SendMailTouser(string toEmail, string subject, string body, string name)
         {
    
             var userData = new UserData(_configuration); // Pass the configuration
 
-            EmailResult emailResult = userData.SendConfirmEmail(toEmail, subject, body);
+            EmailResult emailResult = userData.SendMailTouser(toEmail, subject, body, name);
 
             return emailResult;
         }
