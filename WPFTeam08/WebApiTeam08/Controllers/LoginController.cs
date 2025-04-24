@@ -4,6 +4,7 @@ using ClassLibTeam08.Data.Framework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using WebApiTeam08.ViewModels;
 
 namespace WebApiTeam08.Controllers
 {
@@ -12,10 +13,10 @@ namespace WebApiTeam08.Controllers
     public class LoginController : ControllerBase
     {
 
-        [HttpGet("AddUser")]
-        public ActionResult UsersAdd(string firstName, string lastName, string username, string email, string address, string password, DateTime birthday, string phone)
+        [HttpPost("AddUser")]
+        public ActionResult UsersAdd(UserViewModel user)
         {
-            InsertResult users = Logins.Add(firstName, lastName, username, email, address, password, birthday, phone);
+            InsertResult users = Logins.Add(user.FirstName, user.LastName, user.UserName, user.Email, user.Address, user.Password, user.BirthDay, user.Phone);
             string JSONresult = JsonConvert.SerializeObject(users);
             return Ok(users);
         }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Isopoh;
+using Isopoh.Cryptography.Argon2;
 
 namespace ClassLibTeam08.Business.Entities
 {
@@ -27,7 +29,7 @@ namespace ClassLibTeam08.Business.Entities
         public string Password {get; set; }
         public DateTime BirthDay {get; set; }
         public string Phone {get; set; }
-        public string Roles { get; set; }
+        public string Rol { get; set; }
         //{
         //    get { return Roles; }
         //    set
@@ -40,25 +42,22 @@ namespace ClassLibTeam08.Business.Entities
         //}
 
         // Constructor
-        public User(int userId, string firstName, string lastName, string userName, string email, string address, string password, DateTime birthday, string phone, string roles)
+        public User(string firstName, string lastName, string userName, string email, string address, string password, DateTime birthday, string phone, string roles)
         {
-            UserID = userId;
             FirstName = firstName;
             LastName = lastName;
             UserName = userName;
             Email = email;
             Address = address;
-            Password = password;
+
+            Password = Argon2.Hash(password);
+
             BirthDay = birthday;
             Phone = phone;
-            Roles = roles;
+            Rol = roles;
         }
 
-        // Constructor met default role
-        public User(int userId, string firstName, string lastName, string userName, string email, string address, string password, DateTime birthday, string phone) : this(userId, firstName, lastName, userName, email, address, password, birthday, phone, "guest")
-        {
 
-        }
         public User()
         {
 

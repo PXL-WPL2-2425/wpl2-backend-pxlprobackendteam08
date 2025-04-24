@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using WebApiTeam08.ViewModels;
+using Isopoh;
+
 
 namespace WebApiTeam08.Controllers
 {
@@ -63,29 +65,45 @@ namespace WebApiTeam08.Controllers
         [HttpPost("LoginUser")]
         public ActionResult LoginUser(LoginViewmodel loginViewmodel)
         {
+          
             SelectResult users = Users.CheckLogin(loginViewmodel.Email, loginViewmodel.Wachtwoord);
+
             string JSONresult = JsonConvert.SerializeObject(users);
             return Ok(JSONresult);
         }
 
-
         [HttpGet("userId")]
         public ActionResult GetUserById(int userId)
         {
-            var user = Users.GetUser(userId);
-
+            var user = Users.GetUserById(userId); 
             if (user == null)
             {
-                return NotFound($"Role with ID {userId} not found.");
+                return NotFound($"Gebruiker met ID {userId} niet gevonden.");
             }
 
-            return Ok(user);
+            string JSONresult = JsonConvert.SerializeObject(user);
+            return Ok(JSONresult);
         }
 
+        [HttpPost("UpdateUser")]
+        public ActionResult UpdateUser(UserViewModel user)
+        {
+
+            UpdateResult result = Users.UpdateUserData(user.ID, user.FirstName, user.LastName, user.UserName, user.Email, user.Address, user.Password, user.BirthDay, user.Phone);
+            return Ok(result);
+        }
         [HttpGet("Admin")]
         public ActionResult SelectAdmins()
         {
             SelectResult result = Users.Admins();
+            string JSONresult = JsonConvert.SerializeObject(result);
+            return Ok(JSONresult);
+        }
+
+        [HttpGet("SendConfirmEmail")]
+        public ActionResult SendConfirmEmail(string toEmail, string subject, string body)
+        {
+            EmailResult result = Users.SendOrderConfirmation(toEmail, subject, body);
             string JSONresult = JsonConvert.SerializeObject(result);
             return Ok(JSONresult);
         }

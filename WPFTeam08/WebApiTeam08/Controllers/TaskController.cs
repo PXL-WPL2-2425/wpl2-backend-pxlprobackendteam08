@@ -4,6 +4,8 @@ using ClassLibTeam08.Data.Framework;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using WebApiTeam08.ViewModels;
+using WebApiTeam08.DTOs;
+using ClassLibrary1.DTOs;
 
 namespace WebApiTeam08.Controllers
 {
@@ -12,11 +14,38 @@ namespace WebApiTeam08.Controllers
     public class TaskController : ControllerBase
     {
         [HttpPost("PostTask")]
-        public ActionResult AddTask(int SupplierId, string ServiceName, string Description)
+        public ActionResult AddTask(TaskViewModel taskViewModel) 
         {
-            SelectResult tasks = Tasks.AddTask(SupplierId, ServiceName, Description);
-            string JSONresult = JsonConvert.SerializeObject(tasks);
-            return Ok(JSONresult);
+            var result = Tasks.AddTask(taskViewModel.Groupid, taskViewModel.Taskname, taskViewModel.Taskdescription, taskViewModel.Taskstatus, taskViewModel.Tasktype);
+
+            return Ok(result);
+        }
+
+        [HttpDelete("DeleteTask")]
+        public ActionResult DeleteTask([FromBody] DeleteTaskRequest dto)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState); // Return validation errors
+            }
+            var result = Tasks.DeleteTask(dto.ServiceID);
+            return Ok(result);
+
+        }
+
+        [HttpPut("UpdateTask")]
+        public ActionResult UpdateTask([FromBody] UpdateTaskRequest dto)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState); // Return validation errors
+            }
+
+            SelectResult result = Tasks.UpdateTask(dto.ServiceID, dto.ServiceName, dto.Description);
+            return Ok(result);  
+            //SelectResult tasks = Tasks.UpdateTask(SupplierId, ServiceName, Description);
+            //string JSONresult = JsonConvert.SerializeObject(tasks);
+            //return Ok(JSONresult);
         }
 
         [HttpGet("GetTasks")]
