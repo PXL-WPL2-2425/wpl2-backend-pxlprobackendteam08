@@ -90,7 +90,7 @@ namespace ClassLibrary1.Data
             return result;
         }
 
-        public InsertResult Insert(GroupMember groupMember)
+        public InsertResult InsertGroupMember(GroupMember groupMember)
         {
             var result = new InsertResult();
             try
