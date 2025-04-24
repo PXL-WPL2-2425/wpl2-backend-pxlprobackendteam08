@@ -1,4 +1,5 @@
 ﻿using ClassLibrary08.Data.Framework;
+using ClassLibrary1.Business.Entities;
 using ClassLibrary1.Data;
 using ClassLibTeam08.Business.Entities;
 using ClassLibTeam08.Data.Framework;
@@ -212,6 +213,26 @@ namespace ClassLibTeam08.Data
                     insertCommand.Parameters.Add("@rol", SqlDbType.VarChar).Value = user.Rol;
                     result = Insert(insertCommand);
                 }
+                GroupMemberData groupMemberData = new GroupMemberData();
+                GroupMember groupMember = new GroupMember();
+                groupMember._userID = user.UserID;
+                groupMember._isAdmin = true;
+                groupMember._groupID = +1;
+                groupMemberData.InsertGroupMember(groupMember);
+
+                GroupData groupData = new GroupData(_configuration);
+                Group group = new Group();
+                group._groupID = groupMember._groupID;
+                group._groupName = "Groep" +1;
+                groupData.InsertGroup(group);
+
+                SubscriptionData subscriptionData = new SubscriptionData();
+                Subscription subscription = new Subscription();
+                subscription._subscriptionID = +1;
+                subscription._groupID = groupMember._groupID;
+                subscription._startDate = DateTime.Now;
+                subscription._endDate = DateTime.Now.AddMonths(1);
+
             }
             catch (Exception ex)
             {

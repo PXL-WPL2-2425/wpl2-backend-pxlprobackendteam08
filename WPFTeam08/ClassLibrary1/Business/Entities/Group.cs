@@ -17,5 +17,9 @@ namespace ClassLibrary1.Business.Entities
             _groupName = groupName;
         }
 
+        public Group()
+        {
+            
+        }
     }
 }
