@@ -98,7 +98,7 @@ namespace ClassLibrary1.Data
                 //SQL Command
                 StringBuilder insertQuery = new StringBuilder();
                 insertQuery.Append($"Insert INTO GroupMembers");
-                insertQuery.Append($"(userid, groupid, isadmin, ) VALUES");
+                insertQuery.Append($"(userid, groupid, isadmin) VALUES");
                 insertQuery.Append($"(@userid, @groupid, @isadmin);");
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
