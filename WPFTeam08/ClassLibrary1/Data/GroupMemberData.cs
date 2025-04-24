@@ -90,7 +90,7 @@ namespace ClassLibrary1.Data
             return result;
         }
 
-        public InsertResult Insert(GroupMember groupMember)
+        public InsertResult InsertGroupMember(GroupMember groupMember)
         {
             var result = new InsertResult();
             try
@@ -98,12 +98,10 @@ namespace ClassLibrary1.Data
                 //SQL Command
                 StringBuilder insertQuery = new StringBuilder();
                 insertQuery.Append($"Insert INTO GroupMembers");
-                insertQuery.Append($"(memberid, userid, groupid, isadmin, ) VALUES");
-                insertQuery.Append($"(@memberid, @userid, @groupid, @isadmin);");
+                insertQuery.Append($"(userid, groupid, isadmin, ) VALUES");
+                insertQuery.Append($"(@userid, @groupid, @isadmin);");
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
-                    insertCommand.Parameters.Add("@memberid", SqlDbType.VarChar).Value =
-                    groupMember._memberID;
                     insertCommand.Parameters.Add("@userid", SqlDbType.VarChar).Value =
                     groupMember._userID;
                     insertCommand.Parameters.Add("@groupid", SqlDbType.VarChar).Value =

@@ -23,5 +23,9 @@ namespace ClassLibrary1.Business.Entities
             _isAdmin = isAdmin;
             _groupID = groupId;
         }
+        public GroupMember()
+        {
+            
+        }
     }
 }

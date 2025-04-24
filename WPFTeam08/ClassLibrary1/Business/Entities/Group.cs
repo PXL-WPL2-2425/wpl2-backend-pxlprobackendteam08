@@ -8,14 +8,18 @@ namespace ClassLibrary1.Business.Entities
 {
     internal class Group
     {
-        public int GroupID { get; set; }
-        public string GroupName { get; set; }
+        public int _groupID { get; set; }
+        public string _groupName { get; set; }
 
         public Group(int groupId, string groupName)
         {
-            GroupID = groupId;
-            GroupName = groupName;
+            _groupID = groupId;
+            _groupName = groupName;
         }
 
+        public Group()
+        {
+            
+        }
     }
 }

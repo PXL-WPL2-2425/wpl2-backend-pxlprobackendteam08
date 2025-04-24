@@ -88,14 +88,14 @@ namespace ClassLibrary1.Data
             return result;
         }
 
-        public InsertResult Insert(Subscription subscription)
+        public InsertResult InsertSubscription(Subscription subscription)
         {
             var result = new InsertResult();
             try
             {
                 //SQL Command
                 StringBuilder insertQuery = new StringBuilder();
-                insertQuery.Append($"Insert INTO GroupMembers");
+                insertQuery.Append($"Insert INTO subscritpion");
                 insertQuery.Append($"(subscriptionid, groupid, startdate, eindtime, rewendedate, statut, autorenewal) VALUES");
                 insertQuery.Append($"(@subscriptionid, @groupid, @startdate, @eindtime, @rewendedate, @statut, @autorenewal);");
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
