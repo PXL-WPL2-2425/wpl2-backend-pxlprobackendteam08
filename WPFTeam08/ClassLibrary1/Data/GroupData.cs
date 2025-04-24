@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using System.Diagnostics;
 using System.Linq.Expressions;
+using ClassLibrary1.Business.Entities;
 
 namespace ClassLibrary1.Data
 {
@@ -37,6 +38,52 @@ namespace ClassLibrary1.Data
                 {
                     insertCommand.Parameters.AddWithValue("@ID", ID);
                     result = Select(insertCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+
+        public InsertResult InsertGroup(Group group)
+        {
+            var result = new InsertResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"Insert INTO groep");
+                insertQuery.Append($"(groupname ) VALUES");
+                insertQuery.Append($"(@groupname);");
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    insertCommand.Parameters.Add("@groupname", SqlDbType.VarChar).Value =
+                    group._groupName;
+                    
+
+                    result = Insert(insertCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+
+        public DeleteResult DeleteGroup(int id)
+        {
+            var result = new DeleteResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"DELETE FROM groep WHERE groupid = {id};");
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    result = Delete(insertCommand);
                 }
             }
             catch (Exception ex)

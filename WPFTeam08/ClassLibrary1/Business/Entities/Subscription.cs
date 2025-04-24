@@ -52,5 +52,9 @@ namespace ClassLibrary1.Business.Entities
             _status = status;
             _autoRenewal = autoRenewal;
         }
+        public Subscription()
+        {
+            
+        }
     }
 }
