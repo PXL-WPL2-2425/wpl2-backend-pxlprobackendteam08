@@ -20,7 +20,7 @@ namespace ClassLibrary1.Data
             try
             {
                 StringBuilder selectQuery = new StringBuilder();
-                selectQuery.Append($"select * from Subscriptions WHERE SubscriptionID = {id}");
+                selectQuery.Append($"select * from Subscription WHERE SubscriptionID = {id}");
                 using (SqlCommand selectCmd = new SqlCommand(selectQuery.ToString()))
                 {
                     result = Select(selectCmd);
@@ -39,7 +39,7 @@ namespace ClassLibrary1.Data
             try
             {
                 StringBuilder deleteQuery = new StringBuilder();
-                deleteQuery.Append($"DELETE FROM Subscriptions WHERE SubscriptionID = {id};");
+                deleteQuery.Append($"DELETE FROM Subscription WHERE SubscriptionID = {id};");
                 using (SqlCommand deleteCmd = new SqlCommand(deleteQuery.ToString()))
                 {
                     result = Delete(deleteCmd);
@@ -57,7 +57,7 @@ namespace ClassLibrary1.Data
             try
             {
                 StringBuilder addQuery = new StringBuilder();
-                addQuery.Append($"Insert into FROM Subscriptions WHERE SubscriptionID = {id};");
+                addQuery.Append($"Insert into FROM Subscription WHERE SubscriptionID = {id};");
                 using (SqlCommand addCmd = new SqlCommand(addQuery.ToString()))
                 {
                     result = Insert(addCmd);
@@ -75,7 +75,7 @@ namespace ClassLibrary1.Data
             try
             {
                 StringBuilder updateQuery = new StringBuilder();
-                updateQuery.Append($"update FROM Subscriptions WHERE SubscriptionID = {id};");
+                updateQuery.Append($"update FROM Subscription WHERE SubscriptionID = {id};");
                 using (SqlCommand updateCmd = new SqlCommand(updateQuery.ToString()))
                 {
                     result = Update(updateCmd);

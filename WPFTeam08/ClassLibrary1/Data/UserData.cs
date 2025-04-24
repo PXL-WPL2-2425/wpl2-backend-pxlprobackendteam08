@@ -217,7 +217,6 @@ namespace ClassLibTeam08.Data
                 GroupMember groupMember = new GroupMember();
                 groupMember._userID = user.UserID;
                 groupMember._isAdmin = true;
-                groupMember._groupID = +1;
                 groupMemberData.InsertGroupMember(groupMember);
 
                 GroupData groupData = new GroupData(_configuration);
