@@ -24,5 +24,19 @@ namespace ClassLibrary1.Business
             DeleteResult result = data.DeleteByID(id);
             return result;
         }
+
+        public static InsertResult AddSubscription(int id)
+        {
+            SubscriptionData data = new SubscriptionData();
+            InsertResult result = data.AddSubscription(id);
+            return result;
+        }
+
+        public static UpdateResult UpdateSubscription(int id)
+        {
+            SubscriptionData data = new SubscriptionData();
+            UpdateResult result = data.UpdateSubscription(id);
+            return result;
+        }
     }
 }

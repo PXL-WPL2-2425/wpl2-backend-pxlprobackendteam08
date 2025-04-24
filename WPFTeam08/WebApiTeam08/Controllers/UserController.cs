@@ -29,12 +29,8 @@ namespace WebApiTeam08.Controllers
             if (token == result.Token)
             {
                 return Ok(result);
-            }
-            
-
+            }            
             return BadRequest("token is not valid");
-
-
         }
 
         [HttpGet("CheckRole")]

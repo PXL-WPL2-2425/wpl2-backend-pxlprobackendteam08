@@ -8,49 +8,49 @@ namespace ClassLibrary1.Business.Entities
 {
     internal class Subscription
     {
-        public int SubscriptionID {  get; set; }
+        public int _subscriptionID {  get; set; }
 
-        public int GroupID { get; set; }
+        public int _groupID { get; set; }
 
-        public DateTime StartDate { get; set; }
+        public DateTime _startDate { get; set; }
 
-        public DateTime EndDate
+        public DateTime _endDate
         {
-            get { return EndDate; }
+            get { return _endDate; }
             set 
             { 
-                if (value > StartDate)
+                if (value > _startDate)
                 {
-                    EndDate = value;
+                    _endDate = value;
                 }
             }
         }
 
-        public DateTime RenewDate
+        public DateTime _renewDate
         {
-            get { return RenewDate; }
+            get { return _renewDate; }
             set 
             {
-                if (value > StartDate)
+                if (value > _startDate)
                 {
-                    RenewDate = value;
+                    _renewDate = value;
                 }
             }
         }
 
-        public string Status { get; set; }
+        public string _status { get; set; }
 
-        public bool AutoRenewal { get; set; }
+        public bool _autoRenewal { get; set; }
 
         Subscription(int subscriptionID, int groupID, DateTime startDate, DateTime endDate, DateTime renewDate, string status, bool autoRenewal)
         {
-            SubscriptionID = subscriptionID;
-            GroupID = groupID;
-            StartDate = startDate;
-            EndDate = endDate;
-            RenewDate = renewDate;
-            Status = status;
-            AutoRenewal = autoRenewal;
+            _subscriptionID = subscriptionID;
+            _groupID = groupID;
+            _startDate = startDate;
+            _endDate = endDate;
+            _renewDate = renewDate;
+            _status = status;
+            _autoRenewal = autoRenewal;
         }
     }
 }
