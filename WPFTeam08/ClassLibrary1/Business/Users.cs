@@ -1,14 +1,10 @@
 ﻿using ClassLibrary08.Data.Framework;
+using ClassLibrary1.Data;
 using ClassLibTeam08.Data;
 using ClassLibTeam08.Data.Framework;
-using Microsoft.Data.SqlClient;
+using Isopoh.Cryptography.Argon2;
 using Microsoft.Extensions.Configuration;
 using System.Data;
-using System.Net.Mail;
-using System.Net;
-
-using Isopoh.Cryptography.Argon2;
-using ClassLibrary1.Data;
 
 namespace ClassLibTeam08.Business.Entities
 {
@@ -101,6 +97,7 @@ namespace ClassLibTeam08.Business.Entities
 
         public static EmailResult SendOrderConfirmation(string toEmail, string subject, string body)
         {
+   
             var userData = new UserData(_configuration); // Pass the configuration
 
             EmailResult emailResult = userData.SendConfirmEmail(toEmail, subject, body);
@@ -108,33 +105,44 @@ namespace ClassLibTeam08.Business.Entities
             return emailResult;
         }
 
-        public static UpdateResult UpdateUserData(int id, string firstName, string lastName, string userName, string email, string adres, string wachtwoord, DateTime Birhday, string phone)
+        public static UpdateResult UpdateUserData(int id, string firstName, string lastName, string userName, string email, string adres, string wachtwoord, DateTime Birhday, string phone, string token)
         {
+            UpdateResult result = new UpdateResult();
+            result = (UpdateResult)CheckToken(token, email, result);
+
+            if (result.Succeeded == false)
+                return result;
+
+
             var userData = new UserData(_configuration); // Pass the configuration
 
-            UpdateResult result = new UpdateResult();
+            result = new UpdateResult();
 
             PasswordChecker.CheckPassword(wachtwoord, result);
 
-            if(result.Succeeded == false)
+            if (result.Succeeded == false)
             {
                 return result;
             }
 
-           wachtwoord = Argon2.Hash(wachtwoord);
+            wachtwoord = Argon2.Hash(wachtwoord);
 
             return userData.UpdateAllUserData(id, firstName, lastName, userName, email, adres, wachtwoord, Birhday, phone);
         }
 
-        public static UpdateResult ChangeRole(string rol, string email)
+        public static UpdateResult ChangeRole(string rol, string emailAdmin, string email, string token)
         {
+            UpdateResult result = new UpdateResult();
+            result = (UpdateResult)CheckToken(token, emailAdmin, result);
+
+            if (result.Succeeded == false)
+                return result;
+
+
             var userData = new UserData(_configuration); // Pass the configuration
             UpdateResult updateResult = userData.ChangeRole(rol, email);
 
-            SelectResult selectResult = GetToken(email);
 
-            if(selectResult.DataTable != null)
-            updateResult.Token = (string)selectResult.DataTable.Rows[0][0];
 
             return updateResult;
         }
@@ -146,7 +154,7 @@ namespace ClassLibTeam08.Business.Entities
             return result;
         }
 
-        public static UpdateResult ChangePassword(string email, string password)
+        public static UpdateResult ChangePassword(string email, string password, string token )
         {
             var data = new UserData(_configuration); // Pass the configuration
             UpdateResult result = new UpdateResult();
@@ -167,9 +175,9 @@ namespace ClassLibTeam08.Business.Entities
         public static SelectResult CheckLogin(string email, string password)
         {
             var data = new UserData(_configuration); // Pass the configuration
-            SelectResult result = data.SelectByEmail(email); 
+            SelectResult result = data.SelectByEmail(email);
 
-            if(result.DataTable.Rows.Count != 0)
+            if (result.DataTable.Rows.Count != 0)
             {
                 if (Argon2.Verify((string)result.DataTable.Rows[0][6], password))
                 {
@@ -207,8 +215,37 @@ namespace ClassLibTeam08.Business.Entities
         }
         public static SelectResult Admins()
         {
-            var data = new UserData(_configuration); 
+            var data = new UserData(_configuration);
             return data.SelectAdmins();
+        }
+
+        public static BaseResult CheckToken(string token, string email, BaseResult baseResult)
+        {
+            UserData data = new UserData(_configuration);
+            SelectResult selectResult = GetToken(email);
+
+            if (selectResult.DataTable.Rows.Count != 0)
+                selectResult.Token = (string)selectResult.DataTable.Rows[0][0];
+
+            else
+            {
+                baseResult.Succeeded = false;
+                baseResult.AddError("user not found while checking token");
+                return baseResult;
+            }
+
+            if (selectResult.Token != token)
+            {
+                baseResult.Succeeded = false;
+                baseResult.AddError("token not valid");
+                return baseResult;
+            }
+
+            else
+            {
+                baseResult.Succeeded = true;
+                return baseResult;
+            }
         }
     }
 }
