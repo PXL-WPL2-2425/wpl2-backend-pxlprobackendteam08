@@ -55,14 +55,13 @@ namespace ClassLibrary1.Data
                 //SQL Command
                 StringBuilder insertQuery = new StringBuilder();
                 insertQuery.Append($"Insert INTO groep");
-                insertQuery.Append($"(groupid, groupname ) VALUES");
-                insertQuery.Append($"(@groupid, @groupname);");
+                insertQuery.Append($"(groupname ) VALUES");
+                insertQuery.Append($"(@groupname);");
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
-                    insertCommand.Parameters.Add("@groupid", SqlDbType.VarChar).Value =
-                    group._groupID;
                     insertCommand.Parameters.Add("@groupname", SqlDbType.VarChar).Value =
                     group._groupName;
+                    
 
                     result = Insert(insertCommand);
                 }
