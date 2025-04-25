@@ -232,6 +232,7 @@ namespace ClassLibTeam08.Data
                 subscription.GroupID = groupMember.GroupID;
                 subscription.StartDate = DateTime.Now;
                 subscription.EndDate = DateTime.Now.AddMonths(1);
+                subscriptionData.InsertSubscription(subscription);
 
             }
             catch (Exception ex)
