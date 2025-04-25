@@ -1,11 +1,8 @@
-﻿using ClassLibrary1.Business;
-using ClassLibTeam08.Business.Entities;
+﻿using ClassLibTeam08.Business.Entities;
 using ClassLibTeam08.Data.Framework;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using WebApiTeam08.ViewModels;
-using Isopoh;
 
 
 namespace WebApiTeam08.Controllers
@@ -21,16 +18,13 @@ namespace WebApiTeam08.Controllers
             return Ok(students);
         }
         [HttpGet("ChangeRole")]
-        public ActionResult ChangeRole(string rol, string email, string token)
+        public ActionResult ChangeRole(string rol, string email, string emailAdmin, string token)
         {
-            
-            UpdateResult result = Users.ChangeRole(rol, email);
 
-            if (token == result.Token)
-            {
-                return Ok(result);
-            }            
-            return BadRequest("token is not valid");
+            UpdateResult result = Users.ChangeRole(rol, emailAdmin, email, token);
+            string JSONresult = JsonConvert.SerializeObject(result);
+            return Ok(result);
+
         }
 
         [HttpGet("CheckRole")]
@@ -52,7 +46,7 @@ namespace WebApiTeam08.Controllers
         [HttpPost("ChangePassword")]
         public ActionResult ChangePasswordOfUser(LoginViewmodel loginViewmodel)
         {
-            UpdateResult users = Users.ChangePassword(loginViewmodel.Email, loginViewmodel.Wachtwoord);
+            UpdateResult users = Users.ChangePassword(loginViewmodel.Email, loginViewmodel.Wachtwoord, loginViewmodel.token);
             string JSONresult = JsonConvert.SerializeObject(users);
             return Ok(JSONresult);
         }
@@ -61,9 +55,8 @@ namespace WebApiTeam08.Controllers
         [HttpPost("LoginUser")]
         public ActionResult LoginUser(LoginViewmodel loginViewmodel)
         {
-          
-            SelectResult users = Users.CheckLogin(loginViewmodel.Email, loginViewmodel.Wachtwoord);
 
+            SelectResult users = Users.CheckLogin(loginViewmodel.Email, loginViewmodel.Wachtwoord);
             string JSONresult = JsonConvert.SerializeObject(users);
             return Ok(JSONresult);
         }
@@ -71,7 +64,7 @@ namespace WebApiTeam08.Controllers
         [HttpGet("userId")]
         public ActionResult GetUserById(int userId)
         {
-            var user = Users.GetUserById(userId); 
+            var user = Users.GetUserById(userId);
             if (user == null)
             {
                 return NotFound($"Gebruiker met ID {userId} niet gevonden.");
@@ -84,8 +77,7 @@ namespace WebApiTeam08.Controllers
         [HttpPost("UpdateUser")]
         public ActionResult UpdateUser(UserViewModel user)
         {
-
-            UpdateResult result = Users.UpdateUserData(user.ID, user.FirstName, user.LastName, user.UserName, user.Email, user.Address, user.Password, user.BirthDay, user.Phone);
+            UpdateResult result = Users.UpdateUserData(user.ID, user.FirstName, user.LastName, user.UserName, user.Email, user.Address, user.Password, user.BirthDay, user.Phone, user.token);
             return Ok(result);
         }
         [HttpGet("Admin")]
@@ -96,10 +88,10 @@ namespace WebApiTeam08.Controllers
             return Ok(JSONresult);
         }
 
-        [HttpGet("SendConfirmEmail")]
-        public ActionResult SendConfirmEmail(string toEmail, string subject, string body)
+        [HttpGet("SendMailToUser")]
+        public ActionResult SendMailToUser(string toEmail, string subject, string body, string name)
         {
-            EmailResult result = Users.SendOrderConfirmation(toEmail, subject, body);
+            EmailResult result = Users.SendMailTouser(toEmail, subject, body, name);
             string JSONresult = JsonConvert.SerializeObject(result);
             return Ok(JSONresult);
         }

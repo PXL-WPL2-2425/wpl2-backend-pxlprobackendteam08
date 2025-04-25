@@ -77,7 +77,7 @@ namespace ClassLibrary1.Data
             try
             {
                 StringBuilder deleteQuery = new StringBuilder();
-                deleteQuery.Append($"DELETE FROM GroupMembers WHERE memberid = {id};");
+                deleteQuery.Append($"DELETE FROM GroupMembers WHERE groupid = {id};");
                 using (SqlCommand deleteCmd = new SqlCommand(deleteQuery.ToString()))
                 {
                     result = Delete(deleteCmd);

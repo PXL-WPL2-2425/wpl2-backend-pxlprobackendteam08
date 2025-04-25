@@ -23,5 +23,10 @@ namespace WPFTeam08
         {
             InitializeComponent();
         }
+
+        private void BtnAddTask_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

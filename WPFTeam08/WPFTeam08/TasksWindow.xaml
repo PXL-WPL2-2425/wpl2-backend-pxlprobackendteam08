@@ -7,6 +7,18 @@
         mc:Ignorable="d"
         Title="TasksWindow" Height="450" Width="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
         <Label Content="Tasks Window" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25px"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="1">
+            <TextBox x:Name="TxtInput" Width="250" Height="25" Margin="10"/>
+            <Button Name="BtnAddTask" Width="200" Content="Taak toevoegen" Click="BtnAddTask_Click"></Button>
+        </StackPanel>
+        <ListBox x:Name="TaskListBox" Grid.Row="2" Height="120" Margin="0,10,0,10"/>
+        <Button Name="BtnDeleteTask" Grid.Row="3" Content="Geselecteerde taak verwijderen" Margin="10" Width="250"></Button>
     </Grid>
 </Window>
