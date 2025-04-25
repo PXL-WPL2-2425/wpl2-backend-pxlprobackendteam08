@@ -18,12 +18,12 @@ namespace ClassLibrary1.Business.Entities
 
         public DateTime EndDate
         {
-            get { return _endate; }
+            get { return _endDate; }
             set
             {
                 if (value > StartDate)
                 {
-                    _endate = value;
+                   _endDate = value;
                 }
             }
         }

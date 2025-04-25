@@ -64,8 +64,13 @@ namespace ClassLibTeam08.Data.Framework
                     insertCommand.Connection = connection;
                     connection.Open();
                     insertCommand.ExecuteNonQuery();
-                    int newId = Convert.ToInt32(insertCommand.Parameters["@new_id"].Value);
-                    result.NewId = newId;
+
+                    if(insertCommand.Parameters["@new_id"].Value != DBNull.Value)
+                    {
+                        int newId = Convert.ToInt32(insertCommand.Parameters["@new_id"].Value);
+                        result.NewId = newId;
+                    }
+                
                     connection.Close();
                 }
             }

@@ -96,12 +96,10 @@ namespace ClassLibrary1.Data
                 //SQL Command
                 StringBuilder insertQuery = new StringBuilder();
                 insertQuery.Append($"Insert INTO subscription");
-                insertQuery.Append($"(subscriptionid, groupid, startdate, eindtime, rewendedate, statut, autorenewal) VALUES");
-                insertQuery.Append($"(@subscriptionid, @groupid, @startdate, @eindtime, @rewendedate, @statut, @autorenewal);");
+                insertQuery.Append($"(groupid, startdate, eindtime, rewendedate, statut, autorenewal) VALUES");
+                insertQuery.Append($"(@groupid, @startdate, @eindtime, @rewendedate, @statut, @autorenewal);");
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
-                    insertCommand.Parameters.Add("@subscriptionid", SqlDbType.VarChar).Value =
-                    subscription.SubscriptionID;
                     insertCommand.Parameters.Add("@groupid", SqlDbType.VarChar).Value =
                     subscription.GroupID;
                     insertCommand.Parameters.Add("@startdate", SqlDbType.DateTime).Value =
