@@ -1,8 +1,11 @@
 ﻿using ClassLibrary08.Data.Framework;
+using ClassLibrary1.Business.Entities;
+using ClassLibTeam08.Business.Entities;
 using ClassLibTeam08.Data.Framework;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,7 +39,7 @@ namespace ClassLibrary1.Data
             try
             {
                 StringBuilder selectQuery = new StringBuilder();
-                selectQuery.Append($"SELECT * FROM GroupMembers WHERE GroupID = {id}");
+                selectQuery.Append($"SELECT * FROM GroupMembers WHERE groupid = {id}");
                 using (SqlCommand selectCmd = new SqlCommand(selectQuery.ToString()))
                 {
                     result = Select(selectCmd);
@@ -74,10 +77,39 @@ namespace ClassLibrary1.Data
             try
             {
                 StringBuilder deleteQuery = new StringBuilder();
-                deleteQuery.Append($"DELETE FROM GroupMembers WHERE GroupID = {id};");
+                deleteQuery.Append($"DELETE FROM GroupMembers WHERE groupid = {id};");
                 using (SqlCommand deleteCmd = new SqlCommand(deleteQuery.ToString()))
                 {
                     result = Delete(deleteCmd);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+
+        public InsertResult InsertGroupMember(GroupMember groupMember)
+        {
+            var result = new InsertResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"Insert INTO GroupMembers");
+                insertQuery.Append($"(userid, groupid, isadmin) VALUES");
+                insertQuery.Append($"(@userid, @groupid, @isadmin);");
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    insertCommand.Parameters.Add("@userid", SqlDbType.VarChar).Value =
+                    groupMember._userID;
+                    insertCommand.Parameters.Add("@groupid", SqlDbType.VarChar).Value =
+                    groupMember._groupID;
+                    insertCommand.Parameters.Add("@isadmin", SqlDbType.VarChar).Value =
+                    groupMember._isAdmin;                
+                    
+                    result = Insert(insertCommand);
                 }
             }
             catch (Exception ex)

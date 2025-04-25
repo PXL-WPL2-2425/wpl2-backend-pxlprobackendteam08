@@ -1,4 +1,5 @@
 ﻿using ClassLibrary08.Data.Framework;
+using ClassLibrary1.Business.Entities;
 using ClassLibrary1.Data;
 using ClassLibTeam08.Business.Entities;
 using ClassLibTeam08.Data.Framework;
@@ -212,6 +213,28 @@ namespace ClassLibTeam08.Data
                     insertCommand.Parameters.Add("@rol", SqlDbType.VarChar).Value = user.Rol;
                     result = Insert(insertCommand);
                 }
+                GroupMemberData groupMemberData = new GroupMemberData();
+                GroupMember groupMember = new GroupMember();
+
+
+
+                groupMember._userID = user.UserID;
+                groupMember._isAdmin = true;
+                groupMemberData.InsertGroupMember(groupMember);
+
+                GroupData groupData = new GroupData(_configuration);
+                Group group = new Group();
+                group._groupID = groupMember._groupID;
+                group._groupName = "Groep" +1;
+                groupData.InsertGroup(group);
+
+                SubscriptionData subscriptionData = new SubscriptionData();
+                Subscription subscription = new Subscription();
+                subscription._subscriptionID = +1;
+                subscription._groupID = groupMember._groupID;
+                subscription._startDate = DateTime.Now;
+                subscription._endDate = DateTime.Now.AddMonths(1);
+
             }
             catch (Exception ex)
             {
@@ -468,7 +491,7 @@ namespace ClassLibTeam08.Data
             return confirmationLink;
         }
 
-        public EmailResult SendConfirmEmail(string toEmail, string subject, string body)
+        public EmailResult SendMailTouser(string toEmail, string subject, string body, string name)
         {
             EmailResult emailResult = new EmailResult();
             MimeMailWrapper mimeMailWrapper = new MimeMailWrapper();
@@ -477,10 +500,10 @@ namespace ClassLibTeam08.Data
 
             bodyBuilder.TextBody = "Test body";
 
-            bodyBuilder.HtmlBody += @"<p>Hallo gebruiker,<br>
-<h1>Order bevestigd!<br>
-<h3>bye<br>
-<p>-- MonoHome<br>";
+            bodyBuilder.HtmlBody += @$"<h2>Beste {name}</h2>
+<p>{body}</p>
+<p>met vriendelijke groeten</p>
+<c>-- MonoHome<br>";
 
          
             try
@@ -517,6 +540,31 @@ namespace ClassLibTeam08.Data
                 insertQuery.Append($"SELECT u.firstName, u.lastName, u.adres, u.phone, u.email, u.rol,  CASE \r\n WHEN MAX(l.loginTime) IS NULL THEN 'niet ingelogd' \r\n  ELSE CONVERT(varchar, MAX(l.loginTime), 120) \r\n  END AS lastLoginTime FROM users u left JOIN logins l ON u.userID = l.userID GROUP BY  u.userID, u.firstName, u.lastName, u.adres,u.phone, u.email, u.rol ORDER BY lastLoginTime DESC;");
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
+                    result = Select(insertCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+
+        }
+
+        public SelectResult selectCurrentUser(string email)
+        {
+            var result = new SelectResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"SELECT token from users where email = @email");
+
+                
+
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    insertCommand.Parameters.AddWithValue("@email", email);
                     result = Select(insertCommand);
                 }
             }

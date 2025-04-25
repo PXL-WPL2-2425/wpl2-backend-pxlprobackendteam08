@@ -27,5 +27,6 @@ namespace ClassLibrary1.Business
             SelectResult result = data.SelectByGroupID(id);
             return result;
         }
+        
     }
 }

@@ -6,22 +6,26 @@ using System.Threading.Tasks;
 
 namespace ClassLibrary1.Business.Entities
 {
-    internal class GroupMember
+    public class GroupMember
     {
-        public int MemberID { get; set; }
+        public int _memberID { get; set; }
 
-        public int UserID { get; set; }
+        public int _userID { get; set; }
 
-        public bool IsAdmin { get; set; }
+        public bool _isAdmin { get; set; }
 
-        public int GroupID { get; set; }
+        public int _groupID { get; set; }
 
         GroupMember(int memberId, int userId, bool isAdmin, int groupId) 
         {
-            MemberID = memberId;
-            UserID = userId;
-            IsAdmin = isAdmin;
-            GroupID = groupId;
+            _memberID = memberId;
+            _userID = userId;
+            _isAdmin = isAdmin;
+            _groupID = groupId;
+        }
+        public GroupMember()
+        {
+            
         }
     }
 }

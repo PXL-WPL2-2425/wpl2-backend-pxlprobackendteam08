@@ -13,5 +13,7 @@
         public string Phone { get; set; }
 
         public int ID { get; set; }
+
+        public string token { get; set; }
     }
 }
