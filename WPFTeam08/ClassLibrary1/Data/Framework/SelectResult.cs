@@ -10,9 +10,6 @@ namespace ClassLibTeam08.Data.Framework
 {
     public class SelectResult : BaseResult
     {
-        //
-        public bool Success { get; set; } = true;
-        public string Message { get; set; }
         public DataTable DataTable { get; set; } = new DataTable();
 
         public SelectResult(bool succeeded)

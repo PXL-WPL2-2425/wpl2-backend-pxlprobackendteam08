@@ -4,8 +4,7 @@ using ClassLibTeam08.Data.Framework;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using WebApiTeam08.ViewModels;
-using WebApiTeam08.DTOs;
-using ClassLibrary1.DTOs;
+
 
 namespace WebApiTeam08.Controllers
 {
@@ -17,17 +16,14 @@ namespace WebApiTeam08.Controllers
         public ActionResult AddTask(TaskViewModel taskViewModel) 
         {
             var result = Tasks.AddTask(taskViewModel.Groupid, taskViewModel.Taskname, taskViewModel.Taskdescription, taskViewModel.Taskstatus, taskViewModel.Tasktype);
-
             return Ok(result);
         }
 
         [HttpDelete("DeleteTask")]
         public ActionResult DeleteTask(TaskViewModel taskViewModel)
-        {
-         
+        {        
             var result = Tasks.DeleteTask(taskViewModel.Groupid);
             return Ok(result);
-
         }
 
         [HttpPut("UpdateTask")]
@@ -35,9 +31,6 @@ namespace WebApiTeam08.Controllers
         {
             SelectResult result = Tasks.UpdateTask(taskViewModel.Groupid, taskViewModel.Taskname, taskViewModel.Taskdescription, taskViewModel.Taskstatus, taskViewModel.Tasktype);
             return Ok(result);  
-            //SelectResult tasks = Tasks.UpdateTask(SupplierId, ServiceName, Description);
-            //string JSONresult = JsonConvert.SerializeObject(tasks);
-            //return Ok(JSONresult);
         }
 
         [HttpGet("GetTasks")]
