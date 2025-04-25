@@ -8,20 +8,20 @@ namespace ClassLibrary1.Business.Entities
 {
     public class GroupMember
     {
-        public int _memberID { get; set; }
+        public int MemberID { get; set; }
 
-        public int _userID { get; set; }
+        public int UserID { get; set; }
 
-        public bool _isAdmin { get; set; }
+        public bool IsAdmin { get; set; }
 
-        public int _groupID { get; set; }
+        public int GroupID { get; set; }
 
         GroupMember(int memberId, int userId, bool isAdmin, int groupId) 
         {
-            _memberID = memberId;
-            _userID = userId;
-            _isAdmin = isAdmin;
-            _groupID = groupId;
+            MemberID = memberId;
+            UserID = userId;
+            IsAdmin = isAdmin;
+            GroupID = groupId;
         }
         public GroupMember()
         {

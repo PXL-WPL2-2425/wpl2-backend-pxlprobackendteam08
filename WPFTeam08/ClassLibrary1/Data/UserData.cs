@@ -216,22 +216,22 @@ namespace ClassLibTeam08.Data
 
                 GroupMemberData groupMemberData = new GroupMemberData();
                 GroupMember groupMember = new GroupMember();
-                groupMember._userID = result.NewId;
-                groupMember._isAdmin = true;
+                groupMember.UserID = result.NewId;
+                groupMember.IsAdmin = true;
                 groupMemberData.InsertGroupMember(groupMember);
 
                 GroupData groupData = new GroupData(_configuration);
                 Group group = new Group();
-                group._groupID = groupMember._groupID;
-                group._groupName = "Groep" +1;
+                group.GroupId = groupMember.GroupID;
+                group.GroupName = "Groep" +1;
                 groupData.InsertGroup(group);
 
                 SubscriptionData subscriptionData = new SubscriptionData();
                 Subscription subscription = new Subscription();
-                subscription._subscriptionID = +1;
-                subscription._groupID = groupMember._groupID;
-                subscription._startDate = DateTime.Now;
-                subscription._endDate = DateTime.Now.AddMonths(1);
+                subscription.SubscriptionID = +1;
+                subscription.GroupID = groupMember.GroupID;
+                subscription.StartDate = DateTime.Now;
+                subscription.EndDate = DateTime.Now.AddMonths(1);
 
             }
             catch (Exception ex)

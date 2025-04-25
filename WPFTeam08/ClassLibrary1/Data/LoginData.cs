@@ -103,9 +103,9 @@ namespace ClassLibTeam08.Data
                     insertCommand.Parameters.Add("@UserID", SqlDbType.Int).Value =
                     userID;
                     insertCommand.Parameters.Add("@loginDate", SqlDbType.DateTime).Value =
-                    login.loginTime;
+                    login.LoginTime;
                     insertCommand.Parameters.Add("@IPadress", SqlDbType.VarChar).Value =
-                    login.ipAdresss;
+                    login.IpAdresss;
 
                     result = Insert(insertCommand);
                 }

@@ -101,19 +101,19 @@ namespace ClassLibrary1.Data
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
                     insertCommand.Parameters.Add("@subscriptionid", SqlDbType.VarChar).Value =
-                    subscription._subscriptionID;
+                    subscription.SubscriptionID;
                     insertCommand.Parameters.Add("@groupid", SqlDbType.VarChar).Value =
-                    subscription._groupID;
+                    subscription.GroupID;
                     insertCommand.Parameters.Add("@startdate", SqlDbType.DateTime).Value =
-                    subscription._startDate;
+                    subscription.StartDate;
                     insertCommand.Parameters.Add("@eindtime", SqlDbType.DateTime).Value =
-                    subscription._endDate;
+                    subscription.EndDate;
                     insertCommand.Parameters.Add("@rewendedate", SqlDbType.DateTime).Value =
-                    subscription._renewDate;
+                    subscription.Renewdate;
                     insertCommand.Parameters.Add("@statut", SqlDbType.VarChar).Value =
-                    subscription._status;
+                    subscription.Status;
                     insertCommand.Parameters.Add("@autorenewal", SqlDbType.Date).Value =
-                    subscription._autoRenewal;
+                    subscription.AutoRenewal;
 
                     result = Insert(insertCommand);
                 }

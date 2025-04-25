@@ -60,7 +60,7 @@ namespace ClassLibrary1.Data
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
                     insertCommand.Parameters.Add("@groupname", SqlDbType.VarChar).Value =
-                    group._groupName;
+                    group.GroupName;
                     
 
                     result = Insert(insertCommand);

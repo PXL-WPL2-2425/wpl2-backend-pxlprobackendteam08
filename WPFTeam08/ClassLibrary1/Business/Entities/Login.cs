@@ -8,10 +8,10 @@ namespace ClassLibrary1.Business.Entities
 {
     internal class Login
     {
-        public int loginId { get; set; }
+        public int LoginId { get; set; }
         public int UserID { get; set; }
-        public DateTime loginTime { get; set; }
-        public string ipAdresss { get; set; }
+        public DateTime LoginTime { get; set; }
+        public string IpAdresss { get; set; }
 
 
     }
