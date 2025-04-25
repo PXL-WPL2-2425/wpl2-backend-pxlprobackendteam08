@@ -213,12 +213,11 @@ namespace ClassLibTeam08.Data
                     insertCommand.Parameters.Add("@rol", SqlDbType.VarChar).Value = user.Rol;
                     result = Insert(insertCommand);
                 }
+
                 GroupMemberData groupMemberData = new GroupMemberData();
                 GroupMember groupMember = new GroupMember();
 
-
-
-                groupMember._userID = user.UserID;
+                groupMember._userID = result.NewId;
                 groupMember._isAdmin = true;
                 groupMemberData.InsertGroupMember(groupMember);
 

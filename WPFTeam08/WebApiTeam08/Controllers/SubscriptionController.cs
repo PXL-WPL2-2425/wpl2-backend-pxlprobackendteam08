@@ -36,9 +36,9 @@ namespace WebApiTeam08.Controllers
             return Ok(JSONresult);
         }
         [HttpGet("GetSubscriptions")]
-        public ActionResult GetSubscriptions(int groupId)
+        public ActionResult GetSubscriptions()
         {
-            SelectResult subs = Subscriptions.GetSubscription(groupId);
+            SelectResult subs = Subscriptions.GetSubscription();
             string JSONresult = JsonConvert.SerializeObject(subs);
             return Ok(JSONresult);
         }
