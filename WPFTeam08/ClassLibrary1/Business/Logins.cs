@@ -35,8 +35,8 @@ namespace ClassLibrary1.Business
         {
             LoginData data = new LoginData(_configuration); 
             Login login = new Login();
-            login.loginTime = loginTime;
-            login.ipAdresss = IPadress;
+            login.LoginTime = loginTime;
+            login.IpAdresss = IPadress;
 
             InsertResult result = data.Insert(login, UserID);
             result.Succeeded = true;

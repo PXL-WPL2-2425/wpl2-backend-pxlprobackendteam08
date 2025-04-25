@@ -8,49 +8,49 @@ namespace ClassLibrary1.Business.Entities
 {
     internal class Subscription
     {
-        public int _subscriptionID {  get; set; }
+        public int SubscriptionID {  get; set; }
 
-        public int _groupID { get; set; }
+        public int GroupID { get; set; }
 
-        public DateTime _startDate { get; set; }
+        public DateTime StartDate { get; set; }
 
-        public DateTime _endDate
+        public DateTime EndDate
         {
-            get { return _endDate; }
+            get { return EndDate; }
             set 
             { 
-                if (value > _startDate)
+                if (value > StartDate)
                 {
-                    _endDate = value;
+                    EndDate = value;
                 }
             }
         }
 
-        public DateTime _renewDate
+        public DateTime Renewdate
         {
-            get { return _renewDate; }
+            get { return Renewdate; }
             set 
             {
-                if (value > _startDate)
+                if (value > StartDate)
                 {
-                    _renewDate = value;
+                    Renewdate = value;
                 }
             }
         }
 
-        public string _status { get; set; }
+        public string Status { get; set; }
 
-        public bool _autoRenewal { get; set; }
+        public bool AutoRenewal { get; set; }
 
         Subscription(int subscriptionID, int groupID, DateTime startDate, DateTime endDate, DateTime renewDate, string status, bool autoRenewal)
         {
-            _subscriptionID = subscriptionID;
-            _groupID = groupID;
-            _startDate = startDate;
-            _endDate = endDate;
-            _renewDate = renewDate;
-            _status = status;
-            _autoRenewal = autoRenewal;
+            SubscriptionID = subscriptionID;
+            GroupID = groupID;
+            StartDate = startDate;
+            EndDate = endDate;
+            Renewdate = renewDate;
+            Status = status;
+            AutoRenewal = autoRenewal;
         }
         public Subscription()
         {

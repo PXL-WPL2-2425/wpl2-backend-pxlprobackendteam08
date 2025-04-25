@@ -103,11 +103,11 @@ namespace ClassLibrary1.Data
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
                     insertCommand.Parameters.Add("@userid", SqlDbType.VarChar).Value =
-                    groupMember._userID;
+                    groupMember.UserID;
                     insertCommand.Parameters.Add("@groupid", SqlDbType.VarChar).Value =
-                    groupMember._groupID;
+                    groupMember.GroupID;
                     insertCommand.Parameters.Add("@isadmin", SqlDbType.VarChar).Value =
-                    groupMember._isAdmin;                
+                    groupMember.IsAdmin;                
                     
                     result = Insert(insertCommand);
                 }
