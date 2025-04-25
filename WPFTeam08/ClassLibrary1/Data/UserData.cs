@@ -230,6 +230,9 @@ namespace ClassLibTeam08.Data
                 SubscriptionData subscriptionData = new SubscriptionData();
                 Subscription subscription = new Subscription();
                 subscription.GroupID = result.NewId;
+                subscription.GroupID = groupMember.GroupID;
+                subscription.GroupID = groupMember.GroupID;
+                subscription.GroupID = groupMember.GroupID;
                 subscription.Status = "Free";
                 subscription.StartDate = DateTime.Now;
                 subscription.EndDate = DateTime.Now.AddMonths(1);
