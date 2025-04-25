@@ -8,6 +8,8 @@ namespace ClassLibrary1.Business.Entities
 {
     internal class Subscription
     {
+        DateTime _endDate;
+        DateTime _renewDate;
         public int SubscriptionID {  get; set; }
 
         public int GroupID { get; set; }
@@ -16,24 +18,24 @@ namespace ClassLibrary1.Business.Entities
 
         public DateTime EndDate
         {
-            get { return EndDate; }
+            get { return _endDate; }
             set 
             { 
                 if (value > StartDate)
                 {
-                    EndDate = value;
+                    _endDate = value;
                 }
             }
         }
 
         public DateTime Renewdate
         {
-            get { return Renewdate; }
+            get { return _renewDate; }
             set 
             {
                 if (value > StartDate)
                 {
-                    Renewdate = value;
+                    _renewDate = value;
                 }
             }
         }
