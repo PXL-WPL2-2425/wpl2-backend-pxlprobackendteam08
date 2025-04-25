@@ -22,26 +22,18 @@ namespace WebApiTeam08.Controllers
         }
 
         [HttpDelete("DeleteTask")]
-        public ActionResult DeleteTask([FromBody] DeleteTaskRequest dto)
+        public ActionResult DeleteTask(TaskViewModel taskViewModel)
         {
-            if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState); // Return validation errors
-            }
-            var result = Tasks.DeleteTask(dto.ServiceID);
+         
+            var result = Tasks.DeleteTask(taskViewModel.Groupid);
             return Ok(result);
 
         }
 
         [HttpPut("UpdateTask")]
-        public ActionResult UpdateTask([FromBody] UpdateTaskRequest dto)
+        public ActionResult UpdateTask(TaskViewModel taskViewModel)
         {
-            if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState); // Return validation errors
-            }
-
-            SelectResult result = Tasks.UpdateTask(dto.ServiceID, dto.ServiceName, dto.Description);
+            SelectResult result = Tasks.UpdateTask(taskViewModel.Groupid, taskViewModel.Taskname, taskViewModel.Taskdescription, taskViewModel.Taskstatus, taskViewModel.Tasktype);
             return Ok(result);  
             //SelectResult tasks = Tasks.UpdateTask(SupplierId, ServiceName, Description);
             //string JSONresult = JsonConvert.SerializeObject(tasks);
