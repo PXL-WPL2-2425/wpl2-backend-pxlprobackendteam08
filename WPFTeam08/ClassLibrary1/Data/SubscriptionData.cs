@@ -14,13 +14,13 @@ namespace ClassLibrary1.Data
 {
     internal class SubscriptionData : SqlServer
     {
-        public SelectResult SelectByID(int id)
+        public SelectResult SelectByID()
         {
             SelectResult result = new SelectResult();
             try
             {
                 StringBuilder selectQuery = new StringBuilder();
-                selectQuery.Append($"select * from Subscription WHERE SubscriptionID = {id}");
+                selectQuery.Append($"select * from Subscription");
                 using (SqlCommand selectCmd = new SqlCommand(selectQuery.ToString()))
                 {
                     result = Select(selectCmd);
@@ -57,7 +57,7 @@ namespace ClassLibrary1.Data
             try
             {
                 StringBuilder addQuery = new StringBuilder();
-                addQuery.Append($"Insert into FROM Subscription WHERE SubscriptionID = {id};");
+                addQuery.Append($"Insert into FROM Subscriptions WHERE SubscriptionID = {id};");
                 using (SqlCommand addCmd = new SqlCommand(addQuery.ToString()))
                 {
                     result = Insert(addCmd);
@@ -75,7 +75,7 @@ namespace ClassLibrary1.Data
             try
             {
                 StringBuilder updateQuery = new StringBuilder();
-                updateQuery.Append($"update FROM Subscription WHERE SubscriptionID = {id};");
+                updateQuery.Append($"update FROM Subscriptions WHERE SubscriptionID = {id};");
                 using (SqlCommand updateCmd = new SqlCommand(updateQuery.ToString()))
                 {
                     result = Update(updateCmd);
@@ -104,11 +104,11 @@ namespace ClassLibrary1.Data
                     subscription._subscriptionID;
                     insertCommand.Parameters.Add("@groupid", SqlDbType.VarChar).Value =
                     subscription._groupID;
-                    insertCommand.Parameters.Add("@startdate", SqlDbType.VarChar).Value =
+                    insertCommand.Parameters.Add("@startdate", SqlDbType.DateTime).Value =
                     subscription._startDate;
-                    insertCommand.Parameters.Add("@eindtime", SqlDbType.VarChar).Value =
+                    insertCommand.Parameters.Add("@eindtime", SqlDbType.DateTime).Value =
                     subscription._endDate;
-                    insertCommand.Parameters.Add("@rewendedate", SqlDbType.VarChar).Value =
+                    insertCommand.Parameters.Add("@rewendedate", SqlDbType.DateTime).Value =
                     subscription._renewDate;
                     insertCommand.Parameters.Add("@statut", SqlDbType.VarChar).Value =
                     subscription._status;

@@ -11,10 +11,10 @@ namespace ClassLibrary1.Business
 {
     public static class Subscriptions
     {
-        public static SelectResult GetSubscription(int id)
+        public static SelectResult GetSubscription()
         {
             SubscriptionData data = new SubscriptionData();
-            SelectResult result = data.SelectByID(id);
+            SelectResult result = data.SelectByID();
             return result;
         }
 
@@ -24,9 +24,9 @@ namespace ClassLibrary1.Business
             DeleteResult result = data.DeleteByID(id);
             return result;
         }
-
         public static InsertResult AddSubscription(int id)
         {
+
             SubscriptionData data = new SubscriptionData();
             InsertResult result = data.AddSubscription(id);
             return result;
