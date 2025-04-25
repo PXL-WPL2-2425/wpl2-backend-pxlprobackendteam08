@@ -5,17 +5,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 
-//!! Controller toevoegen met ondersteuning voor serialisatie van cyclische referenties
-//Hier voeg ik de JsonOptins toe om controller kan serialisatie van cyclische objecten onderstunen
-builder.Services.AddControllers()
-    .AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-        options.JsonSerializerOptions.WriteIndented = true;
-    });
-//
-
-
 // Add services to the container.
 
 builder.Services.AddControllers();
