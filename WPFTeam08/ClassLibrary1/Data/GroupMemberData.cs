@@ -70,6 +70,24 @@ namespace ClassLibrary1.Data
             }
             return result;
         }
+        public DeleteResult DeleteByUserID(int id)
+        {
+            DeleteResult result = new DeleteResult();
+            try
+            {
+                StringBuilder deleteQuery = new StringBuilder();
+                deleteQuery.Append($"DELETE FROM GroupMembers WHERE userID = {id};");
+                using (SqlCommand deleteCmd = new SqlCommand(deleteQuery.ToString()))
+                {
+                    result = Delete(deleteCmd);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
 
         public DeleteResult DeleteByGroupID(int id)
         {

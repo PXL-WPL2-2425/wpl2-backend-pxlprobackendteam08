@@ -228,11 +228,11 @@ namespace ClassLibTeam08.Data
 
                 SubscriptionData subscriptionData = new SubscriptionData();
                 Subscription subscription = new Subscription();
-                subscription.SubscriptionID = +1;
                 subscription.GroupID = groupMember.GroupID;
                 subscription.Status = "Free";
                 subscription.StartDate = DateTime.Now;
                 subscription.EndDate = DateTime.Now.AddMonths(1);
+                subscription.Renewdate = DateTime.Now.AddMonths(1);
                 subscription.AutoRenewal = true;
                 subscriptionData.InsertSubscription(subscription);
 
@@ -285,6 +285,16 @@ namespace ClassLibTeam08.Data
                 {
                     result = Delete(insertCommand);
                 }
+
+                GroupMemberData groupMemberData = new GroupMemberData();
+                GroupMember groupMember = new GroupMember();
+                groupMember.UserID = id;
+                groupMemberData.DeleteByUserID(id);
+
+                SubscriptionData subscriptionData = new SubscriptionData();
+                Subscription subscription = new Subscription();
+                subscription.GroupID = id;
+                subscriptionData.DeleteByID(id);
             }
             catch (Exception ex) 
             {
