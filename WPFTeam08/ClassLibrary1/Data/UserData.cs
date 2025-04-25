@@ -218,21 +218,21 @@ namespace ClassLibTeam08.Data
                 GroupMember groupMember = new GroupMember();
                 groupMember.UserID = result.NewId;
                 groupMember.IsAdmin = true;
-                groupMemberData.InsertGroupMember(groupMember);
+                InsertResult resultmember = groupMemberData.InsertGroupMember(groupMember);
 
                 GroupData groupData = new GroupData(_configuration);
                 Group group = new Group();
                 group.GroupId = groupMember.GroupID;
-                group.GroupName = "Groep" +1;
-                groupData.InsertGroup(group);
+                group.GroupName = "Groep" + resultmember.NewId;
+                InsertResult resultgroupresult = groupData.InsertGroup(group);
 
                 SubscriptionData subscriptionData = new SubscriptionData();
                 Subscription subscription = new Subscription();
-                subscription.SubscriptionID = +1;
-                subscription.GroupID = groupMember.GroupID;
+                subscription.GroupID = resultgroupresult.NewId;
                 subscription.Status = "Free";
                 subscription.StartDate = DateTime.Now;
                 subscription.EndDate = DateTime.Now.AddMonths(1);
+                subscription.Renewdate = DateTime.Now.AddMonths(1);
                 subscription.AutoRenewal = true;
                 subscriptionData.InsertSubscription(subscription);
 
