@@ -8,9 +8,9 @@ namespace ClassLibrary1.Business.Entities
 {
     internal class Subscription
     {
-        DateTime _endate;
+        DateTime _endDate;
         DateTime _renewDate;
-        public int SubscriptionID { get; set; }
+        public int SubscriptionID {  get; set; }
 
         public int GroupID { get; set; }
 

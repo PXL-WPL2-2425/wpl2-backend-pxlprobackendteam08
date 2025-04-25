@@ -95,7 +95,7 @@ namespace ClassLibrary1.Data
             {
                 //SQL Command
                 StringBuilder insertQuery = new StringBuilder();
-                insertQuery.Append($"Insert INTO subscritpion");
+                insertQuery.Append($"Insert INTO subscription");
                 insertQuery.Append($"(subscriptionid, groupid, startdate, eindtime, rewendedate, statut, autorenewal) VALUES");
                 insertQuery.Append($"(@subscriptionid, @groupid, @startdate, @eindtime, @rewendedate, @statut, @autorenewal);");
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
@@ -112,7 +112,7 @@ namespace ClassLibrary1.Data
                     subscription.Renewdate;
                     insertCommand.Parameters.Add("@statut", SqlDbType.VarChar).Value =
                     subscription.Status;
-                    insertCommand.Parameters.Add("@autorenewal", SqlDbType.Date).Value =
+                    insertCommand.Parameters.Add("@autorenewal", SqlDbType.VarChar).Value =
                     subscription.AutoRenewal;
 
                     result = Insert(insertCommand);
