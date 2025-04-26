@@ -20,7 +20,7 @@ namespace ClassLibrary1.Data
             try
             {
                 StringBuilder selectQuery = new StringBuilder();
-                selectQuery.Append($"select * from Subscription");
+                selectQuery.Append($"SELECT u.firstname, u.lastname, u.email, u.phone, s.statut, s.startdate, s.eindtime, s. rewendeDate, s.autoRenewal FROM users u JOIN groupmembers gm ON gm.userid = u.userid JOIN groep g ON g.groupid = gm.groupid JOIN subscription s ON s.groupid = g.groupid;");
                 using (SqlCommand selectCmd = new SqlCommand(selectQuery.ToString()))
                 {
                     result = Select(selectCmd);
