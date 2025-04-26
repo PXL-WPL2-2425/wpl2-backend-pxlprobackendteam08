@@ -289,8 +289,18 @@ namespace ClassLibTeam08.Data
                 {
                     result = Delete(insertCommand);
                 }
+
+                GroupMemberData groupMemberData = new GroupMemberData();
+                GroupMember groupMember = new GroupMember();
+                groupMember.UserID = id;
+                groupMemberData.DeleteByUserID(id);
+
+                SubscriptionData subscriptionData = new SubscriptionData();
+                Subscription subscription = new Subscription();
+                subscription.GroupID = id;
+                subscriptionData.DeleteByID(id);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
             }
