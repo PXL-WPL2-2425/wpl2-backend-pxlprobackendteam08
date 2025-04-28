@@ -20,7 +20,7 @@ namespace ClassLibrary1.Data
             try
             {
                 StringBuilder selectQuery = new StringBuilder();
-                selectQuery.Append($"SELECT u.firstname, u.lastname, u.email, u.phone, s.statut, s.startdate, s.eindtime, s. rewendeDate, s.autoRenewal FROM users u JOIN groupmembers gm ON gm.userid = u.userid JOIN groep g ON g.groupid = gm.groupid JOIN subscription s ON s.groupid = g.groupid;");
+                selectQuery.Append($"SELECT \r\n    u.firstname, \r\n    u.lastname, \r\n    u.email, \r\n    u.phone, \r\n    s.statut, \r\n    s.startdate, \r\n    s.eindtime, \r\n    s.rewendeDate,\r\n    CASE \r\n        WHEN s.autoRenewal = 'true' THEN 'Ja'\r\n        ELSE 'Nee'\r\n    END AS autoRenewal\r\nFROM users u\r\nJOIN groupmembers gm ON gm.userid = u.userid\r\nJOIN groep g ON g.groupid = gm.groupid\r\nJOIN subscription s ON s.groupid = g.groupid;\r\n;");
                 using (SqlCommand selectCmd = new SqlCommand(selectQuery.ToString()))
                 {
                     result = Select(selectCmd);
@@ -87,6 +87,25 @@ namespace ClassLibrary1.Data
             }
             return result;
         }
+        public UpdateResult CancelSubscription(int id)
+        {
+            UpdateResult result = new UpdateResult();
+            try
+            {
+                StringBuilder updateQuery = new StringBuilder();
+                updateQuery.Append($"update subscription SET autorenewal = 'false', eindtime = EOMONTH(GETDATE()) WHERE SubscriptionID = {id};");
+                using (SqlCommand updateCmd = new SqlCommand(updateQuery.ToString()))
+                {
+                    result = Update(updateCmd);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+
 
         public InsertResult InsertSubscription(Subscription subscription)
         {

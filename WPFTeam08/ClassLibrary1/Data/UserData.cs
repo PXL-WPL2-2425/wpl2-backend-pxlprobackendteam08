@@ -293,12 +293,12 @@ namespace ClassLibTeam08.Data
                 GroupMemberData groupMemberData = new GroupMemberData();
                 GroupMember groupMember = new GroupMember();
                 groupMember.UserID = id;
-                groupMemberData.DeleteByUserID(id);
+                groupMemberData.DeleteByMemberID(id);
 
                 SubscriptionData subscriptionData = new SubscriptionData();
                 Subscription subscription = new Subscription();
                 subscription.GroupID = id;
-                subscriptionData.DeleteByID(id);
+                subscriptionData.CancelSubscription(id);
             }
             catch (Exception ex)
             {
