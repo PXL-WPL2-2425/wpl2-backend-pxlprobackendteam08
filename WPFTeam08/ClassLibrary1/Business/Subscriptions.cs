@@ -32,10 +32,10 @@ namespace ClassLibrary1.Business
             return result;
         }
 
-        public static UpdateResult UpdateSubscription(string email)
+        public static UpdateResult UpdateSubscription(DateTime startDate, DateTime endDate, DateTime renewDate, string status, string autoRenewal, string email)
         {
             SubscriptionData data = new SubscriptionData();
-            UpdateResult result = data.UpdateSubscription(email);
+            UpdateResult result = data.UpdateSubscription(startDate, endDate, renewDate, status, autoRenewal, email);
             return result;
         }
         public static UpdateResult CancelSubscription(string email)

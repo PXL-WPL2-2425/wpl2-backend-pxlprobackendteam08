@@ -70,7 +70,7 @@ namespace ClassLibrary1.Data
             }
             return result;
         }
-        public UpdateResult UpdateSubscription(Subscription subscription, string email)
+        public UpdateResult UpdateSubscription(DateTime startDate, DateTime endDate, DateTime renewDate, string status, string autoRenewal, string email)
         {
             UpdateResult result = new UpdateResult();
             try
@@ -79,16 +79,11 @@ namespace ClassLibrary1.Data
                 updateQuery.Append($"update subscription s \r\nJOIN groep g ON s.groupid = g.groupid\r\nJOIN groupmembers gm ON gm.groupid = g.groupid\r\nJOIN users u ON u.userid = gm.userid\r\n set s.startDate = @startdate ,\r\n    s.eindTime = @eindtime,\r\n    s.rewendeDate = @rewendedate,\r\n    s.statut = @statut,\r\n    s.autoRenewal = @autorenewal WHERE u.email = {email};");
                 using (SqlCommand updateCmd = new SqlCommand(updateQuery.ToString()))
                 {
-                    updateCmd.Parameters.Add("@startdate", SqlDbType.DateTime).Value =
-                    subscription.StartDate;
-                    updateCmd.Parameters.Add("@eindtime", SqlDbType.DateTime).Value =
-                    subscription.EndDate;
-                    updateCmd.Parameters.Add("@rewendedate", SqlDbType.DateTime).Value =
-                    subscription.Renewdate;
-                    updateCmd.Parameters.Add("@statut", SqlDbType.VarChar).Value =
-                    subscription.Status;
-                    updateCmd.Parameters.Add("@autorenewal", SqlDbType.VarChar).Value =
-                    subscription.AutoRenewal;
+                    updateCmd.Parameters.Add("@startdate", SqlDbType.DateTime).Value = startDate;
+                    updateCmd.Parameters.Add("@eindtime", SqlDbType.DateTime).Value = endDate;
+                    updateCmd.Parameters.Add("@rewendedate", SqlDbType.DateTime).Value = renewDate;
+                    updateCmd.Parameters.Add("@statut", SqlDbType.VarChar).Value = status;
+                    updateCmd.Parameters.Add("@autorenewal", SqlDbType.VarChar).Value = autoRenewal;
 
                     result = Update(updateCmd);
                 }

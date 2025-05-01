@@ -36,9 +36,9 @@ namespace WebApiTeam08.Controllers
             return Ok(JSONresult);
         }
         [HttpPost("UpdateSubscription")]
-        public ActionResult UpdateSubscriptions(string email)
+        public ActionResult UpdateSubscriptions(DateTime startDate, DateTime endDate, DateTime renewDate, string status, string autoRenewal, string email)
         {
-            UpdateResult subs = Subscriptions.UpdateSubscription(email);
+            UpdateResult subs = Subscriptions.UpdateSubscription(startDate, endDate, renewDate, status, autoRenewal, email);
             string JSONresult = JsonConvert.SerializeObject(subs);
             return Ok(JSONresult);
         }
