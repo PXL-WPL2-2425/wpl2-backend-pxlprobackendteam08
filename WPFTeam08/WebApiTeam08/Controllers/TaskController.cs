@@ -40,5 +40,12 @@ namespace WebApiTeam08.Controllers
             string JSONresult = JsonConvert.SerializeObject(tasks);
             return Ok(JSONresult);
         }
+
+        [HttpGet("GetAllTasks")]
+        public ActionResult GetAllTasks()
+        {
+            var tasks = Tasks.GetAllTasks();
+            return Ok(tasks);
+        }
     }
 }
