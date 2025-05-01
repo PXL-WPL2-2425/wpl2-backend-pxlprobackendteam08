@@ -24,18 +24,24 @@ namespace ClassLibrary1.Business
             DeleteResult result = data.DeleteByID(id);
             return result;
         }
-        public static InsertResult AddSubscription(int id)
+        public static InsertResult AddSubscription(string email)
         {
 
             SubscriptionData data = new SubscriptionData();
-            InsertResult result = data.AddSubscription(id);
+            InsertResult result = data.AddSubscription(email);
             return result;
         }
 
-        public static UpdateResult UpdateSubscription(int id)
+        public static UpdateResult UpdateSubscription(string email)
         {
             SubscriptionData data = new SubscriptionData();
-            UpdateResult result = data.UpdateSubscription(id);
+            UpdateResult result = data.UpdateSubscription(email);
+            return result;
+        }
+        public static UpdateResult CancelSubscription(string email)
+        {
+            SubscriptionData data = new SubscriptionData();
+            UpdateResult result = data.CancelSubscription(email);
             return result;
         }
     }

@@ -14,10 +14,10 @@ namespace WebApiTeam08.Controllers
     [ApiController]
     public class SubscriptionController : ControllerBase
     {
-        [HttpGet("AddSubsription")]
-        public ActionResult AddSubsriptions(int groupId)
+        [HttpPost("AddSubsription")]
+        public ActionResult AddSubsriptions(string email)
         {
-            InsertResult subs = Subscriptions.AddSubscription(groupId);
+            InsertResult subs = Subscriptions.AddSubscription(email);
             string JSONresult = JsonConvert.SerializeObject(subs);
             return Ok(JSONresult);
         }
@@ -28,10 +28,17 @@ namespace WebApiTeam08.Controllers
             string JSONresult = JsonConvert.SerializeObject(subs);
             return Ok(JSONresult);
         }
-        [HttpGet("UpdateSubscription")]
-        public ActionResult UpdateSubscriptions(int groupId)
+        [HttpGet("CancelSubscription")]
+        public ActionResult CancelSubscription(string email)
         {
-            UpdateResult subs = Subscriptions.UpdateSubscription(groupId);
+            UpdateResult subs = Subscriptions.CancelSubscription(email);
+            string JSONresult = JsonConvert.SerializeObject(subs);
+            return Ok(JSONresult);
+        }
+        [HttpPost("UpdateSubscription")]
+        public ActionResult UpdateSubscriptions(string email)
+        {
+            UpdateResult subs = Subscriptions.UpdateSubscription(email);
             string JSONresult = JsonConvert.SerializeObject(subs);
             return Ok(JSONresult);
         }

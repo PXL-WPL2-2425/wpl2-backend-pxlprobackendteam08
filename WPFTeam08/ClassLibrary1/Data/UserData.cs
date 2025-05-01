@@ -298,7 +298,7 @@ namespace ClassLibTeam08.Data
                 SubscriptionData subscriptionData = new SubscriptionData();
                 Subscription subscription = new Subscription();
                 subscription.GroupID = id;
-                subscriptionData.CancelSubscription(id);
+                subscriptionData.DeleteByID(id);
             }
             catch (Exception ex)
             {
