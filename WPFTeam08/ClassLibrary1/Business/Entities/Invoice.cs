@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassLibrary1.Business.Entities
 {
-    internal class Invoice
+    public class Invoice
     {
         private int _invoiceId;
         private int _userId;
