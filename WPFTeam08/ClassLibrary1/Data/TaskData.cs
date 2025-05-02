@@ -95,5 +95,23 @@ namespace ClassLibrary1.Data
             result.Succeeded = true;
             return result;
         }
+        public SelectResult SelectAll()
+        {
+            var result = new SelectResult();
+            try
+            {
+                StringBuilder selectQuery = new StringBuilder();
+                selectQuery.Append($"SELECT * FROM {TableName}");
+                using (SqlCommand selectCommand = new SqlCommand(selectQuery.ToString()))
+                {
+                    result = Select(selectCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
     }
 }

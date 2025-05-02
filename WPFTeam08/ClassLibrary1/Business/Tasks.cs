@@ -31,6 +31,12 @@ namespace ClassLibTeam08.Business
             return result;
         }
 
+        public static SelectResult GetAllTasks()
+        {
+            var data = new TaskData(_configuration);
+            SelectResult result = data.SelectAll();
+            return result;
+        }
 
         public static SelectResult DeleteTask(int ServiceID)
         {
