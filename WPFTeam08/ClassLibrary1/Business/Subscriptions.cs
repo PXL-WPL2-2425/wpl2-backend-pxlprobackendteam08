@@ -1,5 +1,6 @@
 ﻿using ClassLibrary08.Data.Framework;
 using ClassLibrary1.Data;
+using ClassLibTeam08.Data;
 using ClassLibTeam08.Data.Framework;
 using System;
 using System.Collections.Generic;
@@ -43,6 +44,22 @@ namespace ClassLibrary1.Business
             SubscriptionData data = new SubscriptionData();
             UpdateResult result = data.CancelSubscription(email);
             return result;
+        }
+        public static AggregateResult CountAll()
+        {
+            SubscriptionData subscriptionData = new SubscriptionData();
+            AggregateResult aggregateResult = subscriptionData.CountAllSubscriptions();
+
+
+            return aggregateResult;
+        }
+        public static SelectResult GetSubscriptionsMonthly()
+        {
+            SubscriptionData subscriptionData = new SubscriptionData();
+            SelectResult aggregateResult = subscriptionData.CountSubscriptionByMonth();
+
+
+            return aggregateResult;
         }
     }
 }

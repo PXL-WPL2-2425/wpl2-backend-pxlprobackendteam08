@@ -21,7 +21,7 @@ namespace ClassLibrary1.Data
             try
             {
                 StringBuilder selectQuery = new StringBuilder();
-                selectQuery.Append($"SELECT u.firstname, u.lastname, u.email, u.phone, s.statut, s.startdate, s.eindtime, s.rewendeDate, CASE  WHEN s.autoRenewal = 'true' THEN 'Ja' ELSE 'Nee' END AS autoRenewal FROM users u JOIN groupmembers gm ON gm.userid = u.userid JOIN groep g ON g.groupid = gm.groupid JOIN subscription s ON s.groupid = g.groupid;");
+                selectQuery.Append($"SELECT u.userId, u.firstname, u.lastname, u.email, u.phone, s.statut, s.startdate, s.eindtime, s.rewendeDate, CASE  WHEN s.autoRenewal = 'true' THEN 'Ja' ELSE 'Nee' END AS autoRenewal FROM users u left JOIN groupmembers gm ON gm.userid = u.userid left JOIN groep g ON g.groupid = gm.groupid left JOIN subscription s ON s.groupid = g.groupid;");
                 using (SqlCommand selectCmd = new SqlCommand(selectQuery.ToString()))
                 {
                     result = Select(selectCmd);
@@ -76,7 +76,7 @@ namespace ClassLibrary1.Data
             try
             {
                 StringBuilder updateQuery = new StringBuilder();
-                updateQuery.Append($"update subscription s \r\nJOIN groep g ON s.groupid = g.groupid\r\nJOIN groupmembers gm ON gm.groupid = g.groupid\r\nJOIN users u ON u.userid = gm.userid\r\n set s.startDate = @startdate ,\r\n    s.eindTime = @eindtime,\r\n    s.rewendeDate = @rewendedate,\r\n    s.statut = @statut,\r\n    s.autoRenewal = @autorenewal WHERE u.email = {email};");
+                updateQuery.Append($"UPDATE s\r\nSET \r\n  s.startDate = @startdate,\r\n  s.eindTime = @eindtime,\r\n  s.rewendeDate = @rewendedate,\r\n  s.statut = @statut,\r\n  s.autoRenewal = @autorenewal\r\nFROM subscription s\r\nJOIN groep g ON s.groupid = g.groupid\r\nJOIN groupmembers gm ON gm.groupid = g.groupid\r\nJOIN users u ON u.userid = gm.userid\r\nWHERE u.email = @email;");
                 using (SqlCommand updateCmd = new SqlCommand(updateQuery.ToString()))
                 {
                     updateCmd.Parameters.Add("@startdate", SqlDbType.DateTime).Value = startDate;
@@ -84,6 +84,8 @@ namespace ClassLibrary1.Data
                     updateCmd.Parameters.Add("@rewendedate", SqlDbType.DateTime).Value = renewDate;
                     updateCmd.Parameters.Add("@statut", SqlDbType.VarChar).Value = status;
                     updateCmd.Parameters.Add("@autorenewal", SqlDbType.VarChar).Value = autoRenewal;
+                    updateCmd.Parameters.AddWithValue("@email", email);
+
 
                     result = Update(updateCmd);
                 }
@@ -100,7 +102,7 @@ namespace ClassLibrary1.Data
             try
             {
                 StringBuilder updateQuery = new StringBuilder();
-                updateQuery.Append($"update subscription s SET autorenewal = 'false', eindtime = EOMONTH(GETDATE()) \r\nFROM subscription s\r\nJOIN groep g ON s.groupid = g.groupid\r\nJOIN groupmembers gm ON gm.groupid = g.groupid\r\nJOIN users u ON u.userid = gm.userid\r\nWHERE u.email = {email};");
+                updateQuery.Append($"update s SET autorenewal = 'false', eindtime = EOMONTH(GETDATE()) \r\nFROM subscription s\r\nJOIN groep g ON s.groupid = g.groupid\r\nJOIN groupmembers gm ON gm.groupid = g.groupid\r\nJOIN users u ON u.userid = gm.userid\r\nWHERE u.email = {email};");
                 using (SqlCommand updateCmd = new SqlCommand(updateQuery.ToString()))
                 {
                     result = Update(updateCmd);
@@ -140,6 +142,47 @@ namespace ClassLibrary1.Data
                     subscription.AutoRenewal;
 
                     result = Insert(insertCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public AggregateResult CountAllSubscriptions()
+        {
+            var result = new AggregateResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"SELECT COUNT(subscriptionId)\r\nFROM subscription\r\nWHERE statut = 'basic' OR statut = 'premium';");
+
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    result = Count(insertCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+
+        public SelectResult CountSubscriptionByMonth()
+        {
+            var result = new SelectResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"SELECT \r\n    FORMAT(rewendeDate, 'yyyy-MM') AS maand,\r\n    COUNT(subscriptionID) AS aantal_subscripties\r\nFROM \r\n    subscription\r\nWHERE \r\n    statut = 'basic' OR statut = 'premium'\r\nGROUP BY \r\n    FORMAT(rewendeDate, 'yyyy-MM')\r\nORDER BY \r\n    maand;");
+
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    result = Select(insertCommand);
                 }
             }
             catch (Exception ex)

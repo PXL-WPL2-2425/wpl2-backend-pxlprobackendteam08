@@ -15,16 +15,16 @@ namespace WebApiTeam08.Controllers
     public class SubscriptionController : ControllerBase
     {
         [HttpPost("AddSubsription")]
-        public ActionResult AddSubsriptions(string email)
+        public ActionResult AddSubsriptions(SubscriptionViewModel subscription)
         {
-            InsertResult subs = Subscriptions.AddSubscription(email);
+            InsertResult subs = Subscriptions.AddSubscription(subscription.Email);
             string JSONresult = JsonConvert.SerializeObject(subs);
             return Ok(JSONresult);
         }
-        [HttpGet("DeleteSubscription")]
-        public ActionResult DeleteSubscriptions(int groupId)
+        [HttpDelete("DeleteSubscription")]
+        public ActionResult DeleteSubscriptions(SubscriptionViewModel subscription)
         {
-            DeleteResult subs = Subscriptions.DeleteSubscription(groupId);
+            DeleteResult subs = Subscriptions.DeleteSubscription(subscription.GroupID);
             string JSONresult = JsonConvert.SerializeObject(subs);
             return Ok(JSONresult);
         }
@@ -36,9 +36,9 @@ namespace WebApiTeam08.Controllers
             return Ok(JSONresult);
         }
         [HttpPost("UpdateSubscription")]
-        public ActionResult UpdateSubscriptions(DateTime startDate, DateTime endDate, DateTime renewDate, string status, string autoRenewal, string email)
+        public ActionResult UpdateSubscriptions(SubscriptionViewModel subscription)
         {
-            UpdateResult subs = Subscriptions.UpdateSubscription(startDate, endDate, renewDate, status, autoRenewal, email);
+            UpdateResult subs = Subscriptions.UpdateSubscription(subscription.StartDate, subscription.EndDate, subscription.RenewDate, subscription.Status, subscription.AutoRenewal, subscription.Email);
             string JSONresult = JsonConvert.SerializeObject(subs);
             return Ok(JSONresult);
         }
@@ -49,7 +49,20 @@ namespace WebApiTeam08.Controllers
             string JSONresult = JsonConvert.SerializeObject(subs);
             return Ok(JSONresult);
         }
-
+        [HttpGet("CountAllSubscriptions")]
+        public ActionResult GetAllSubscriptions()
+        {
+            AggregateResult result = Subscriptions.CountAll();
+            string JSONresult = JsonConvert.SerializeObject(result);
+            return Ok(JSONresult);
+        }
+        [HttpGet("GetSubscriptionByMonth")]
+        public ActionResult GetSubscriptionByMonth()
+        {
+            SelectResult result = Subscriptions.GetSubscriptionsMonthly();
+            string JSONresult = JsonConvert.SerializeObject(result);
+            return Ok(JSONresult);
+        }
     }
 
 }
