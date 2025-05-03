@@ -1,4 +1,5 @@
-﻿using ClassLibTeam08.Business.Entities;
+﻿using ClassLibrary08.Data.Framework;
+using ClassLibTeam08.Business.Entities;
 using ClassLibTeam08.Data.Framework;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -92,6 +93,14 @@ namespace WebApiTeam08.Controllers
         public ActionResult SendMailToUser(string toEmail, string subject, string body, string name)
         {
             EmailResult result = Users.SendMailTouser(toEmail, subject, body, name);
+            string JSONresult = JsonConvert.SerializeObject(result);
+            return Ok(JSONresult);
+        }
+
+        [HttpDelete("DeleteUser")]
+        public ActionResult DeleteUser(UserViewModel user)
+        {
+            DeleteResult result = Users.DeleteUser(user.ID);
             string JSONresult = JsonConvert.SerializeObject(result);
             return Ok(JSONresult);
         }
