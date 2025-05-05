@@ -22,11 +22,11 @@ namespace ClassLibTeam08.Data.Framework
             //return connectionString;
 
             //Inlog voor SQL server
-           /* string connectionString = "user id = PxlUser_08;";
+           string connectionString = "user id = PxlUser_08;";
             connectionString += "Password = GoTeam08;";
             connectionString += $@"Server=10.128.4.7;";
             connectionString += $"Database=Db2025Team_08;";
-            connectionString += "TrustServerCertificate=true";*/
+            connectionString += "TrustServerCertificate=true";
 
             //string connectionString = ClassLib.Default.SaschaLocalDataBase;
 
@@ -34,7 +34,7 @@ namespace ClassLibTeam08.Data.Framework
             //return connectionString;
             //connectionString += $"Database=Db2025Team_08;";*/
 
-            string connectionString = Connecties.Default.PxlServerConn;
+            //string connectionString = Connecties.Default.PxlServerConn;
             return connectionString;
         }
     }
