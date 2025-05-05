@@ -42,10 +42,15 @@ namespace WebApiTeam08.Controllers
         }
 
         [HttpGet("GetAllTasks")]
-        public ActionResult GetAllTasks()
+
+        public IActionResult GetAllTasks()
         {
-            var tasks = Tasks.GetAllTasks();
-            return Ok(tasks);
+            var result = Tasks.GetAllTasks();
+            if (result.Succeeded)
+            {
+                return Ok(new { result.Succeeded, result.Message, Data = result.SerializableData });
+            }
+            return BadRequest(result.Message);
         }
     }
 }
