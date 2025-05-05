@@ -18,10 +18,6 @@ namespace ClassLibTeam08.Data.Framework
             this.Succeeded = succeeded;
         }
 
-        public SelectResult()
-        {
-
-        }
 
         public List<Dictionary<string, object>> SerializableData
         {
