@@ -104,5 +104,12 @@ namespace WebApiTeam08.Controllers
             string JSONresult = JsonConvert.SerializeObject(result);
             return Ok(JSONresult);
         }
+        [HttpGet("UpdateUserAsAdmin")]
+        public ActionResult UpdateUserAsAdmin(int id, string firstName, string lastName,  string email, string adres, DateTime Birhday, string phone, string rol)
+        {
+            UpdateResult result = Users.UpdateUserDataAsAdmin(id, firstName, lastName, email, adres, Birhday, phone, rol);
+            string JSONresult = JsonConvert.SerializeObject(result);
+            return Ok(JSONresult);
+        }
     }
 }

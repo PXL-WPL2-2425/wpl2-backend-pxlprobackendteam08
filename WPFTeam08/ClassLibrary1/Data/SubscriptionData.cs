@@ -102,9 +102,12 @@ namespace ClassLibrary1.Data
             try
             {
                 StringBuilder updateQuery = new StringBuilder();
-                updateQuery.Append($"update s SET autorenewal = 'false', eindtime = EOMONTH(GETDATE()) \r\nFROM subscription s\r\nJOIN groep g ON s.groupid = g.groupid\r\nJOIN groupmembers gm ON gm.groupid = g.groupid\r\nJOIN users u ON u.userid = gm.userid\r\nWHERE u.email = {email};");
+                updateQuery.Append($"update s SET statut = 'Free', autorenewal = 'False', eindtime = EOMONTH(GETDATE()) \r\nFROM subscription s\r\nJOIN groep g ON s.groupid = g.groupid\r\nJOIN groupmembers gm ON gm.groupid = g.groupid\r\nJOIN users u ON u.userid = gm.userid\r\nWHERE u.email = @email;");
                 using (SqlCommand updateCmd = new SqlCommand(updateQuery.ToString()))
                 {
+                    updateCmd.Parameters.AddWithValue("@email", email);
+
+
                     result = Update(updateCmd);
                 }
             }
