@@ -32,6 +32,24 @@ namespace ClassLibrary1.Data
             }
             return result;
         }
+        public SelectResult SelectAllMembers()
+        {
+            SelectResult result = new SelectResult();
+            try
+            {
+                StringBuilder query = new StringBuilder();
+                query.Append($"SELECT * FROM GroupMembers");
+                using(SqlCommand cmd = new SqlCommand(query.ToString()))
+                {
+                    result = Select(cmd);
+                }
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
 
         public SelectResult SelectByGroupID(int id)
         {

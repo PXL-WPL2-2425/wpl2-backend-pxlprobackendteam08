@@ -46,5 +46,11 @@ namespace ClassLibrary1.Business
             SelectResult result = data.SelectbyUserID(id);
             return result;
         }
+        public static SelectResult GetAllMembers()
+        {
+            GroupMemberData data = new GroupMemberData();
+            SelectResult result = data.SelectAllMembers();
+            return result;
+        }
     }
 }
