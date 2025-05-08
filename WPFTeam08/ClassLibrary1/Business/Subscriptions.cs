@@ -22,7 +22,7 @@ namespace ClassLibrary1.Business
         public static DeleteResult DeleteSubscription(int id)
         {
             SubscriptionData data = new SubscriptionData();
-            DeleteResult result = data.DeleteByID(id);
+            DeleteResult result = data.DeleteByGroupID(id);
             return result;
         }
         public static InsertResult AddSubscription(string email)

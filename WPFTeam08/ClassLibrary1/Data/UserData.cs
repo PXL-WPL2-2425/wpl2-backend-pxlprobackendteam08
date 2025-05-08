@@ -6,6 +6,7 @@ using ClassLibTeam08.Data.Framework;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
+using Org.BouncyCastle.Tls;
 using Org.BouncyCastle.Utilities.Net;
 using System.Data;
 using System.Diagnostics;
@@ -240,6 +241,7 @@ namespace ClassLibTeam08.Data
                 subscription.AutoRenewal = true;
                 subscriptionData.InsertSubscription(subscription);
 
+
             }
             catch (Exception ex)
             {
@@ -282,30 +284,27 @@ namespace ClassLibTeam08.Data
             var result = new DeleteResult();
             try
             {
-                //SQL Command
+                GroupMemberData groupMemberData = new GroupMemberData();
+                groupMemberData.DeleteByUserID(id); 
+
+                SubscriptionData subscriptionData = new SubscriptionData();
+                subscriptionData.DeleteByGroupID(id);  
+
                 StringBuilder insertQuery = new StringBuilder();
                 insertQuery.Append($"DELETE FROM Users WHERE userID = {id};");
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
                     result = Delete(insertCommand);
                 }
-
-                GroupMemberData groupMemberData = new GroupMemberData();
-                GroupMember groupMember = new GroupMember();
-                groupMember.UserID = id;
-                groupMemberData.DeleteByMemberID(id); //groupMemberData.DeleteByUserID(id);
-
-                SubscriptionData subscriptionData = new SubscriptionData();
-                Subscription subscription = new Subscription();
-                subscription.GroupID = id;
-                subscriptionData.DeleteByID(id);
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message, ex);
+                result.Succeeded = false;
             }
+
             return result;
         }
+
 
         public UpdateResult UpdateToken(int id, string token)
         {
