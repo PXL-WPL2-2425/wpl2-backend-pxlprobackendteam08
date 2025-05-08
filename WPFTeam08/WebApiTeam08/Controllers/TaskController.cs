@@ -3,6 +3,7 @@ using ClassLibTeam08.Business.Entities;
 using ClassLibTeam08.Data.Framework;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Data;
 using WebApiTeam08.ViewModels;
 
 
@@ -43,14 +44,14 @@ namespace WebApiTeam08.Controllers
 
         [HttpGet("GetAllTasks")]
 
-        public IActionResult GetAllTasks()
+        public ActionResult GetAllTasks()
         {
             var result = Tasks.GetAllTasks();
             if (result.Succeeded)
-            {
-                return Ok(new { result.Succeeded, result.Message, Data = result.SerializableData });
-            }
-            return BadRequest(result.Message);
+            {              
+                return Ok(JsonConvert.SerializeObject(result));
+            }  
+            return BadRequest(result);
         }
     }
 }

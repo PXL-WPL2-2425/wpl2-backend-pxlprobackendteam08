@@ -10,7 +10,6 @@ namespace ClassLibTeam08.Data.Framework
 {
     public class SelectResult : BaseResult
     {
-        public string Message { get; set; }
         public DataTable DataTable { get; set; } = new DataTable();
 
         public SelectResult(bool succeeded)
@@ -21,19 +20,5 @@ namespace ClassLibTeam08.Data.Framework
         {
             
         }
-
-        public List<Dictionary<string, object>> SerializableData
-        {
-            get
-            {
-                if (DataTable == null) return null;
-
-                return DataTable.AsEnumerable()
-                    .Select(row => DataTable.Columns.Cast<DataColumn>()
-                        .ToDictionary(col => col.ColumnName, col => row[col]))
-                    .ToList();
-            }
-        }
-
     }
 }
