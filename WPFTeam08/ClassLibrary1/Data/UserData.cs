@@ -293,7 +293,7 @@ namespace ClassLibTeam08.Data
                 GroupMemberData groupMemberData = new GroupMemberData();
                 GroupMember groupMember = new GroupMember();
                 groupMember.UserID = id;
-                groupMemberData.DeleteByMemberID(id);
+                groupMemberData.DeleteByMemberID(id); //groupMemberData.DeleteByUserID(id);
 
                 SubscriptionData subscriptionData = new SubscriptionData();
                 Subscription subscription = new Subscription();
@@ -520,7 +520,7 @@ namespace ClassLibTeam08.Data
 <p>met vriendelijke groeten</p>
 <c>-- MonoHome<br>";
 
-         
+
             try
             {
                 mimeMailWrapper.SendEmail(toEmail, subject, bodyBuilder);
@@ -575,7 +575,7 @@ namespace ClassLibTeam08.Data
                 StringBuilder insertQuery = new StringBuilder();
                 insertQuery.Append($"SELECT token from users where email = @email");
 
-                
+
 
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
