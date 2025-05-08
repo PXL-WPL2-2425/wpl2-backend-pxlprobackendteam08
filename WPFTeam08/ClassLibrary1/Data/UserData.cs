@@ -6,6 +6,7 @@ using ClassLibTeam08.Data.Framework;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
+using Org.BouncyCastle.Tls;
 using Org.BouncyCastle.Utilities.Net;
 using System.Data;
 using System.Diagnostics;
@@ -239,6 +240,7 @@ namespace ClassLibTeam08.Data
                 subscription.Renewdate = DateTime.Now.AddMonths(1);
                 subscription.AutoRenewal = true;
                 subscriptionData.InsertSubscription(subscription);
+
 
             }
             catch (Exception ex)

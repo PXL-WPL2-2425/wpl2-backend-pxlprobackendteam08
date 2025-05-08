@@ -11,10 +11,11 @@ namespace ClassLibrary1.Business.Entities
         private int _invoiseId;
         private int _subscriptionId;
         private DateTime _createDate;
-        private bool _statut;
+        private string _statut;
         private int _orderId;
         private DateTime _invoiceDate;
         private DateTime _deletedDate;
+        private int _groupId;
 
         public int InvoiceID
         {
@@ -34,7 +35,7 @@ namespace ClassLibrary1.Business.Entities
             set { _createDate = value; }
         }
 
-        public bool Statut
+        public string Statut
         {
             get { return _statut; }
             set { _statut = value; }
@@ -57,8 +58,14 @@ namespace ClassLibrary1.Business.Entities
             get { return _deletedDate; }
             set { _deletedDate = value; }
         }
+        public int GroupID
+        {
+            get { return _groupId; }
+            set { _groupId = value; }
+        }
+       
 
-        public Invoice(int invoiceId, int subscriptionId, DateTime createDate, bool statut, int orderId, DateTime invoiceDate, DateTime deleteDate)
+        public Invoice(int invoiceId, int subscriptionId, DateTime createDate, string statut, int orderId, DateTime invoiceDate, DateTime deleteDate, int groupId)
         {
             InvoiceID = invoiceId;
             SubscriptionID = subscriptionId;
@@ -67,6 +74,7 @@ namespace ClassLibrary1.Business.Entities
             OrderID = orderId;
             InvoiceDate = invoiceDate;
             DeleteDate = deleteDate;
+            GroupID = groupId;
         }
 
         public override string ToString()
