@@ -26,6 +26,8 @@ namespace ClassLibrary1.Data
             _configuration = configuration;
         }
 
+        public InvoiceData() { }
+
         public SelectResult SelectByGroupID(int groupId)
         {
             var result = new SelectResult();

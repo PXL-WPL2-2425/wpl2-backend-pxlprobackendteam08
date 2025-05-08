@@ -37,6 +37,14 @@ namespace ClassLibrary1.Business
         {
             SubscriptionData data = new SubscriptionData();
             UpdateResult result = data.UpdateSubscription(startDate, endDate, renewDate, status, autoRenewal, email);
+
+            if (status != "free")
+            {
+                InvoiceData invoiceData = new InvoiceData();
+                invoiceData.AddInvoice(status);
+
+            }
+
             return result;
         }
         public static UpdateResult CancelSubscription(string email)
