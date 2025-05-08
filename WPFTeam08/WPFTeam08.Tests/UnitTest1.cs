@@ -1,14 +1,27 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
+using ClassLibrary1.Business.Entities;
 
-[TestFixture]
-public class UnitTest1
+namespace WPFTeam08.Tests
 {
-    [Test]
-    public void TestMethod1()
+    [TestFixture]
+    public class Tests
     {
-        int test = 3;
-        int result = test;
+        [Test]
+        public void Test1()
+        {
+            int getal1 = 1;
+            int getal2 = 1;
 
-        Assert.That(result, Is.EqualTo(3));
+            Assert.That(getal1 == getal2);
+        }
+
+        [Test]
+        public void Test2()
+        {
+            int getal3 = 2;
+            int getal4 = 2;
+
+            Assert.That(getal3 == getal4);
+        }
     }
 }

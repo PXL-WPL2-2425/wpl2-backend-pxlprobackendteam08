@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiTeam08", "WebApiTeam0
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClassLibrary1", "ClassLibrary1\ClassLibrary1.csproj", "{5E28C2F5-EF2B-4594-929D-67AA6622E367}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFTeam08.Tests", "WPFTeam08.Tests\WPFTeam08.Tests.csproj", "{D5777392-41E9-46CF-B0FE-4F5D417AEF29}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{5E28C2F5-EF2B-4594-929D-67AA6622E367}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E28C2F5-EF2B-4594-929D-67AA6622E367}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E28C2F5-EF2B-4594-929D-67AA6622E367}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5777392-41E9-46CF-B0FE-4F5D417AEF29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5777392-41E9-46CF-B0FE-4F5D417AEF29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5777392-41E9-46CF-B0FE-4F5D417AEF29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5777392-41E9-46CF-B0FE-4F5D417AEF29}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
