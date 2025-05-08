@@ -8,7 +8,7 @@ namespace WPFTeam08.Tests
     public class UserTests
     {
         [Test]
-        public void UserConstructor_SetsPropertiesCorrectly()
+        public void UserConstructor()
         {
             // Input variabelen
             string firstName = "John";
@@ -33,6 +33,9 @@ namespace WPFTeam08.Tests
             Assert.That(birthday == user.BirthDay);
             Assert.That(phone == user.Phone);
             Assert.That(role == user.Rol);
+
+            // Testen of password geset is
+            Assert.That(user.Password != null);
 
             // Testen password hasing
             Assert.That(password != user.Password);
