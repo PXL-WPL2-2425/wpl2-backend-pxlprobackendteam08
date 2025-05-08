@@ -28,6 +28,10 @@ namespace ClassLibrary1.Business.Entities
             get { return _subscriptionId; } 
             set { _subscriptionId = value; }
         }
+        public Invoice()
+        {
+            
+        }
 
         public DateTime CreateDate
         {

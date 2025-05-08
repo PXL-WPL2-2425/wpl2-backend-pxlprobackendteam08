@@ -21,7 +21,10 @@ namespace ClassLibrary1.Data
         private readonly IConfiguration _configuration;
 
         public string TableName { get; set; }
-
+        public InvoiceData()
+        {
+            
+        }
         public InvoiceData(IConfiguration configuration)
         {
             TableName = "Tasks";
