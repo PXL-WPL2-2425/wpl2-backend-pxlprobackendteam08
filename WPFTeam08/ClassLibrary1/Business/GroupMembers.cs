@@ -29,7 +29,7 @@ namespace ClassLibrary1.Business
         public static DeleteResult DeleteMember(int id)
         {
             GroupMemberData data = new GroupMemberData();
-            DeleteResult result = data.DeleteByMemberID(id);
+            DeleteResult result = data.DeleteByGroupID(id);
             return result;
         }
 

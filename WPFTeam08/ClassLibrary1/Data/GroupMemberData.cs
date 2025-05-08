@@ -52,13 +52,13 @@ namespace ClassLibrary1.Data
             return result;
         }
 
-        public DeleteResult DeleteByMemberID(int id)
+        public DeleteResult DeleteByUserID(int id)
         {
             DeleteResult result = new DeleteResult();
             try
             {
                 StringBuilder deleteQuery = new StringBuilder();
-                deleteQuery.Append($"DELETE FROM GroupMembers WHERE MemberID = {id};");
+                deleteQuery.Append($"DELETE FROM GroupMembers WHERE userID = {id};");
                 using (SqlCommand deleteCmd = new SqlCommand(deleteQuery.ToString()))
                 {
                     result = Delete(deleteCmd);
@@ -70,6 +70,7 @@ namespace ClassLibrary1.Data
             }
             return result;
         }
+
 
         public DeleteResult DeleteByGroupID(int id)
         {

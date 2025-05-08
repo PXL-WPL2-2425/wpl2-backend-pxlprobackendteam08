@@ -34,24 +34,26 @@ namespace ClassLibrary1.Data
             return result;
         }
 
-        public DeleteResult DeleteByID(int id)
+        public DeleteResult DeleteByGroupID(int groupId)
         {
             DeleteResult result = new DeleteResult();
             try
             {
-                StringBuilder deleteQuery = new StringBuilder();
-                deleteQuery.Append($"DELETE from subscription WHERE groupID = {id};");
-                using (SqlCommand deleteCmd = new SqlCommand(deleteQuery.ToString()))
+                string deleteQuery = "DELETE FROM Subscription WHERE GroupID = @groupId";
+                using (SqlCommand deleteCmd = new SqlCommand(deleteQuery))
                 {
+                    deleteCmd.Parameters.AddWithValue("@groupId", groupId);
                     result = Delete(deleteCmd);
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message, ex);
+                throw new Exception("Fout bij verwijderen van subscription: " + ex.Message, ex);
             }
+
             return result;
         }
+
         public InsertResult AddSubscription(string email)
         {
             InsertResult result = new InsertResult();
