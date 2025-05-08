@@ -25,7 +25,8 @@ namespace WebApiTeam08.Controllers
         public ActionResult GetAllTasks()
         {
             var invoices = Invoices.GetAllInvoices();
-            return Ok(invoices);
+            string JSONresult = JsonConvert.SerializeObject(invoices);
+            return Ok(JSONresult);
         }
     }
 }
