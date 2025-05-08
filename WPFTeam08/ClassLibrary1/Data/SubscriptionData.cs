@@ -205,13 +205,13 @@ namespace ClassLibrary1.Data
             }
             return result;
         }
-        public SelectResult SelectSubscriptionId(string email)
+        public SelectResult SelectSubscriptionByEmail(string email)
         {
             SelectResult result = new SelectResult();
             try
             {
                 StringBuilder selectQuery = new StringBuilder();
-                selectQuery.Append($"select s.subscriptionid  \r\nFROM subscription s\r\nJOIN groep g ON s.groupid = g.groupid\r\nJOIN groupmembers gm ON gm.groupid = g.groupid\r\nJOIN users u ON u.userid = gm.userid\r\nWHERE u.email = @email;");
+                selectQuery.Append($"select s.subscriptionid, s.groupid \r\nFROM subscription s\r\nJOIN groep g ON s.groupid = g.groupid\r\nJOIN groupmembers gm ON gm.groupid = g.groupid\r\nJOIN users u ON u.userid = gm.userid\r\nWHERE u.email = @email;");
                 using (SqlCommand selectCmd = new SqlCommand(selectQuery.ToString()))
                 {
                     selectCmd.Parameters.AddWithValue("@email", email);

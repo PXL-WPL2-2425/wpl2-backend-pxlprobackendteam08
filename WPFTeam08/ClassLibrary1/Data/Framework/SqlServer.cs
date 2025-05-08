@@ -29,12 +29,13 @@ namespace ClassLibTeam08.Data.Framework
                     connection.Open();
                     adapter = new SqlDataAdapter(selectCommand);
 
-                    //selectCommand.ExecuteReader();
+                    selectCommand.ExecuteReader();
+                    connection.Close();
 
                     result.DataTable = new DataTable();
                     adapter.Fill(result.DataTable);
 
-                    connection.Close();
+
                     result.Succeeded = true;
                 }
 

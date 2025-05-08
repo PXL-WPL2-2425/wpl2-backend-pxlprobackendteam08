@@ -31,8 +31,6 @@ namespace ClassLibrary1.Data
             _configuration = configuration;
         }
 
-        public InvoiceData() { }
-
         public SelectResult SelectByGroupID(int groupId)
         {
             var result = new SelectResult();
@@ -76,7 +74,7 @@ namespace ClassLibrary1.Data
             try
             {
                 StringBuilder insertquery = new StringBuilder();
-                insertquery.Append($"Insert into invoices (subscriptionid, createdate, statut, orderid, invoicedate, deletedate, groupid)");
+                insertquery.Append($"Insert into invoices (subscriptionid, createdate, statut, orderid, invoicedate, deleteddate, groupid)");
                 insertquery.Append($"values (@subscriptionid, @createdate, @statut, @orderid, @invoicedate, @deletedate, @groupid)");
                 using (SqlCommand insertCommand = new SqlCommand(insertquery.ToString()))
                 {
