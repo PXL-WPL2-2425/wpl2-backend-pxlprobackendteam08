@@ -590,6 +590,32 @@ namespace ClassLibTeam08.Data
             return result;
 
         }
+        public UpdateResult UpdateUserDataAsAdmin(int id, string firstName, string lastName, string email, string adres, DateTime Birhday, string phone, string rol)
+        {
+            var result = new UpdateResult();
+
+            string test = Birhday.ToString("yyyy/MM/dd");
+
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"UPDATE {TableName} ");
+                insertQuery.Append($"SET firstname = '{firstName}', lastname = '{lastName}', email = '{email}', adres = '{adres}', birthday = '{Birhday.ToString("yyyy/MM/dd")}', phone = '{phone}', rol = '{rol}' ");
+                insertQuery.Append($"where userID = '{id}'");
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    result = Update(insertCommand);
+
+                }
+                //SendNewPasswordEmail(id, wachtwoord);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
 
     }
 }
