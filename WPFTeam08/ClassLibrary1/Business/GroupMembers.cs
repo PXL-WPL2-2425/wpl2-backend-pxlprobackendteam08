@@ -39,5 +39,12 @@ namespace ClassLibrary1.Business
             DeleteResult result = data.DeleteByGroupID(id);
             return result;
         }
+
+        public static SelectResult GetUserIDOfMember(int id)
+        {
+            GroupMemberData data = new GroupMemberData();
+            SelectResult result = data.SelectbyUserID(id);
+            return result;
+        }
     }
 }

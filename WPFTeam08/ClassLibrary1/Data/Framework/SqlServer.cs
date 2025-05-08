@@ -4,6 +4,7 @@ using System.Data;
 using Microsoft.Data.SqlClient;
 using System.Text;
 using ClassLibrary08.Data.Framework;
+using Org.BouncyCastle.Tls.Crypto.Impl;
 
 namespace ClassLibTeam08.Data.Framework
 {
@@ -69,6 +70,7 @@ namespace ClassLibTeam08.Data.Framework
                     {
                         int newId = Convert.ToInt32(insertCommand.Parameters["@new_id"].Value);
                         result.NewId = newId;
+                        result.Succeeded = true;
                     }
                 
                     connection.Close();
@@ -112,6 +114,7 @@ namespace ClassLibTeam08.Data.Framework
                 connection = new SqlConnection(Settings.GetConnectionString());
                 using (connection)
                 {
+                    result.Succeeded = true;
                     command.Connection = connection;
                     connection.Open();
                     adapter = new SqlDataAdapter(command);
@@ -119,7 +122,7 @@ namespace ClassLibTeam08.Data.Framework
                     adapter.Fill(result.DataTable);
                     connection.Close();
                 }
-                result.Succeeded = true;
+
             }
             catch (Exception ex)
             {

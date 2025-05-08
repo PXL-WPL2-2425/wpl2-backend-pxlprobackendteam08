@@ -52,6 +52,26 @@ namespace ClassLibrary1.Data
             return result;
         }
 
+
+        public SelectResult SelectbyUserID(int id)
+        {
+            SelectResult result = new SelectResult();
+            try
+            {
+                StringBuilder selectQuery = new StringBuilder();
+                selectQuery.Append($"SELECT * FROM GroupMembers WHERE userID = {id}");
+                using (SqlCommand selectCmd = new SqlCommand(selectQuery.ToString()))
+                {
+                    result = Select(selectCmd);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+
         public DeleteResult DeleteByMemberID(int id)
         {
             DeleteResult result = new DeleteResult();
