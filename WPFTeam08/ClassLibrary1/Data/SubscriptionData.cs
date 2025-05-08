@@ -90,8 +90,15 @@ namespace ClassLibrary1.Data
 
 
                     result = Update(updateCmd);
-
-                
+                    if (status != "free")
+                    {
+                        InvoiceData invoiceData = new InvoiceData();
+                        Invoice invoice = new Invoice();
+                        Subscription subscription = new Subscription();
+                        invoice.SubscriptionID = subscription.SubscriptionID;
+                        invoice.CreateDate = DateTime.Now;
+                        invoice.Statut = subscription.Status;
+                    }
                 }
             }
             catch (Exception ex)
@@ -198,5 +205,25 @@ namespace ClassLibrary1.Data
             }
             return result;
         }
+        public SelectResult SelectSubscriptionId(string email)
+        {
+            SelectResult result = new SelectResult();
+            try
+            {
+                StringBuilder selectQuery = new StringBuilder();
+                selectQuery.Append($"select s.subscriptionid  \r\nFROM subscription s\r\nJOIN groep g ON s.groupid = g.groupid\r\nJOIN groupmembers gm ON gm.groupid = g.groupid\r\nJOIN users u ON u.userid = gm.userid\r\nWHERE u.email = @email;");
+                using (SqlCommand selectCmd = new SqlCommand(selectQuery.ToString()))
+                {
+                    selectCmd.Parameters.AddWithValue("@email", email);
+                    result = Select(selectCmd);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+
     }
 }
