@@ -51,7 +51,7 @@ namespace ClassLibrary1.Data
             try
             {
                 StringBuilder selectQuery = new StringBuilder();
-                selectQuery.Append($"SELECT * FROM {TableName}");
+                selectQuery.Append($"SELECT * FROM Invoices");
                 using (SqlCommand selectCommand = new SqlCommand(selectQuery.ToString()))
                 {
                     result = Select(selectCommand);
