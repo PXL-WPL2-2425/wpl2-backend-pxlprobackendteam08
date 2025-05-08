@@ -97,10 +97,10 @@ namespace WebApiTeam08.Controllers
             return Ok(JSONresult);
         }
 
-        [HttpDelete("DeleteUser")]
-        public ActionResult DeleteUser(UserViewModel user)
+        [HttpGet("DeleteUser")]
+        public ActionResult DeleteUser(int id)
         {
-            DeleteResult result = Users.DeleteUser(user.ID);
+            DeleteResult result = Users.DeleteUser(id);
             string JSONresult = JsonConvert.SerializeObject(result);
             return Ok(JSONresult);
         }
