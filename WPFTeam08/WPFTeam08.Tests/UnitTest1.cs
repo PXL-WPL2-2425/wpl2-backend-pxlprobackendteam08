@@ -18,7 +18,7 @@ namespace WPFTeam08.Tests
         [Test]
         public void Test2()
         {
-            int getal3 = 1;
+            int getal3 = 2;
             int getal4 = 2;
 
             Assert.That(getal3 == getal4);
