@@ -1,16 +1,8 @@
 ﻿using ClassLibrary08.Data.Framework;
-using ClassLibTeam08.Business.Entities;
 using ClassLibTeam08.Data.Framework;
 using Microsoft.Data.SqlClient;
-using System.Data;
-using System.Text;
-using System.Net;
-using System.Net.Mail;
-using ClassLibrary1.Data;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
-using System.Diagnostics;
-using System.Linq.Expressions;
+using System.Text;
 
 namespace ClassLibrary1.Data
 {
@@ -45,6 +37,28 @@ namespace ClassLibrary1.Data
             return result;
         }
 
+        public DeleteResult DeleteTaskByID(int TaskID)
+        {
+            var result = new DeleteResult();
+            try
+            {
+                StringBuilder selectQuery = new StringBuilder();
+                selectQuery.Append($"Delete FROM Tasks WHERE TaskID = {TaskID}");
+                using (SqlCommand command = new SqlCommand(selectQuery.ToString()))
+                {
+                    result = Delete(command);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Succeeded = false;
+                result.AddError(ex.Message);
+                throw new Exception(ex.Message, ex);
+            }
+
+            return result;
+        }
+
         public SelectResult SelectByGroupID(int groupId)
         {
             var result = new SelectResult();
@@ -64,18 +78,52 @@ namespace ClassLibrary1.Data
             return result;
         }
 
-        public InsertResult AddTask(int groupID, string taskName, string taskDescription, int taskStatus, string taskType)
+        public UpdateResult UpdateTask(string taskName, string taskDescription, int taskStatus, string Tasktype, string reminder, string assigned, int taskID, string deadLine)
+        {
+            var result = new UpdateResult();
+            try
+            {
+                StringBuilder selectQuery = new StringBuilder();
+                selectQuery.Append($"UPDATE {TableName} SET Taskname = @taskName, TaskDescription = @tasksdescription, TaskStatus = @taskStatus, TaskType = @taskType, DeadLine = @deadline, Reminder = @reminder, Assigned = @assigned" +
+                                   $"  WHERE TaskID = @taskID;");
+
+                using (SqlCommand selectCommand = new SqlCommand(selectQuery.ToString()))
+                {
+                    selectCommand.Parameters.AddWithValue("@taskName", taskName);
+                    selectCommand.Parameters.AddWithValue("@taskStatus", taskStatus);
+                    selectCommand.Parameters.AddWithValue("@taskType", Tasktype);
+                    selectCommand.Parameters.AddWithValue("@reminder", reminder);
+                    selectCommand.Parameters.AddWithValue("@assigned", assigned);
+                    selectCommand.Parameters.AddWithValue("@taskID", taskID);
+                    selectCommand.Parameters.AddWithValue("@tasksdescription", taskDescription);
+                    selectCommand.Parameters.AddWithValue("@deadline", deadLine);
+                    result = Update(selectCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+
+        public InsertResult AddTask(int groupID, string taskName, string taskDescription, int taskStatus, string taskType, string deadLine, string reminder, string assignedPerson)
         {
             var result = new InsertResult();
 
-            SqlCommand cmd = new SqlCommand("insert into tasks (groupid, taskname, taskdescription, taskstatus, tasktype) " +
-                "values (@groupid, @taskname, @taskdescription, @taskstatus, @tasktype)");
+            result.Succeeded = true;
+
+            SqlCommand cmd = new SqlCommand("insert into tasks (groupid, taskname, taskdescription, taskstatus, tasktype, DeadLine, Reminder, Assigned) " +
+                "values (@groupid, @taskname, @taskdescription, @taskstatus, @tasktype, @deadline, @reminder, @assigned)");
 
             cmd.Parameters.AddWithValue("@groupid", groupID);
             cmd.Parameters.AddWithValue("@taskname", taskName);
             cmd.Parameters.AddWithValue("@taskdescription", taskDescription);
             cmd.Parameters.AddWithValue("@taskstatus", taskStatus);
             cmd.Parameters.AddWithValue("@tasktype", taskType);
+            cmd.Parameters.AddWithValue("@deadline", deadLine);
+            cmd.Parameters.AddWithValue("@reminder", reminder);
+            cmd.Parameters.AddWithValue("@assigned", assignedPerson);
 
             try
             {
@@ -92,7 +140,6 @@ namespace ClassLibrary1.Data
                 result.AddError(ex.ToString());
             }
 
-            result.Succeeded = true;
             return result;
         }
         public SelectResult SelectAll()

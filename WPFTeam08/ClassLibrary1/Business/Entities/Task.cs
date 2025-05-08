@@ -12,7 +12,7 @@ namespace ClassLibTeam08.Business.Entities
         private int _groupId;
         private string _taskName;
         private string _taskDescription;
-        private bool _taskStatus;
+        private int _taskStatus;
         private string _taskType;
 
         public int TaskId
@@ -39,7 +39,7 @@ namespace ClassLibTeam08.Business.Entities
             set { _taskDescription = value; }
         }
 
-        public bool TaskStatus
+        public int TaskStatus
         {
             get { return _taskStatus; }
             set { _taskStatus = value; }
@@ -51,7 +51,7 @@ namespace ClassLibTeam08.Business.Entities
             set { _taskType = value; }
         }
 
-        public Task(int taskId, int groupId, string taskName, string taskDescription, bool taskStatus, string taskType)
+        public Task(int taskId, int groupId, string taskName, string taskDescription, int taskStatus, string taskType)
         {
             TaskId = taskId;
             GroupId = groupId;

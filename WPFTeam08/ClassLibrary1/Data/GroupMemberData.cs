@@ -52,16 +52,16 @@ namespace ClassLibrary1.Data
             return result;
         }
 
-        public DeleteResult DeleteByUserID(int id)
+        public SelectResult SelectbyUserID(int id)
         {
-            DeleteResult result = new DeleteResult();
+            SelectResult result = new SelectResult();
             try
             {
-                StringBuilder deleteQuery = new StringBuilder();
-                deleteQuery.Append($"DELETE FROM GroupMembers WHERE userID = {id};");
-                using (SqlCommand deleteCmd = new SqlCommand(deleteQuery.ToString()))
+                StringBuilder selectQuery = new StringBuilder();
+                selectQuery.Append($"SELECT * FROM GroupMembers WHERE userID = {id}");
+                using (SqlCommand selectCmd = new SqlCommand(selectQuery.ToString()))
                 {
-                    result = Delete(deleteCmd);
+                    result = Select(selectCmd);
                 }
             }
             catch (Exception ex)
@@ -71,25 +71,44 @@ namespace ClassLibrary1.Data
             return result;
         }
 
-
-        public DeleteResult DeleteByGroupID(int id)
+            public DeleteResult DeleteByUserID(int id)
+    {
+        DeleteResult result = new DeleteResult();
+        try
         {
-            DeleteResult result = new DeleteResult();
-            try
+            StringBuilder deleteQuery = new StringBuilder();
+            deleteQuery.Append($"DELETE FROM GroupMembers WHERE userID = {id};");
+            using (SqlCommand deleteCmd = new SqlCommand(deleteQuery.ToString()))
             {
-                StringBuilder deleteQuery = new StringBuilder();
-                deleteQuery.Append($"DELETE FROM GroupMembers WHERE groupid = {id};");
-                using (SqlCommand deleteCmd = new SqlCommand(deleteQuery.ToString()))
-                {
-                    result = Delete(deleteCmd);
-                }
+                result = Delete(deleteCmd);
             }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-            return result;
         }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message, ex);
+        }
+        return result;
+    }
+
+
+    public DeleteResult DeleteByGroupID(int id)
+    {
+        DeleteResult result = new DeleteResult();
+        try
+        {
+            StringBuilder deleteQuery = new StringBuilder();
+            deleteQuery.Append($"DELETE FROM GroupMembers WHERE groupid = {id};");
+            using (SqlCommand deleteCmd = new SqlCommand(deleteQuery.ToString()))
+            {
+                result = Delete(deleteCmd);
+            }
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message, ex);
+        }
+        return result;
+    }
 
         public InsertResult InsertGroupMember(GroupMember groupMember)
         {

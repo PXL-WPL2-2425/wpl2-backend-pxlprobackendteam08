@@ -12,12 +12,20 @@ namespace WebApiTeam08.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GroupMemberController : ControllerBase
+    public class GroupController : ControllerBase
     {
         [HttpGet("GetGroupMembers")]
         public ActionResult SelectGroupMembersByID(int ID)
         {
             var result = GroupMembers.GetGroupMembers(ID);
+            string JSONresult = JsonConvert.SerializeObject(result);
+            return Ok(JSONresult);
+        }
+
+        [HttpGet("GetMemberByID")]
+        public ActionResult GetMemberByID(int ID)
+        {
+            var result = GroupMembers.GetUserIDOfMember(ID);
             string JSONresult = JsonConvert.SerializeObject(result);
             return Ok(JSONresult);
         }
