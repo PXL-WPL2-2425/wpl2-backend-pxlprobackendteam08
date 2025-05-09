@@ -56,7 +56,7 @@ namespace ClassLibrary1.Data
             try
             {
                 StringBuilder selectQuery = new StringBuilder();
-                selectQuery.Append($"SELECT * FROM Invoices");
+                selectQuery.Append($"select i.invoiseID, g.groupName, i.createDate, s.statut, i.invoiceDate FROM Invoices i JOIN Subscription s ON i.subscriptionID = s.subscriptionID JOIN Groep g ON s.groupID = g.groupID");
                 using (SqlCommand selectCommand = new SqlCommand(selectQuery.ToString()))
                 {
                     result = Select(selectCommand);
