@@ -46,7 +46,7 @@ namespace ClassLibrary1.Business
             {
                 InvoiceData invoiceData = new InvoiceData();
                 Invoice invoice = new Invoice();
-                invoice.InvoiceID = int.Parse(selectResult.DataTable.Rows[0][0].ToString());
+                invoice.SubscriptionID = int.Parse(selectResult.DataTable.Rows[0][0].ToString());
                 invoice.Statut = status;
                 invoice.CreateDate = startDate;
                 invoice.DeleteDate = endDate;

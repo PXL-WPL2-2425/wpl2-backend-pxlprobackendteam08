@@ -299,6 +299,7 @@ namespace ClassLibTeam08.Data
             }
             catch (Exception ex)
             {
+                result.AddError (ex.Message);
                 result.Succeeded = false;
             }
 

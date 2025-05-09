@@ -53,13 +53,6 @@ namespace WebApiTeam08.Controllers
 
         public ActionResult GetAllTasks()
         {
-            var result = Tasks.GetAllTasks();
-            if (result.Succeeded)
-            {              
-                return Ok(JsonConvert.SerializeObject(result));
-            }  
-            return BadRequest(result);
-
             var tasks = Tasks.GetAllTasks();
             string JSONresult = JsonConvert.SerializeObject(tasks);
             return Ok(JSONresult);
