@@ -1,4 +1,5 @@
 ﻿using ClassLibrary08.Data.Framework;
+using ClassLibrary1.Business;
 using ClassLibrary1.Business.Entities;
 using ClassLibTeam08.Business.Entities;
 using ClassLibTeam08.Data.Framework;
@@ -20,7 +21,7 @@ namespace ClassLibrary1.Data
             try
             {
                 StringBuilder selectQuery = new StringBuilder();
-                selectQuery.Append($"SELECT u.firstname, u.lastname, u.email, u.phone, s.statut, s.startdate, s.eindtime, s. rewendeDate, s.autoRenewal FROM users u JOIN groupmembers gm ON gm.userid = u.userid JOIN groep g ON g.groupid = gm.groupid JOIN subscription s ON s.groupid = g.groupid;");
+                selectQuery.Append($"SELECT u.userId, u.firstname, u.lastname, u.email, u.phone, s.statut, s.startdate, s.eindtime, s.rewendeDate, CASE  WHEN s.autoRenewal = 'true' THEN 'Ja' ELSE 'Nee' END AS autoRenewal FROM users u left JOIN groupmembers gm ON gm.userid = u.userid left JOIN groep g ON g.groupid = gm.groupid left JOIN subscription s ON s.groupid = g.groupid;");
                 using (SqlCommand selectCmd = new SqlCommand(selectQuery.ToString()))
                 {
                     result = Select(selectCmd);
@@ -33,31 +34,33 @@ namespace ClassLibrary1.Data
             return result;
         }
 
-        public DeleteResult DeleteByID(int id)
+        public DeleteResult DeleteByGroupID(int groupId)
         {
             DeleteResult result = new DeleteResult();
             try
             {
-                StringBuilder deleteQuery = new StringBuilder();
-                deleteQuery.Append($"DELETE FROM Subscription WHERE SubscriptionID = {id};");
-                using (SqlCommand deleteCmd = new SqlCommand(deleteQuery.ToString()))
+                string deleteQuery = "DELETE FROM Subscription WHERE GroupID = @groupId";
+                using (SqlCommand deleteCmd = new SqlCommand(deleteQuery))
                 {
+                    deleteCmd.Parameters.AddWithValue("@groupId", groupId);
                     result = Delete(deleteCmd);
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message, ex);
+                throw new Exception("Fout bij verwijderen van subscription: " + ex.Message, ex);
             }
+
             return result;
         }
-        public InsertResult AddSubscription(int id)
+
+        public InsertResult AddSubscription(string email)
         {
             InsertResult result = new InsertResult();
             try
             {
                 StringBuilder addQuery = new StringBuilder();
-                addQuery.Append($"Insert into FROM Subscriptions WHERE SubscriptionID = {id};");
+                addQuery.Append($"INSERT INTO subscription (groupid, startdate)\r\nSELECT g.groupid, CURRENT_DATE\r\nFROM users u\r\nJOIN groupmembers gm ON gm.userid = u.userid\r\nJOIN groep g ON g.groupid = gm.groupid WHERE email = {email};");
                 using (SqlCommand addCmd = new SqlCommand(addQuery.ToString()))
                 {
                     result = Insert(addCmd);
@@ -69,15 +72,53 @@ namespace ClassLibrary1.Data
             }
             return result;
         }
-        public UpdateResult UpdateSubscription(int id)
+        public UpdateResult UpdateSubscription(DateTime startDate, DateTime endDate, DateTime renewDate, string status, string autoRenewal, string email)
         {
             UpdateResult result = new UpdateResult();
             try
             {
                 StringBuilder updateQuery = new StringBuilder();
-                updateQuery.Append($"update FROM Subscriptions WHERE SubscriptionID = {id};");
+                updateQuery.Append($"UPDATE s\r\nSET \r\n  s.startDate = @startdate,\r\n  s.eindTime = @eindtime,\r\n  s.rewendeDate = @rewendedate,\r\n  s.statut = @statut,\r\n  s.autoRenewal = @autorenewal\r\nFROM subscription s\r\nJOIN groep g ON s.groupid = g.groupid\r\nJOIN groupmembers gm ON gm.groupid = g.groupid\r\nJOIN users u ON u.userid = gm.userid\r\nWHERE u.email = @email;");
                 using (SqlCommand updateCmd = new SqlCommand(updateQuery.ToString()))
                 {
+                    updateCmd.Parameters.Add("@startdate", SqlDbType.DateTime).Value = startDate;
+                    updateCmd.Parameters.Add("@eindtime", SqlDbType.DateTime).Value = endDate;
+                    updateCmd.Parameters.Add("@rewendedate", SqlDbType.DateTime).Value = renewDate;
+                    updateCmd.Parameters.Add("@statut", SqlDbType.VarChar).Value = status;
+                    updateCmd.Parameters.Add("@autorenewal", SqlDbType.VarChar).Value = autoRenewal;
+                    updateCmd.Parameters.AddWithValue("@email", email);
+
+
+                    result = Update(updateCmd);
+                    if (status != "free")
+                    {
+                        InvoiceData invoiceData = new InvoiceData();
+                        Invoice invoice = new Invoice();
+                        Subscription subscription = new Subscription();
+                        invoice.SubscriptionID = subscription.SubscriptionID;
+                        invoice.CreateDate = DateTime.Now;
+                        invoice.Statut = subscription.Status;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public UpdateResult CancelSubscription(string email)
+        {
+            UpdateResult result = new UpdateResult();
+            try
+            {
+                StringBuilder updateQuery = new StringBuilder();
+                updateQuery.Append($"update s SET statut = 'Free', autorenewal = 'False', eindtime = EOMONTH(GETDATE()) \r\nFROM subscription s\r\nJOIN groep g ON s.groupid = g.groupid\r\nJOIN groupmembers gm ON gm.groupid = g.groupid\r\nJOIN users u ON u.userid = gm.userid\r\nWHERE u.email = @email;");
+                using (SqlCommand updateCmd = new SqlCommand(updateQuery.ToString()))
+                {
+                    updateCmd.Parameters.AddWithValue("@email", email);
+
+
                     result = Update(updateCmd);
                 }
             }
@@ -87,6 +128,7 @@ namespace ClassLibrary1.Data
             }
             return result;
         }
+
 
         public InsertResult InsertSubscription(Subscription subscription)
         {
@@ -122,5 +164,66 @@ namespace ClassLibrary1.Data
             }
             return result;
         }
+        public AggregateResult CountAllSubscriptions()
+        {
+            var result = new AggregateResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"SELECT COUNT(subscriptionId)\r\nFROM subscription\r\nWHERE statut = 'basic' OR statut = 'premium';");
+
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    result = Count(insertCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+
+        public SelectResult CountSubscriptionByMonth()
+        {
+            var result = new SelectResult();
+            try
+            {
+                //SQL Command
+                StringBuilder insertQuery = new StringBuilder();
+                insertQuery.Append($"SELECT \r\n    FORMAT(rewendeDate, 'yyyy-MM') AS maand,\r\n    COUNT(subscriptionID) AS aantal_subscripties\r\nFROM \r\n    subscription\r\nWHERE \r\n    statut = 'basic' OR statut = 'premium'\r\nGROUP BY \r\n    FORMAT(rewendeDate, 'yyyy-MM')\r\nORDER BY \r\n    maand;");
+
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
+                {
+                    result = Select(insertCommand);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+        public SelectResult SelectSubscriptionByEmail(string email)
+        {
+            SelectResult result = new SelectResult();
+            try
+            {
+                StringBuilder selectQuery = new StringBuilder();
+                selectQuery.Append($"select s.subscriptionid, s.groupid \r\nFROM subscription s\r\nJOIN groep g ON s.groupid = g.groupid\r\nJOIN groupmembers gm ON gm.groupid = g.groupid\r\nJOIN users u ON u.userid = gm.userid\r\nWHERE u.email = @email;");
+                using (SqlCommand selectCmd = new SqlCommand(selectQuery.ToString()))
+                {
+                    selectCmd.Parameters.AddWithValue("@email", email);
+                    result = Select(selectCmd);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+
     }
 }

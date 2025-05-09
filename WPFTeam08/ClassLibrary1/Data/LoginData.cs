@@ -75,7 +75,7 @@ namespace ClassLibTeam08.Data
             {
                 //SQL Command
                 StringBuilder insertQuery = new StringBuilder();
-                insertQuery.Append($"SELECT count(loginID),  CAST(loginTime AS DATE) from Logins\r\ngroup by CAST(loginTime AS DATE)");
+                insertQuery.Append($"SELECT Top 4 count(loginID),  CAST(loginTime AS DATE) from Logins\r\ngroup by CAST(loginTime AS DATE) order by CAST(loginTime AS DATE) desc");
 
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {

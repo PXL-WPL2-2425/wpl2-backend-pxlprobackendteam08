@@ -129,6 +129,17 @@ namespace ClassLibTeam08.Business.Entities
 
             return userData.UpdateAllUserData(id, firstName, lastName, userName, email, adres, wachtwoord, Birhday, phone);
         }
+        public static UpdateResult UpdateUserDataAsAdmin(int id, string firstName, string lastName, string email, string adres, DateTime Birhday, string phone, string rol)
+        {
+            UpdateResult result = new UpdateResult();
+
+            var userData = new UserData(_configuration); // Pass the configuration
+            result = new UpdateResult();
+
+
+            return userData.UpdateUserDataAsAdmin(id,  firstName, lastName, email, adres,Birhday, phone, rol);
+        }
+
 
         public static UpdateResult ChangeRole(string rol, string emailAdmin, string email, string token)
         {

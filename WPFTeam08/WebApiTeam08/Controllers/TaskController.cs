@@ -3,7 +3,11 @@ using ClassLibTeam08.Business.Entities;
 using ClassLibTeam08.Data.Framework;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+
 using System.Data;
+
+using System.Threading.Tasks;
+
 using WebApiTeam08.ViewModels;
 
 
@@ -16,22 +20,25 @@ namespace WebApiTeam08.Controllers
         [HttpPost("PostTask")]
         public ActionResult AddTask(TaskViewModel taskViewModel) 
         {
-            var result = Tasks.AddTask(taskViewModel.Groupid, taskViewModel.Taskname, taskViewModel.Taskdescription, taskViewModel.Taskstatus, taskViewModel.Tasktype);
-            return Ok(result);
+            var result = Tasks.AddTask(taskViewModel.GroupID, taskViewModel.TaskName, taskViewModel.TaskDescription, taskViewModel.TaskStatus, taskViewModel.TaskType, taskViewModel.DeadLine, taskViewModel.Reminder, taskViewModel.Assigned);
+            string JSONresult = JsonConvert.SerializeObject(result);
+            return Ok(JSONresult);
         }
 
         [HttpDelete("DeleteTask")]
-        public ActionResult DeleteTask(TaskViewModel taskViewModel)
+        public ActionResult DeleteTask(int taskID)
         {        
-            var result = Tasks.DeleteTask(taskViewModel.Groupid);
-            return Ok(result);
+            var result = Tasks.DeleteTask(taskID);
+            string JSONresult = JsonConvert.SerializeObject(result);
+            return Ok(JSONresult);
         }
 
         [HttpPut("UpdateTask")]
         public ActionResult UpdateTask(TaskViewModel taskViewModel)
         {
-            SelectResult result = Tasks.UpdateTask(taskViewModel.Groupid, taskViewModel.Taskname, taskViewModel.Taskdescription, taskViewModel.Taskstatus, taskViewModel.Tasktype);
-            return Ok(result);  
+            UpdateResult result = Tasks.UpdateTask(taskViewModel.TaskName, taskViewModel.TaskDescription, taskViewModel.TaskStatus, taskViewModel.TaskType, taskViewModel.Reminder, taskViewModel.Assigned, taskViewModel.TaskId, taskViewModel.DeadLine);
+            string JSONresult = JsonConvert.SerializeObject(result);
+            return Ok(JSONresult);  
         }
 
         [HttpGet("GetTasks")]
@@ -52,6 +59,10 @@ namespace WebApiTeam08.Controllers
                 return Ok(JsonConvert.SerializeObject(result));
             }  
             return BadRequest(result);
+
+            var tasks = Tasks.GetAllTasks();
+            string JSONresult = JsonConvert.SerializeObject(tasks);
+            return Ok(JSONresult);
         }
     }
 }

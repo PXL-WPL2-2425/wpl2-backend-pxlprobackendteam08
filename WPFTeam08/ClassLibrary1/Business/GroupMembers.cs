@@ -29,7 +29,7 @@ namespace ClassLibrary1.Business
         public static DeleteResult DeleteMember(int id)
         {
             GroupMemberData data = new GroupMemberData();
-            DeleteResult result = data.DeleteByMemberID(id);
+            DeleteResult result = data.DeleteByGroupID(id);
             return result;
         }
 
@@ -37,6 +37,19 @@ namespace ClassLibrary1.Business
         {
             GroupMemberData data = new GroupMemberData();
             DeleteResult result = data.DeleteByGroupID(id);
+            return result;
+        }
+
+        public static SelectResult GetUserIDOfMember(int id)
+        {
+            GroupMemberData data = new GroupMemberData();
+            SelectResult result = data.SelectbyUserID(id);
+            return result;
+        }
+        public static SelectResult GetAllMembers()
+        {
+            GroupMemberData data = new GroupMemberData();
+            SelectResult result = data.SelectAllMembers();
             return result;
         }
     }
