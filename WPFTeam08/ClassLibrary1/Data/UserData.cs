@@ -55,7 +55,7 @@ namespace ClassLibTeam08.Data
             {
                 //SQL Command
                 StringBuilder insertQuery = new StringBuilder();
-                insertQuery.Append($"select * from Users WHERE email = '{Email}' ");
+                insertQuery.Append($"select u.*, gm.groupid\r\nFROM users u\r\nJOIN groupmembers gm ON u.userid = gm.userid WHERE email = '{Email}' ");
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
                     result = Select(insertCommand);
