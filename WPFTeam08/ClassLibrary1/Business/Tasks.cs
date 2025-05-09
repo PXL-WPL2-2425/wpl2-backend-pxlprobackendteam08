@@ -2,7 +2,11 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using ClassLibrary1.Data;
-using ClassLibrary08.Data.Framework;
+
+using System.Data;
+
+
+
 
 
 
@@ -51,7 +55,7 @@ namespace ClassLibTeam08.Business
             UpdateResult result = data.UpdateTask(taskName, taskDscription, taskStatus, Tasktype, reminder, assigned, taskID, deadLine);
             return result;
         }
-       
+
     }
 }
 
