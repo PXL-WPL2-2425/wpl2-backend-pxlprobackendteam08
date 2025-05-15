@@ -1,14 +1,9 @@
 ﻿using ClassLibrary08.Data.Framework;
 using ClassLibrary1.Business.Entities;
-using ClassLibTeam08.Business.Entities;
 using ClassLibTeam08.Data.Framework;
 using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ClassLibrary1.Data
 {
@@ -39,12 +34,12 @@ namespace ClassLibrary1.Data
             {
                 StringBuilder query = new StringBuilder();
                 query.Append($"SELECT * FROM GroupMembers");
-                using(SqlCommand cmd = new SqlCommand(query.ToString()))
+                using (SqlCommand cmd = new SqlCommand(query.ToString()))
                 {
                     result = Select(cmd);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
             }
@@ -89,44 +84,44 @@ namespace ClassLibrary1.Data
             return result;
         }
 
-            public DeleteResult DeleteByUserID(int id)
-    {
-        DeleteResult result = new DeleteResult();
-        try
+        public DeleteResult DeleteByUserID(int id)
         {
-            StringBuilder deleteQuery = new StringBuilder();
-            deleteQuery.Append($"DELETE FROM GroupMembers WHERE userID = {id};");
-            using (SqlCommand deleteCmd = new SqlCommand(deleteQuery.ToString()))
+            DeleteResult result = new DeleteResult();
+            try
             {
-                result = Delete(deleteCmd);
+                StringBuilder deleteQuery = new StringBuilder();
+                deleteQuery.Append($"DELETE FROM GroupMembers WHERE userID = {id};");
+                using (SqlCommand deleteCmd = new SqlCommand(deleteQuery.ToString()))
+                {
+                    result = Delete(deleteCmd);
+                }
             }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
         }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.Message, ex);
-        }
-        return result;
-    }
 
 
-    public DeleteResult DeleteByGroupID(int id)
-    {
-        DeleteResult result = new DeleteResult();
-        try
+        public DeleteResult DeleteByGroupID(int id)
         {
-            StringBuilder deleteQuery = new StringBuilder();
-            deleteQuery.Append($"DELETE FROM GroupMembers WHERE groupid = {id};");
-            using (SqlCommand deleteCmd = new SqlCommand(deleteQuery.ToString()))
+            DeleteResult result = new DeleteResult();
+            try
             {
-                result = Delete(deleteCmd);
+                StringBuilder deleteQuery = new StringBuilder();
+                deleteQuery.Append($"DELETE FROM GroupMembers WHERE groupid = {id};");
+                using (SqlCommand deleteCmd = new SqlCommand(deleteQuery.ToString()))
+                {
+                    result = Delete(deleteCmd);
+                }
             }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
         }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.Message, ex);
-        }
-        return result;
-    }
 
         public InsertResult InsertGroupMember(GroupMember groupMember)
         {
@@ -136,8 +131,8 @@ namespace ClassLibrary1.Data
                 //SQL Command
                 StringBuilder insertQuery = new StringBuilder();
                 insertQuery.Append($"Insert INTO GroupMembers");
-                insertQuery.Append($"(userid, groupid, isadmin) VALUES");
-                insertQuery.Append($"(@userid, @groupid, @isadmin);");
+                insertQuery.Append($"(userid, groupid, isadmin, naam) VALUES");
+                insertQuery.Append($"(@userid, @groupid, @isadmin, @naam);");
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
                     insertCommand.Parameters.Add("@userid", SqlDbType.VarChar).Value =
@@ -145,8 +140,11 @@ namespace ClassLibrary1.Data
                     insertCommand.Parameters.Add("@groupid", SqlDbType.VarChar).Value =
                     groupMember.GroupID;
                     insertCommand.Parameters.Add("@isadmin", SqlDbType.VarChar).Value =
-                    groupMember.IsAdmin;                
-                    
+                    groupMember.IsAdmin;
+                    insertCommand.Parameters.Add("@naam", SqlDbType.VarChar).Value =
+                    groupMember.Naam;
+
+
                     result = Insert(insertCommand);
                 }
             }

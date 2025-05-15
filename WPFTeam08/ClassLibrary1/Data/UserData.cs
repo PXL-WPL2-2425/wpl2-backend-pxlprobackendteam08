@@ -220,6 +220,7 @@ namespace ClassLibTeam08.Data
                 groupMember.UserID = result.NewId;
                 groupMember.IsAdmin = true;
                 groupMember.GroupID = result.NewId;
+                groupMember.Naam = user.UserName;
                 InsertResult resultmember = groupMemberData.InsertGroupMember(groupMember);
 
                 GroupData groupData = new GroupData(_configuration);
