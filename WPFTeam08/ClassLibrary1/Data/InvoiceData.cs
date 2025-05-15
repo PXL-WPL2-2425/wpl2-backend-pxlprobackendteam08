@@ -74,14 +74,13 @@ namespace ClassLibrary1.Data
             try
             {
                 StringBuilder insertquery = new StringBuilder();
-                insertquery.Append($"Insert into invoices (subscriptionid, createdate, statut, orderid, invoicedate, deleteddate, groupid)");
-                insertquery.Append($"values (@subscriptionid, @createdate, @statut, @orderid, @invoicedate, @deletedate, @groupid)");
+                insertquery.Append($"Insert into invoices (subscriptionid, createdate, statut,  invoicedate, deleteddate, groupid)");
+                insertquery.Append($"values (@subscriptionid, @createdate, @statut,  @invoicedate, @deletedate, @groupid)");
                 using (SqlCommand insertCommand = new SqlCommand(insertquery.ToString()))
                 {
                     insertCommand.Parameters.Add("@subscriptionid", SqlDbType.VarChar).Value = invoice.SubscriptionID;
                     insertCommand.Parameters.Add("@createdate", SqlDbType.DateTime).Value = invoice.CreateDate;
                     insertCommand.Parameters.Add("@statut", SqlDbType.VarChar).Value = invoice.Statut;
-                    insertCommand.Parameters.Add("@orderid", SqlDbType.VarChar).Value = invoice.OrderID;
                     insertCommand.Parameters.Add("@invoicedate", SqlDbType.DateTime).Value = invoice.InvoiceDate;
                     insertCommand.Parameters.Add("@deletedate", SqlDbType.DateTime).Value = invoice.DeleteDate;
                     insertCommand.Parameters.Add("@groupid", SqlDbType.VarChar).Value = invoice.GroupID;
