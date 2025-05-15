@@ -34,24 +34,26 @@ namespace ClassLibrary1.Data
             return result;
         }
 
-        public DeleteResult DeleteByID(int id)
+        public DeleteResult DeleteByGroupID(int groupId)
         {
             DeleteResult result = new DeleteResult();
             try
             {
-                StringBuilder deleteQuery = new StringBuilder();
-                deleteQuery.Append($"DELETE from subscription WHERE groupID = {id};");
-                using (SqlCommand deleteCmd = new SqlCommand(deleteQuery.ToString()))
+                string deleteQuery = "DELETE FROM Subscription WHERE GroupID = @groupId";
+                using (SqlCommand deleteCmd = new SqlCommand(deleteQuery))
                 {
+                    deleteCmd.Parameters.AddWithValue("@groupId", groupId);
                     result = Delete(deleteCmd);
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message, ex);
+                throw new Exception("Fout bij verwijderen van subscription: " + ex.Message, ex);
             }
+
             return result;
         }
+
         public InsertResult AddSubscription(string email)
         {
             InsertResult result = new InsertResult();
@@ -88,6 +90,15 @@ namespace ClassLibrary1.Data
 
 
                     result = Update(updateCmd);
+                    if (status != "free")
+                    {
+                        InvoiceData invoiceData = new InvoiceData();
+                        Invoice invoice = new Invoice();
+                        Subscription subscription = new Subscription();
+                        invoice.SubscriptionID = subscription.SubscriptionID;
+                        invoice.CreateDate = DateTime.Now;
+                        invoice.Statut = subscription.Status;
+                    }
                 }
             }
             catch (Exception ex)
@@ -194,5 +205,25 @@ namespace ClassLibrary1.Data
             }
             return result;
         }
+        public SelectResult SelectSubscriptionByEmail(string email)
+        {
+            SelectResult result = new SelectResult();
+            try
+            {
+                StringBuilder selectQuery = new StringBuilder();
+                selectQuery.Append($"select s.subscriptionid, s.groupid \r\nFROM subscription s\r\nJOIN groep g ON s.groupid = g.groupid\r\nJOIN groupmembers gm ON gm.groupid = g.groupid\r\nJOIN users u ON u.userid = gm.userid\r\nWHERE u.email = @email;");
+                using (SqlCommand selectCmd = new SqlCommand(selectQuery.ToString()))
+                {
+                    selectCmd.Parameters.AddWithValue("@email", email);
+                    result = Select(selectCmd);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            return result;
+        }
+
     }
 }

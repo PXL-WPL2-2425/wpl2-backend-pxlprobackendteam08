@@ -63,6 +63,14 @@ namespace WebApiTeam08.Controllers
             string JSONresult = JsonConvert.SerializeObject(result);
             return Ok(JSONresult);
         }
+
+        [HttpGet("TEST")]
+        public ActionResult GetSub(string email)
+        {
+            SelectResult result = Subscriptions.TEST(email);
+            string JSONresult = JsonConvert.SerializeObject(result);
+            return Ok(JSONresult);
+        }
     }
 
 }

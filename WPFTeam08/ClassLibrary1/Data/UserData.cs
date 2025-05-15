@@ -6,6 +6,7 @@ using ClassLibTeam08.Data.Framework;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
+using Org.BouncyCastle.Tls;
 using Org.BouncyCastle.Utilities.Net;
 using System.Data;
 using System.Diagnostics;
@@ -54,7 +55,7 @@ namespace ClassLibTeam08.Data
             {
                 //SQL Command
                 StringBuilder insertQuery = new StringBuilder();
-                insertQuery.Append($"select * from Users WHERE email = '{Email}' ");
+                insertQuery.Append($"select u.*, gm.groupid\r\nFROM users u\r\nJOIN groupmembers gm ON u.userid = gm.userid WHERE email = '{Email}' ");
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
                     result = Select(insertCommand);
@@ -240,6 +241,7 @@ namespace ClassLibTeam08.Data
                 subscription.AutoRenewal = true;
                 subscriptionData.InsertSubscription(subscription);
 
+
             }
             catch (Exception ex)
             {
@@ -282,30 +284,28 @@ namespace ClassLibTeam08.Data
             var result = new DeleteResult();
             try
             {
-                //SQL Command
+                GroupMemberData groupMemberData = new GroupMemberData();
+                groupMemberData.DeleteByUserID(id); 
+
+                SubscriptionData subscriptionData = new SubscriptionData();
+                subscriptionData.DeleteByGroupID(id);  
+
                 StringBuilder insertQuery = new StringBuilder();
                 insertQuery.Append($"DELETE FROM Users WHERE userID = {id};");
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
                     result = Delete(insertCommand);
                 }
-
-                GroupMemberData groupMemberData = new GroupMemberData();
-                GroupMember groupMember = new GroupMember();
-                groupMember.UserID = id;
-                groupMemberData.DeleteByMemberID(id); //groupMemberData.DeleteByUserID(id);
-
-                SubscriptionData subscriptionData = new SubscriptionData();
-                Subscription subscription = new Subscription();
-                subscription.GroupID = id;
-                subscriptionData.DeleteByID(id);
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message, ex);
+                result.AddError (ex.Message);
+                result.Succeeded = false;
             }
+
             return result;
         }
+
 
         public UpdateResult UpdateToken(int id, string token)
         {
@@ -552,7 +552,7 @@ namespace ClassLibTeam08.Data
             {
                 //SQL Command
                 StringBuilder insertQuery = new StringBuilder();
-                insertQuery.Append($"SELECT u.firstName, u.lastName, u.adres, u.phone, u.email, u.rol,  CASE \r\n WHEN MAX(l.loginTime) IS NULL THEN 'niet ingelogd' \r\n  ELSE CONVERT(varchar, MAX(l.loginTime), 120) \r\n  END AS lastLoginTime FROM users u left JOIN logins l ON u.userID = l.userID GROUP BY  u.userID, u.firstName, u.lastName, u.adres,u.phone, u.email, u.rol ORDER BY lastLoginTime DESC;");
+                insertQuery.Append($"SELECT u.userid, u.firstName, u.lastName, u.adres, u.phone, u.email, u.rol,  CASE \r\n WHEN MAX(l.loginTime) IS NULL THEN 'niet ingelogd' \r\n  ELSE CONVERT(varchar, MAX(l.loginTime), 120) \r\n  END AS lastLoginTime FROM users u left JOIN logins l ON u.userID = l.userID GROUP BY  u.userID, u.firstName, u.lastName, u.adres,u.phone, u.email, u.rol ORDER BY lastLoginTime DESC;");
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery.ToString()))
                 {
                     result = Select(insertCommand);

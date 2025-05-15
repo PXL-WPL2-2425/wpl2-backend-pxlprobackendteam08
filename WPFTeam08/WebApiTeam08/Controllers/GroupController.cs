@@ -29,5 +29,12 @@ namespace WebApiTeam08.Controllers
             string JSONresult = JsonConvert.SerializeObject(result);
             return Ok(JSONresult);
         }
+        [HttpGet("GetAllMembers")]
+        public ActionResult GetAllMembers()
+        {
+            var members = GroupMembers.GetAllMembers();
+            string JSONresult = JsonConvert.SerializeObject(members);
+            return Ok(JSONresult);
+        }
     }
 }
