@@ -12,7 +12,6 @@ namespace ClassLibrary1.Business.Entities
         private int _subscriptionId;
         private DateTime _createDate;
         private bool _statut;
-        private int _orderId;
         private DateTime _invoiceDate;
         private DateTime _deletedDate;
 
@@ -40,12 +39,6 @@ namespace ClassLibrary1.Business.Entities
             set { _statut = value; }
         }
 
-        public int OrderID
-        {
-            get { return _orderId; }
-            set { _orderId = value; }
-        }
-
         public DateTime InvoiceDate
         {
             get { return _invoiceDate; }
@@ -58,13 +51,12 @@ namespace ClassLibrary1.Business.Entities
             set { _deletedDate = value; }
         }
 
-        public Invoice(int invoiceId, int subscriptionId, DateTime createDate, bool statut, int orderId, DateTime invoiceDate, DateTime deleteDate)
+        public Invoice(int invoiceId, int subscriptionId, DateTime createDate, bool statut, DateTime invoiceDate, DateTime deleteDate)
         {
             InvoiceID = invoiceId;
             SubscriptionID = subscriptionId;
             CreateDate = createDate;
             Statut = statut;
-            OrderID = orderId;
             InvoiceDate = invoiceDate;
             DeleteDate = deleteDate;
         }
